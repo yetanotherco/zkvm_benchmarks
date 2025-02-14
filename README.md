@@ -32,10 +32,10 @@
 
 ## Commands
 
-Set N for fibo examples
+To run the benchmark, use
 
-```PROOF_MODE=compressed make fibo_sp1_10k```
+```bash benchmark.sh```
 
-```PROOF_MODE=groth16 make fibo_sp1_10k```
+SP1 may take more time for using Groth16, since it needs to pull a docker image. If you have never generated a Groth16 compressed proof with SP1, first run:
 
-```N=5 make fibo_risc0```
+```PROOF_MODE=groth16 N=5 make fibo_sp1```
