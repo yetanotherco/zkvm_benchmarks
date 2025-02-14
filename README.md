@@ -6,7 +6,7 @@ I'll help you convert these tables into clean markdown format. I'll organize the
 
 # Hardware Benchmarks (n=10000)
 
-## M3 GPU Results (40 GiB or more)
+## M3 GPU Results
 
 | System | Time Avg [s] | Time Min [s] | Time Max [s] | Proof size | Individual Time Measurements [s] |
 |--------|-------------|--------------|--------------|------------|--------------------------------|
