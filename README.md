@@ -30,8 +30,6 @@
 | SP1 (Gnark compressed, avx) | 0:28:37 | 0:28:37 | 0:28:37 | - |
 | Pico (Gnark compressed) | 0:43:16 | 0:43:16 | 0:43:16 | - |
 
-Would you like me to modify the formatting in any way?
-
 ## Commands
 
 Set N for fibo examples
