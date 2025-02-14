@@ -1,9 +1,8 @@
 # zkVMs benchmarks
 
+## Preeliminary results for Fibonacci
 
-## Preeliminary results
-
-### M3 GPU Results
+### M3 GPU (10 cores, 36 GiB), n=10k
 
 | System | Time Avg [s] | Time Min [s] | Time Max [s] | Proof size | Individual Time Measurements [s] |
 |--------|-------------|--------------|--------------|------------|--------------------------------|
@@ -11,7 +10,7 @@
 | SP1 (Groth16 compressed) | Fails | Fails | Fails | - | - |
 | Pico (Gnark compressed) | Fails | Fails | Fails | - | - |
 
-### Intel Xeon Gold 6226R (16 cores) Results (n=10000)
+### Intel Xeon Gold 6226R (16 cores), n=10k
 
 | Implementation | Time Avg [h:m:s] | Time Min [h:m:s] | Time Max [h:m:s] | Proof size | Individual Time Measurements |
 |----------------|------------------|------------------|------------------|------------|----------------------------|
@@ -21,7 +20,7 @@
 | SP1 (Gnark compressed, avx) | 0:04:19 | 0:04:18 | 0:04:20 | 1.4K | 0:04:20, 0:04:18, 0:04:19 |
 | Pico (Gnark compressed) | 6:00:49 | 0:01:02 | 0:00:00 | 893K | 0:01:02, 0:01:06, 0:01:08 |
 
-### Results for n=4M
+### Intel Xeon Gold 6226R (16 cores), n=4M
 
 | Implementation | Time Avg [h:m:s] | Time Min [h:m:s] | Time Max [h:m:s] | Proof size |
 |----------------|------------------|------------------|------------------|------------|
@@ -42,4 +41,3 @@ Set N for fibo examples
 ```PROOF_MODE=groth16 make fibo_sp1_10k```
 
 ```N=5 make fibo_risc0```
-
