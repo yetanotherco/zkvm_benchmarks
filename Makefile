@@ -23,4 +23,4 @@ fibo_sp1:
 	cd fibo_sp1/script && cargo run --release -- $(N) $(PROOF_MODE)
 
 fibo_risc0:
-	cd fibo_risc0/host && RUST_LOG=info RISC0_INFO=1 cargo run --release -- $(N)
+	cd fibo_risc0/host && RUST_LOG=info RISC0_INFO=1 ./target/release/fibo_risc0 -- $(N)
