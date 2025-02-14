@@ -39,11 +39,18 @@
 
 ## Commands
 
-To run the benchmark, use
+
+To run the benchmark, first do a run with small programs to see if everything is working:
+
+```TEST_MODE=1 bash benchmark.sh```
+
+First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
+
+After making sure it work, you can run:
 
 ```bash benchmark.sh```
 
-SP1 may take more time for using Groth16, since it needs to pull a docker image. If you have never generated a Groth16 compressed proof with SP1, first run:
+If you want to force SP1 to get the images, prove a small program with:
 
 ```PROOF_MODE=groth16 N=5 make fibo_sp1```
 
@@ -70,7 +77,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 export PATH="$HOME/.cargo/bin:$PATH"
 . "$HOME/.cargo/env"
 rustup toolchain install nightly
-rustup component add rust-src --toolchain nightly
+rustup component add rust-src --toolchain nightly-2024-11-27-x86_64-unknown-linux-gnu
 
 # Install remaining tools
 curl -L https://sp1.succinct.xyz | bash
