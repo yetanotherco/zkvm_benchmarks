@@ -20,7 +20,7 @@ format_time() {
 }
 
 # Array of N values to test
-N_VALUES=(100000)
+N_VALUES=(10000 100000 1000000 4000000)
 OUTPUT_FILE="benchmark_results.csv"
 
 # First build all projects
@@ -28,7 +28,7 @@ echo "Building all projects..."
 make build_pico build_sp1 build_risc0
 
 # Create CSV header
-echo "Prover,N,Time(s)" > $OUTPUT_FILE
+echo "Prover,Fibonacci N,Time" > $OUTPUT_FILE
 
 for n in "${N_VALUES[@]}"; do
     # Pico
@@ -38,7 +38,7 @@ for n in "${N_VALUES[@]}"; do
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     formatted_time=$(format_time $time)
-    echo "Pico,$n,$formatted_time" >> $OUTPUT_FILE
+    echo "Pico Groth16,$n,$formatted_time" >> $OUTPUT_FILE
 
     # SP1 Compressed
     echo "Running SP1 (Compressed) with N=$n"
@@ -47,7 +47,7 @@ for n in "${N_VALUES[@]}"; do
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     formatted_time=$(format_time $time)
-    echo "SP1-Compressed,$n,$formatted_time" >> $OUTPUT_FILE
+    echo "SP1,$n,$formatted_time" >> $OUTPUT_FILE
 
     # SP1 Groth16 (only on Linux with Docker)
     if [[ "$(uname)" == "Linux" ]] && command -v docker >/dev/null 2>&1; then
@@ -67,5 +67,5 @@ for n in "${N_VALUES[@]}"; do
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     formatted_time=$(format_time $time)
-    echo "RISC0,$n,$formatted_time" >> $OUTPUT_FILE
+    echo "Risc0,$n,$formatted_time" >> $OUTPUT_FILE
 done
