@@ -20,7 +20,7 @@ format_time() {
 }
 
 # Array of N values to test
-N_VALUES=(10000 100000 1000000 4000000)
+N_VALUES=(10)
 OUTPUT_FILE="benchmark_results.csv"
 
 # First build all projects
@@ -43,21 +43,47 @@ for n in "${N_VALUES[@]}"; do
     # SP1 Compressed
     echo "Running SP1 (Compressed) with N=$n"
     start=$(date +%s.%N)
-    make fibo_sp1 N=$n PROOF_MODE=compressed > /dev/null 2>&1
+    
+    # Set SP1 name based on acceleration
+    if grep -q "avx512" /proc/cpuinfo; then
+        sp1_name="SP1-AVX512"
+    elif grep -q "avx2" /proc/cpuinfo; then
+        sp1_name="SP1-AVX2"
+    else
+        sp1_name="SP1-Base"
+    fi
+    
+    # Use environment variable if set, otherwise auto-detect
+    if grep -q "avx512" /proc/cpuinfo; then
+        make fibo_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="-C target-cpu=native -C target-feature=+avx512f" > /dev/null 2>&1
+    elif grep -q "avx2" /proc/cpuinfo; then
+        make fibo_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="-C target-cpu=native" > /dev/null 2>&1
+    else
+        make fibo_sp1 N=$n PROOF_MODE=compressed > /dev/null 2>&1
+    fi
+    
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     formatted_time=$(format_time $time)
-    echo "SP1,$n,$formatted_time" >> $OUTPUT_FILE
+    echo "$sp1_name,$n,$formatted_time" >> $OUTPUT_FILE
 
     # SP1 Groth16 (only on Linux with Docker)
     if [[ "$(uname)" == "Linux" ]] && command -v docker >/dev/null 2>&1; then
         echo "Running SP1 (Groth16) with N=$n"
         start=$(date +%s.%N)
-        make fibo_sp1 N=$n PROOF_MODE=groth16 > /dev/null 2>&1
+        
+        if grep -q "avx512" /proc/cpuinfo; then
+            make fibo_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="-C target-cpu=native -C target-feature=+avx512f" > /dev/null 2>&1
+        elif grep -q "avx2" /proc/cpuinfo; then
+            make fibo_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="-C target-cpu=native" > /dev/null 2>&1
+        else
+            make fibo_sp1 N=$n PROOF_MODE=groth16 > /dev/null 2>&1
+        fi
+        
         end=$(date +%s.%N)
         time=$(echo "$end - $start" | bc)
         formatted_time=$(format_time $time)
-        echo "SP1-Groth16,$n,$formatted_time" >> $OUTPUT_FILE
+        echo "$sp1_name-Groth16,$n,$formatted_time" >> $OUTPUT_FILE
     fi
 
     # RISC0

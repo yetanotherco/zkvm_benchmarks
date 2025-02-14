@@ -30,6 +30,13 @@
 | SP1 (Gnark compressed, avx) | 0:28:37 | 0:28:37 | 0:28:37 | - |
 | Pico (Gnark compressed) | 0:43:16 | 0:43:16 | 0:43:16 | - |
 
+## Requirements
+
+- risc0
+- sp1
+- pico
+- Docker (For SP1 groth16 compression)
+
 ## Commands
 
 To run the benchmark, use
@@ -39,3 +46,40 @@ To run the benchmark, use
 SP1 may take more time for using Groth16, since it needs to pull a docker image. If you have never generated a Groth16 compressed proof with SP1, first run:
 
 ```PROOF_MODE=groth16 N=5 make fibo_sp1```
+
+In ubuntu, you can install everything you need with:
+
+```sh
+# Install system dependencies and Docker
+sudo apt-get update
+sudo apt-get install -y gcc pkg-config libssl-dev build-essential apt-transport-https ca-certificates curl software-properties-common
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo groupadd docker || true
+sudo usermod -aG docker $USER
+
+# Install and setup Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+export PATH="$HOME/.cargo/bin:$PATH"
+. "$HOME/.cargo/env"
+rustup toolchain install nightly
+rustup component add rust-src --toolchain nightly
+
+# Install remaining tools
+curl -L https://sp1.succinct.xyz | bash
+source "$HOME/.bashrc"
+sp1up
+curl -L https://risczero.com/install | bash
+. "$HOME/.bashrc"
+rzup install
+cargo +nightly install --git https://github.com/brevis-network/pico pico-cli
+
+echo "Installation complete! Please run 'newgrp docker' or log out and back in to use Docker without sudo."
+```
