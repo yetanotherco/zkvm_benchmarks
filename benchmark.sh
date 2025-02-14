@@ -19,83 +19,62 @@ format_time() {
     fi
 }
 
-# Array of N values to test
-if [ -n "$TEST_MODE" ]; then
-    N_VALUES=(10)
-else
-    N_VALUES=(10000 100000 1000000 4000000)
-fi
+# Configure environment
+N_VALUES=(${TEST_MODE:+10} ${TEST_MODE:--10000 100000 1000000 4000000})
 OUTPUT_FILE="benchmark_results.csv"
 
-# First build all projects
-echo "Building all projects..."
-make build_pico build_sp1 build_risc0
+# Detect CPU capabilities and set SP1 configuration
+if grep -q "avx512" /proc/cpuinfo; then
+    SP1_RUSTFLAGS="-C target-cpu=native -C target-feature=+avx512f"
+    SP1_NAME="SP1-AVX512"
+elif grep -q "avx2" /proc/cpuinfo; then
+    SP1_RUSTFLAGS="-C target-cpu=native"
+    SP1_NAME="SP1-AVX2"
+else
+    SP1_RUSTFLAGS=""
+    SP1_NAME="SP1-Base"
+fi
 
-# Create CSV header
+# Build all projects
+echo "Building all projects..."
+make build_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
+make build_pico build_risc0
+
+# Initialize results file
 echo "Prover,Fibonacci N,Time" > $OUTPUT_FILE
 
 for n in "${N_VALUES[@]}"; do
-    # Pico
+    # Pico benchmark
     echo "Running Pico with N=$n"
     start=$(date +%s.%N)
     make fibo_pico_wrapped N=$n > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
-    formatted_time=$(format_time $time)
-    echo "Pico Groth16,$n,$formatted_time" >> $OUTPUT_FILE
+    echo "Pico Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
 
-    # SP1 Compressed
+    # SP1 Compressed benchmark
     echo "Running SP1 (Compressed) with N=$n"
     start=$(date +%s.%N)
-    
-    # Set SP1 name based on acceleration
-    if grep -q "avx512" /proc/cpuinfo; then
-        sp1_name="SP1-AVX512"
-    elif grep -q "avx2" /proc/cpuinfo; then
-        sp1_name="SP1-AVX2"
-    else
-        sp1_name="SP1-Base"
-    fi
-    
-    # Use environment variable if set, otherwise auto-detect
-    if grep -q "avx512" /proc/cpuinfo; then
-        make fibo_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="-C target-cpu=native -C target-feature=+avx512f" > /dev/null 2>&1
-    elif grep -q "avx2" /proc/cpuinfo; then
-        make fibo_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="-C target-cpu=native" > /dev/null 2>&1
-    else
-        make fibo_sp1 N=$n PROOF_MODE=compressed > /dev/null 2>&1
-    fi
-    
+    make fibo_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
-    formatted_time=$(format_time $time)
-    echo "$sp1_name,$n,$formatted_time" >> $OUTPUT_FILE
+    echo "$SP1_NAME,$n,$(format_time $time)" >> $OUTPUT_FILE
 
-    # SP1 Groth16 (only on Linux with Docker)
+    # SP1 Groth16 benchmark (Linux + Docker only)
     if [[ "$(uname)" == "Linux" ]] && command -v docker >/dev/null 2>&1; then
         echo "Running SP1 (Groth16) with N=$n"
         start=$(date +%s.%N)
-        
-        if grep -q "avx512" /proc/cpuinfo; then
-            make fibo_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="-C target-cpu=native -C target-feature=+avx512f" > /dev/null 2>&1
-        elif grep -q "avx2" /proc/cpuinfo; then
-            make fibo_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="-C target-cpu=native" > /dev/null 2>&1
-        else
-            make fibo_sp1 N=$n PROOF_MODE=groth16 > /dev/null 2>&1
-        fi
-        
+        make fibo_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
         end=$(date +%s.%N)
         time=$(echo "$end - $start" | bc)
-        formatted_time=$(format_time $time)
-        echo "$sp1_name-Groth16,$n,$formatted_time" >> $OUTPUT_FILE
+        echo "$SP1_NAME-Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
     fi
 
-    # RISC0
+    # RISC0 benchmark
     echo "Running RISC0 with N=$n"
     start=$(date +%s.%N)
     make fibo_risc0 N=$n > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
-    formatted_time=$(format_time $time)
-    echo "Risc0,$n,$formatted_time" >> $OUTPUT_FILE
+    echo "Risc0,$n,$(format_time $time)" >> $OUTPUT_FILE
 done
