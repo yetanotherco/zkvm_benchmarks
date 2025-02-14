@@ -1,12 +1,9 @@
 # zkVMs benchmarks
 
+
 ## Preeliminary results
 
-I'll help you convert these tables into clean markdown format. I'll organize them by the different sections in the data.
-
-# Hardware Benchmarks (n=10000)
-
-## M3 GPU Results
+### M3 GPU Results
 
 | System | Time Avg [s] | Time Min [s] | Time Max [s] | Proof size | Individual Time Measurements [s] |
 |--------|-------------|--------------|--------------|------------|--------------------------------|
@@ -14,7 +11,7 @@ I'll help you convert these tables into clean markdown format. I'll organize the
 | SP1 (Groth16 compressed) | Fails | Fails | Fails | - | - |
 | Pico (Gnark compressed) | Fails | Fails | Fails | - | - |
 
-## Intel Xeon Gold 6226R (16 cores) Results (n=10000)
+### Intel Xeon Gold 6226R (16 cores) Results (n=10000)
 
 | Implementation | Time Avg [h:m:s] | Time Min [h:m:s] | Time Max [h:m:s] | Proof size | Individual Time Measurements |
 |----------------|------------------|------------------|------------------|------------|----------------------------|
@@ -24,7 +21,7 @@ I'll help you convert these tables into clean markdown format. I'll organize the
 | SP1 (Gnark compressed, avx) | 0:04:19 | 0:04:18 | 0:04:20 | 1.4K | 0:04:20, 0:04:18, 0:04:19 |
 | Pico (Gnark compressed) | 6:00:49 | 0:01:02 | 0:00:00 | 893K | 0:01:02, 0:01:06, 0:01:08 |
 
-## Results for n=4M
+### Results for n=4M
 
 | Implementation | Time Avg [h:m:s] | Time Min [h:m:s] | Time Max [h:m:s] | Proof size |
 |----------------|------------------|------------------|------------------|------------|
@@ -33,7 +30,6 @@ I'll help you convert these tables into clean markdown format. I'll organize the
 | SP1 (Compressed, avx) | - | - | - | - |
 | SP1 (Gnark compressed, avx) | 0:28:37 | 0:28:37 | 0:28:37 | - |
 | Pico (Gnark compressed) | 0:43:16 | 0:43:16 | 0:43:16 | - |
-
 
 Would you like me to modify the formatting in any way?
 
@@ -47,5 +43,3 @@ Set N for fibo examples
 
 ```N=5 make fibo_risc0```
 
-
-## 
