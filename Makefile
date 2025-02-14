@@ -3,7 +3,7 @@
 build_pico:
 	cd fibo_pico/app && cargo pico build
 
-fibo_pico_wrapped: fibo_pico/elf/riscv32im-pico-zkvm-elf
+fibo_pico_wrapped:
 	 cd fibo_pico/app && cargo pico prove --input `python3 ../n_to_pico_hex.py $(N)` && cd ..
 
 fibo_pico_100k_wrapped:
