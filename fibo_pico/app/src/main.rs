@@ -8,7 +8,7 @@ pub fn main() {
     // Read inputs `n` from the environment
     let n: u32 = read_as();
 
-    println!("Fibo of: {}", n);
+    // println!("Fibo of: {}", n);
 
     let mut a = 0;
     let mut b = 1;
