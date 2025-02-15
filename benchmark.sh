@@ -19,8 +19,12 @@ format_time() {
     fi
 }
 
-# Configure environment
-N_VALUES=(${TEST_MODE:+10} ${TEST_MODE:--10000 100000 1000000 4000000})
+if [ -n "$TEST_MODE" ]; then
+    N_VALUES=(10)
+else
+    N_VALUES=(-10000 100000 1000000 4000000)
+fi
+
 OUTPUT_FILE="benchmark_results.csv"
 
 # Detect CPU capabilities and set SP1 configuration
