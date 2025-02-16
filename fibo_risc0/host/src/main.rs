@@ -10,10 +10,9 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
     let n = args.get(1)
         .and_then(|s| s.parse::<u32>().ok())
-        .unwrap_or(0);
+        .expect("No input provided. Please provide a number as an argument.");
 
     println!("Risc0 fibo of: {}", n);
-
 
     // Initialize tracing. In order to view logs, run `RUST_LOG=info cargo run`
     tracing_subscriber::fmt()

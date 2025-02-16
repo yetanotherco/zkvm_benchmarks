@@ -23,4 +23,4 @@ fibo_sp1:
 	./fibo_sp1/target/release/fibonacci $(N) $(PROOF_MODE)
 
 fibo_risc0:
-	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host -- $(N)
+	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
