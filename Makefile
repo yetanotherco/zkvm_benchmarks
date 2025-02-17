@@ -6,13 +6,13 @@ PROOF_MODE ?= compressed
 # Iterations of fibonacci
 N ?= 100000
 
-build_pico:
+build_fibo_pico:
 	cd fibo_pico/app && cargo pico build
 
-build_sp1:
+build_fibo_sp1:
 	cd fibo_sp1/script && cargo build --release
 
-build_risc0:
+build_fibo_risc0:
 	cd fibo_risc0/host && cargo build --release
 
 

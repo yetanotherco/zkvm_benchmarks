@@ -1,0 +1,8 @@
+[package]
+version = "0.1.0"
+name = "fibonacci-program"
+edition = "2021"
+
+[dependencies]
+sp1-zkvm = "4.1.0"
+tiny-keccak = { git = "https://github.com/sp1-patches/tiny-keccak",  features = ["keccak"], tag = "patch-2.0.2-sp1-4.0.0" }

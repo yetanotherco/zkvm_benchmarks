@@ -14,7 +14,7 @@ fn main() {
 
     let mode = args.get(2)
         .map(|s| s.to_lowercase())
-        .unwrap_or_else(|| "groth16".to_string());
+        .unwrap_or_else(|| "compressed".to_string());
 
     println!("SP1, fibo: {}, mode: {}", n, mode);
 
