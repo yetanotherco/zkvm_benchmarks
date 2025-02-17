@@ -1,6 +1,6 @@
 # zkVMs benchmarks
 
-## Results
+## Results on Intel Xeon Gold 6226R (16 cores, 60 GiB ram)
 
 ![Benchmark Results](bench_results/17_feb_2025.png)
 
@@ -15,9 +15,6 @@ base_proofs -> recursive_stark_proof -> snark_proof
 Each phase adds more proving times and reduces proof size. The final step is only needed to verify directly in Ethereum
 
 Aligned supports verification of proofs of any stage, so you can use the faster one you see
-
-### Intel Xeon Gold 6226R (16 cores)
-
 
 ## How to run
 
