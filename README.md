@@ -1,43 +1,34 @@
 # zkVMs benchmarks
 
-## Preeliminary results for Fibonacci
+## Results
 
-### M3 GPU (10 cores, 36 GiB), n=10k
+![Benchmark Results](bench_results/17_feb_2025.png)
 
-| System | Time Avg [s] | Time Min [s] | Time Max [s] | Proof size | Individual Time Measurements [s] |
-|--------|-------------|--------------|--------------|------------|--------------------------------|
-| SP1 (Compressed) | 51 | 49 | 55 | 1.3M | 49, 51, 55, 48.6, 49 |
-| SP1 (Groth16 compressed) | Fails | Fails | Fails | - | - |
-| Pico (Gnark compressed) | Fails | Fails | Fails | - | - |
+## Notes
 
-### Intel Xeon Gold 6226R (16 cores), n=10k
+This provides a benchmark for proving times of different zkVMs
 
-| Implementation | Time Avg [h:m:s] | Time Min [h:m:s] | Time Max [h:m:s] | Proof size | Individual Time Measurements |
-|----------------|------------------|------------------|------------------|------------|----------------------------|
-| SP1 (Compressed, no avx) | 0:01:46 | 0:01:46 | 0:01:46 | 1.3M | 0:01:46 |
-| SP1 (Groth16 compressed, no avx) | 0:05:06 | 0:04:58 | 0:05:16 | 1.4K | 0:05:04, 0:05:16, 0:04:58 |
-| SP1 (Compressed, avx) | 0:01:17 | 0:01:16 | 0:01:17 | 1.3M | 0:01:16, 0:01:17, 0:01:17 |
-| SP1 (Gnark compressed, avx) | 0:04:19 | 0:04:18 | 0:04:20 | 1.4K | 0:04:20, 0:04:18, 0:04:19 |
-| Pico (Gnark compressed) | 6:00:49 | 0:01:02 | 0:00:00 | 893K | 0:01:02, 0:01:06, 0:01:08 |
+It's important to note most provers have three proofs that gets further
 
-### Intel Xeon Gold 6226R (16 cores), n=4M
+base_proofs -> recursive_stark_proof -> snark_proof
 
-| Implementation | Time Avg [h:m:s] | Time Min [h:m:s] | Time Max [h:m:s] | Proof size |
-|----------------|------------------|------------------|------------------|------------|
-| SP1 (Compressed, no avx) | - | - | - | - |
-| SP1 (Groth16 compressed, no avx) | 0:40:21 | 0:40:21 | 0:40:21 | - |
-| SP1 (Compressed, avx) | - | - | - | - |
-| SP1 (Gnark compressed, avx) | 0:28:37 | 0:28:37 | 0:28:37 | - |
-| Pico (Gnark compressed) | 0:43:16 | 0:43:16 | 0:43:16 | - |
+Each phase adds more proving times and reduces proof size. The final step is only needed to verify directly in Ethereum
 
-## Requirements
+Aligned supports verification of proofs of any stage, so you can use the faster one you see
+
+### Intel Xeon Gold 6226R (16 cores)
+
+
+## How to run
+
+### Requirements
 
 - risc0
 - sp1
 - pico
 - Docker (For SP1 groth16 compression)
 
-## Commands
+### Running the benchmark
 
 
 To run the benchmark, first do a run with small programs to see if everything is working:
