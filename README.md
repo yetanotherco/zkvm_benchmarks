@@ -27,7 +27,6 @@ Aligned supports verification of proofs of any stage, so you can use the faster 
 
 ### Running the benchmark
 
-
 To run the benchmark, first do a run with small programs to see if everything is working:
 
 ```TEST_MODE=1 bash benchmark.sh```

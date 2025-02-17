@@ -1,5 +1,5 @@
-use fibonacci_lib::{FibonacciData, load_elf};
 use pico_sdk::{client::DefaultProverClient, init_logger};
+use fibonacci_lib::load_elf;
 
 fn main() {
     // Initialize logger
@@ -17,7 +17,7 @@ fn main() {
     stdin_builder.borrow_mut().write(&n);
 
     // Generate proof
-    let proof = client.prove_fast().expect("Failed to generate proof");
+    let _proof = client.prove_fast().expect("Failed to generate proof");
 
     // Decodes public values from the proof's public value stream.
     // let public_buffer = proof.pv_stream.unwrap();

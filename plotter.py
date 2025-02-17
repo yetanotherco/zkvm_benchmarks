@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import os
+import os   
 # Read data from CSV
 input_csv_path = 'bench_results/17_feb_2025.csv'
 df = pd.read_csv(input_csv_path)
