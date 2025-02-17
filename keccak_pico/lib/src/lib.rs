@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use std::fs;
 
 /// Loads an ELF file from the specified path.
