@@ -11,6 +11,9 @@ N ?= 100000
 build_pico_elf:
 	cd fibo_pico/app && cargo pico build
 
+build_pico_keccak_elf:
+	cd fibo_pico/app && cargo pico build
+	
 build_pico:
 	cd fibo_pico/prover && cargo build --release
 
