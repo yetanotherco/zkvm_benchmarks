@@ -1,9 +1,10 @@
+import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import os   
 # Read data from CSV
-input_csv_path = 'bench_results/17_feb_2025.csv'
+input_csv_path = sys.argv[1]
 df = pd.read_csv(input_csv_path)
 df['N'] = df['N'].astype(int)
 
