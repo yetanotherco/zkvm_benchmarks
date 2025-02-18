@@ -1,4 +1,4 @@
-.PHONY: fibo_sp1 fibo_pico_10k_wrapped fibo_pico_100k_wrapped fibo_pico_4M_wrapped fibo_risc0
+.PHONY: fibo_sp1 fibo_pico fibo_risc0 build_pico build_sp1 build_risc0 build_pico_elf
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
