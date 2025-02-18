@@ -6,6 +6,8 @@ PROOF_MODE ?= compressed
 # Iterations of fibonacci
 N ?= 100000
 
+# Pico is the only prover which doesn't
+# build ELF elf automatically if it's no thee
 build_pico_elf:
 	cd fibo_pico/app && cargo pico build
 
