@@ -4,3 +4,4 @@ fibo_sp1/script/proof-with-pis.bin
 **constraints.json
 **groth16_witness.json
 **proof.json
+**/.vscode
