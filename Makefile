@@ -6,8 +6,11 @@ PROOF_MODE ?= compressed
 # Iterations of fibonacci
 N ?= 100000
 
-build_pico:
+build_pico_elf:
 	cd fibo_pico/app && cargo pico build
+
+build_pico:
+	cd fibo_pico/prover && cargo build --release
 
 build_sp1:
 	cd fibo_sp1/script && cargo build --release
@@ -17,7 +20,7 @@ build_risc0:
 
 
 fibo_pico_wrapped:
-	 cd fibo_pico/app && RUST_LOG=info cargo pico prove --input `python3 ../n_to_pico_hex.py $(N)` && cd ..
+	./fibo_pico/target/release/prover $(N)
 
 fibo_sp1:
 	./fibo_sp1/target/release/fibonacci $(N) $(PROOF_MODE)
