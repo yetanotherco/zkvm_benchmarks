@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, path::PathBuf};
 
 extern crate pico_sdk;
 
@@ -32,8 +32,10 @@ fn main() {
     // Set up input
     stdin_builder.borrow_mut().write(&n);
 
+    let pv_path = PathBuf::from("./");
+
     // Generate proof
-    let _proof = client.prove("asd.proof".into()).expect("Failed to generate proof");
+    let _proof = client.prove(pv_path).expect("Failed to generate proof");
 
     // Decodes public values from the proof's public value stream.
     // let public_buffer = proof.pv_stream.unwrap();
