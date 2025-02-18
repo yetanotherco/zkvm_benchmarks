@@ -1,2 +1,7 @@
 *.csv
 fibo_sp1/script/proof-with-pis.bin
+**pv_file
+**constraints.json
+**groth16_witness.json
+**proof.json
+**/.vscode

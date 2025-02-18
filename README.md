@@ -32,15 +32,17 @@ To run the benchmark, first do a run with small programs to see if everything is
 
 ```TEST_MODE=1 bash benchmark.sh```
 
-First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
+
+If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
+
+```make build_sp1```
+```PROOF_MODE=groth16 N=5 make fibo_sp1```
+
 
 After making sure it work, you can run:
 
 ```bash benchmark.sh```
 
-If you want to force SP1 to get the images, prove a small program with:
-
-```PROOF_MODE=groth16 N=5 make fibo_sp1```
 
 In ubuntu, you can install everything you need with:
 
@@ -59,6 +61,7 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo groupadd docker || true
 sudo usermod -aG docker $USER
+sudo systemctl restart docker
 
 # Install and setup Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
