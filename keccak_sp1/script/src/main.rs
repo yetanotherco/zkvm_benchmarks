@@ -51,11 +51,11 @@ fn main() {
     let (pk, _vk) = client.setup(ELF);
 
 
-    //let mut proof;
+    let mut _proof;
     if mode == "groth16" {
-        proof = client.prove(&pk, &stdin).groth16().run().unwrap();
+        _proof = client.prove(&pk, &stdin).groth16().run().unwrap();
     } else {
-        proof = client.prove(&pk, &stdin).compressed().run().unwrap();
+        _proof = client.prove(&pk, &stdin).compressed().run().unwrap();
     }
     // Save the proof.
     // proof.save("proof-with-io.json").expect("saving proof failed");
