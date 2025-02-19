@@ -26,7 +26,6 @@ fn main() {
     let mut stdin = SP1Stdin::new();
 
     let mut data = vec![0u8; n];
-
     // Seed the RNG for reproducibility.
     let seed: [u8; 32] = [42; 32]; // Fixed seed for reproducibility
     let mut rng = StdRng::from_seed(seed);

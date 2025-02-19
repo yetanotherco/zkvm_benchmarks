@@ -1602,16 +1602,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "fibonacci-script"
-version = "0.1.0"
-dependencies = [
- "rand",
- "sp1-build",
- "sp1-sdk",
- "tiny-keccak 2.0.2 (git+https://github.com/sp1-patches/tiny-keccak)",
-]
-
-[[package]]
 name = "fixed-hash"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3190,6 +3180,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "prover"
+version = "0.1.0"
+dependencies = [
+ "rand",
+ "sp1-build",
+ "sp1-sdk",
+ "tiny-keccak 2.0.2 (git+https://github.com/sp1-patches/tiny-keccak?tag=patch-2.0.2-sp1-4.0.0)",
+]
+
+[[package]]
 name = "quick-error"
 version = "1.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4691,14 +4691,6 @@ version = "2.0.2"
 source = "git+https://github.com/sp1-patches/tiny-keccak?tag=patch-2.0.2-sp1-4.0.0#d2ffd330259c8f290b07d99cc1ef1f74774382c2"
 dependencies = [
  "cfg-if",
- "crunchy",
-]
-
-[[package]]
-name = "tiny-keccak"
-version = "2.0.2"
-source = "git+https://github.com/sp1-patches/tiny-keccak#f0fa14629021cdffe1041eee7261843fb05bb373"
-dependencies = [
  "crunchy",
 ]
 

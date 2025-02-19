@@ -2,7 +2,7 @@
 
 pico_sdk::entrypoint!(main);
 use tiny_keccak::{Hasher, Keccak};
-use pico_sdk::io::{commit, read_as};
+use pico_sdk::io::{commit, read_vec};
 
 pub fn main() {
     // Read inputs `n` from the environment
