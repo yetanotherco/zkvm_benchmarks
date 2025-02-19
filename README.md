@@ -12,7 +12,9 @@ It's important to note most provers have three proofs that gets further
 
 base_proofs -> recursive_stark_proof -> snark_proof
 
-Each phase adds more proving times and reduces proof size. The final step is only needed to verify directly in Ethereum
+Each phase adds more proving times and reduces proof size. The final step is only needed to verify directly in Ethereum.
+
+SP1 is benched with recursive_stark and snark proof. Pico is always using the snark proof. 
 
 Aligned supports verification of proofs of any stage, so you can use the faster one you see
 
@@ -44,7 +46,10 @@ After making sure it work, you can run:
 ```bash benchmark.sh```
 
 
-In ubuntu, you can install everything you need with:
+## Setting up the server
+
+### Ubuntu
+
 
 ```sh
 # Install system dependencies and Docker
@@ -81,3 +86,15 @@ cargo +nightly install --git https://github.com/brevis-network/pico pico-cli
 
 echo "Installation complete! Please run 'newgrp docker' or log out and back in to use Docker without sudo."
 ```
+### Debian
+
+Change the docker installation to the debian one, then use the same script as Ubuntu
+
+### Plotting results
+
+```shell
+make run_plotter INPUT_FILE=<path_to_file>.csv
+```
+
+The output will be `<path_to_file>.png`.
+
