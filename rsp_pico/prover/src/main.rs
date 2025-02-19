@@ -16,7 +16,9 @@ pub fn load_elf(path: &str) -> Vec<u8> {
 }
 
 fn load_input_from_cache(chain_id: u64, block_number: u64) -> ClientExecutorInput {
-    let cache_path = PathBuf::from(format!("./input/{}/{}.bin", chain_id, block_number));
+    //let cache_path = PathBuf::from(format!("./input/{}/{}.bin", chain_id, block_number));
+    let cache_path = PathBuf::from(format!("./rsp_pico/prover/input/{}/{}.bin", chain_id, block_number));
+    //println!("Cache path: {:?}", cache_path);
     let mut cache_file = std::fs::File::open(cache_path).unwrap();
     let client_input: ClientExecutorInput = bincode::deserialize_from(&mut cache_file).unwrap();
 

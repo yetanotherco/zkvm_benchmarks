@@ -15,7 +15,7 @@ build_pico_keccak_elf:
 	cd keccak_pico/app && cargo pico build
 
 build_pico_rsp_elf:
-	cd rsp_sp1/app && cargo pico build
+	cd rsp_pico/app && cargo pico build
 
 build_rsp_pico:
 	cd rsp_pico/prover && cargo build --release
