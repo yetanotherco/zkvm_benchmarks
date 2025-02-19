@@ -5,3 +5,5 @@ fibo_sp1/script/proof-with-pis.bin
 **groth16_witness.json
 **proof.json
 **/.vscode
+venv
+.idea
