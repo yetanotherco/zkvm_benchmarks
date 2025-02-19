@@ -16,6 +16,8 @@
 
 ![Benchmark Results on EPYC 7543](bench_results/keccak_19_feb_25_epyc7543_32c_128gb.png)
 
+![Benchmark Results on EPYC 7543 v2](bench_results/keccak_19_feb_25_epyc7543_32c_128gb_v2.png)
+
 ## Notes
 
 This provides a benchmark for proving times of different zkVMs
