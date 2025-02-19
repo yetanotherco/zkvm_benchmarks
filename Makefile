@@ -1,4 +1,4 @@
-.PHONY: fibo_sp1 fibo_pico fibo_risc0 build_pico build_sp1 build_risc0 build_pico_elf build_keccak_sp1 build_keccak_pico keccak_pico keccak_sp1 run_plotter create_python_venv
+.PHONY: fibo_sp1 fibo_pico fibo_risc0 build_pico build_sp1 build_risc0 build_pico_elf build_keccak_sp1 build_keccak_pico build_keccak_risc0 keccak_pico keccak_sp1 keccak_risc0 run_plotter create_python_venv
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
@@ -29,6 +29,8 @@ build_keccak_sp1:
 build_fibo_risc0:
 	cd fibo_risc0/host && cargo build --release
 
+build_keccak_risc0:
+	cd keccak_risc0/host && cargo build --release
 
 keccak_pico:
 	./keccak_pico/target/release/prover $(N)
@@ -44,6 +46,9 @@ keccak_sp1:
 
 fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
+
+keccak_risc0:
+	RUST_LOG=info RISC0_INFO=1 ./keccak_risc0/target/release/host $(N)
 
 run_plotter: create_python_venv install_requirements
 	@echo "Running plotter..."
