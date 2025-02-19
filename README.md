@@ -46,6 +46,14 @@ After making sure it work, you can run:
 
 In ubuntu, you can install everything you need with:
 
+### Plotting results
+
+```shell
+make run_plotter INPUT_FILE=<path_to_file>.csv
+```
+
+The output will be `<path_to_file>.png`.
+
 ```sh
 # Install system dependencies and Docker
 sudo apt-get update
