@@ -2,7 +2,15 @@
 
 ## Results on Intel Xeon Gold 6226R (16 cores, 60 GiB ram)
 
-![Benchmark Results](bench_results/17_feb_2025.png)
+![Benchmark Results on Xeon Gold 6226R](bench_results/17_feb_25_xeon6226R_16c_60gb.png)
+
+## Results on AMD EPYC 7543 (32 cores, 128 GiB ram)
+
+![Benchmark Results on EPYC 7543](bench_results/18_feb_25_epyc7543_32c_128gb.png)
+
+## Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
+
+![Benchmark Results on EPYC 8534P](bench_results/18_feb_25_epyc8534p_64c_576gb.png)
 
 ## Notes
 
