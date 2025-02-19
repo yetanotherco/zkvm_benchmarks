@@ -423,7 +423,7 @@ version = "0.1.0"
 dependencies = [
  "bincode",
  "pico-sdk",
- "rsp-client-executor",
+ "rsp-client-executor 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4)",
 ]
 
 [[package]]
@@ -3415,7 +3415,7 @@ dependencies = [
  "bincode",
  "pico-sdk",
  "rand",
- "rsp-client-executor",
+ "rsp-client-executor 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
  "serde",
 ]
 
@@ -4119,6 +4119,39 @@ dependencies = [
 [[package]]
 name = "rsp-client-executor"
 version = "0.1.0"
+source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+dependencies = [
+ "alloy-primitives",
+ "alloy-rlp",
+ "eyre",
+ "futures",
+ "itertools 0.13.0",
+ "reth-chainspec",
+ "reth-errors",
+ "reth-ethereum-consensus",
+ "reth-evm",
+ "reth-evm-ethereum",
+ "reth-evm-optimism",
+ "reth-execution-types",
+ "reth-optimism-consensus",
+ "reth-primitives",
+ "reth-revm",
+ "reth-storage-errors",
+ "reth-trie",
+ "revm",
+ "revm-primitives",
+ "rsp-mpt 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4)",
+ "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4)",
+ "rsp-witness-db 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4)",
+ "serde",
+ "serde_json",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "rsp-client-executor"
+version = "0.1.0"
 source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
 dependencies = [
  "alloy-primitives",
@@ -4140,13 +4173,35 @@ dependencies = [
  "reth-trie",
  "revm",
  "revm-primitives",
- "rsp-mpt",
- "rsp-primitives",
- "rsp-witness-db",
+ "rsp-mpt 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
+ "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
+ "rsp-witness-db 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
  "serde",
  "serde_json",
  "tokio",
  "url",
+]
+
+[[package]]
+name = "rsp-mpt"
+version = "0.1.0"
+source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+dependencies = [
+ "alloy-primitives",
+ "alloy-rlp",
+ "alloy-rpc-types",
+ "anyhow",
+ "eyre",
+ "itertools 0.13.0",
+ "reth-execution-types",
+ "reth-primitives",
+ "reth-trie",
+ "revm",
+ "revm-primitives",
+ "rlp",
+ "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4)",
+ "serde",
+ "thiserror 1.0.69",
 ]
 
 [[package]]
@@ -4166,9 +4221,29 @@ dependencies = [
  "revm",
  "revm-primitives",
  "rlp",
- "rsp-primitives",
+ "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
  "serde",
  "thiserror 1.0.69",
+]
+
+[[package]]
+name = "rsp-primitives"
+version = "0.1.0"
+source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+dependencies = [
+ "alloy-rpc-types",
+ "eyre",
+ "reth-chainspec",
+ "reth-optimism-chainspec",
+ "reth-primitives",
+ "reth-revm",
+ "reth-trie",
+ "revm-interpreter",
+ "revm-precompile",
+ "revm-primitives",
+ "serde",
+ "serde_json",
+ "tracing",
 ]
 
 [[package]]
@@ -4194,12 +4269,24 @@ dependencies = [
 [[package]]
 name = "rsp-witness-db"
 version = "0.1.0"
+source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+dependencies = [
+ "reth-primitives",
+ "reth-storage-errors",
+ "revm-primitives",
+ "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4)",
+ "serde",
+]
+
+[[package]]
+name = "rsp-witness-db"
+version = "0.1.0"
 source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
 dependencies = [
  "reth-primitives",
  "reth-storage-errors",
  "revm-primitives",
- "rsp-primitives",
+ "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
  "serde",
 ]
 
