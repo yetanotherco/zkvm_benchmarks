@@ -258,7 +258,6 @@ checksum = "34ac096ce696dc2fcabef30516bb13c0a68a11d30131d3df6f04711467681b04"
 name = "app"
 version = "0.1.0"
 dependencies = [
- "fibonacci-lib",
  "pico-sdk",
  "tiny-keccak 2.0.2 (git+https://github.com/brevis-network/tiny-keccak?branch=patch-v1.0.0)",
 ]
@@ -1236,13 +1235,6 @@ name = "fiat-crypto"
 version = "0.2.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "28dea519a9695b9977216879a3ebfddf92f1c08c05d984f8996aecd6ecdc811d"
-
-[[package]]
-name = "fibonacci-lib"
-version = "0.1.0"
-dependencies = [
- "serde",
-]
 
 [[package]]
 name = "fixed-hash"
