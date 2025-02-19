@@ -46,15 +46,10 @@ After making sure it work, you can run:
 ```bash benchmark.sh```
 
 
-In ubuntu, you can install everything you need with:
+## Setting up the server
 
-### Plotting results
+### Ubuntu
 
-```shell
-make run_plotter INPUT_FILE=<path_to_file>.csv
-```
-
-The output will be `<path_to_file>.png`.
 
 ```sh
 # Install system dependencies and Docker
@@ -91,3 +86,15 @@ cargo +nightly install --git https://github.com/brevis-network/pico pico-cli
 
 echo "Installation complete! Please run 'newgrp docker' or log out and back in to use Docker without sudo."
 ```
+### Debian
+
+Change the docker installation to the debian one, then use the same script as Ubuntu
+
+### Plotting results
+
+```shell
+make run_plotter INPUT_FILE=<path_to_file>.csv
+```
+
+The output will be `<path_to_file>.png`.
+
