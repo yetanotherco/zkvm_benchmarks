@@ -1,9 +1,8 @@
-use sp1_sdk::{include_elf, utils, ProverClient, SP1ProofWithPublicValues, SP1Stdin};
+use sp1_sdk::{include_elf, utils, ProverClient, SP1Stdin};
 use tiny_keccak::{Keccak, Hasher}; // Import Keccak and Hasher from tiny_keccak
 use rand::RngCore;
 use rand::rngs::StdRng; // Import StdRng
 use rand::SeedableRng; // Import SeedableRng trait
-use std::env::args;
 
 /// The ELF we want to execute inside the zkVM.
 const ELF: &[u8] = include_elf!("fibonacci-program");
@@ -52,7 +51,7 @@ fn main() {
     let (pk, _vk) = client.setup(ELF);
 
 
-    let mut proof;
+    //let mut proof;
     if mode == "groth16" {
         proof = client.prove(&pk, &stdin).groth16().run().unwrap();
     } else {
