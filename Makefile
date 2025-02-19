@@ -1,4 +1,4 @@
-.PHONY: fibo_sp1 fibo_pico fibo_risc0 build_pico build_sp1 build_risc0 build_pico_elf
+.PHONY: fibo_sp1 fibo_pico fibo_risc0 build_pico build_sp1 build_risc0 build_pico_elf run_plotter create_python_venv
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
@@ -29,3 +29,16 @@ fibo_sp1:
 
 fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
+
+run_plotter: create_python_venv install_requirements
+	@echo "Running plotter..."
+	@. venv/bin/activate && python3 plotter.py $(INPUT_FILE)
+
+create_python_venv:
+	@echo "Creating virtual environment..."
+	@python3 -m venv venv
+	@echo "Virtual environment created successfully!"
+
+install_requirements:
+	@echo "Installing dependencies..."
+	@. venv/bin/activate && pip install -r requirements.txt
