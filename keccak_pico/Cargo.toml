@@ -1,0 +1,10 @@
+[workspace]
+members = [ 
+    "app", 
+    "prover"
+]
+resolver = "2"
+
+[workspace.dependencies]
+pico-sdk = { git = "https://github.com/brevis-network/pico", branch = "main"}
+serde = { version = "1.0.205", features = ["derive"] }

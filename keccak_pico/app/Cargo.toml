@@ -1,0 +1,8 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pico-sdk = { workspace = true }
+tiny-keccak = { git = "https://github.com/brevis-network/tiny-keccak",  features = ["keccak"], branch = "patch-v1.0.0" }

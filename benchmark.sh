@@ -41,8 +41,8 @@ fi
 
 # Build all projects
 echo "Building all projects..."
-make build_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
-make build_pico build_risc0
+make build_fibo_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
+make build_fibo_pico build_fibo_risc0
 
 # Initialize results file
 echo "Prover,Fibonacci N,Time" > $OUTPUT_FILE
