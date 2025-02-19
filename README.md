@@ -12,6 +12,10 @@
 
 ![Benchmark Results on EPYC 8534P](bench_results/18_feb_25_epyc8534p_64c_576gb.png)
 
+## Results of Keccak on AMD EPYS 7543 (32 cores, 128 GiB ram)
+
+![Benchmark Results on EPYC 7543](bench_results/keccak_19_feb_25_epyc7543_32c_128gb.png)
+
 ## Notes
 
 This provides a benchmark for proving times of different zkVMs
