@@ -14,6 +14,9 @@ build_pico_elf:
 build_pico_keccak_elf:
 	cd keccak_pico/app && cargo pico build
 
+build_pico_rsp_elf:
+	cd keccak_pico/app && cargo pico build
+
 build_keccak_pico:
 	cd keccak_pico/prover && cargo build --release
 
@@ -26,9 +29,11 @@ build_sp1:
 build_keccak_sp1:
 	cd keccak_sp1/script && cargo build --release
 
+build_rsp:
+	cd rsp_sp1/script && cargo build --release
+
 build_fibo_risc0:
 	cd fibo_risc0/host && cargo build --release
-
 
 keccak_pico:
 	./keccak_pico/target/release/prover $(N)
@@ -41,6 +46,9 @@ fibo_sp1:
 
 keccak_sp1:
 	./keccak_sp1/target/release/prover $(N)
+
+rsp_sp1:
+	./keccak_sp1/target/release/prover --prove
 
 fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
