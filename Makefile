@@ -38,6 +38,9 @@ build_rsp_sp1:
 build_fibo_risc0:
 	cd fibo_risc0/host && cargo build --release
 
+rsp_pico:
+	./rsp_pico/target/release/prover
+
 keccak_pico:
 	./keccak_pico/target/release/prover $(N)
 
