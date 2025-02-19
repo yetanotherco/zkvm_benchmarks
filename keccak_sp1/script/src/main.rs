@@ -40,16 +40,11 @@ fn main() {
     let start = std::time::Instant::now();
     let client = ProverClient::from_env();
 
-    let (pk, vk) = client.setup(ELF);
+    let (pk, _vk) = client.setup(ELF);
     println!("Setup in {:?}", start.elapsed());
 
     let (_, report) = client.execute(ELF, &stdin).run().unwrap();
     println!("executed program with {} cycles", report.total_instruction_count());
-
-    // Generate the proof.
-        // Generate the proof for the given program and input.
-    let (pk, _vk) = client.setup(ELF);
-
 
     let mut _proof;
     if mode == "groth16" {
