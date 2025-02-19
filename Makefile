@@ -15,7 +15,10 @@ build_pico_keccak_elf:
 	cd keccak_pico/app && cargo pico build
 
 build_pico_rsp_elf:
-	cd keccak_pico/app && cargo pico build
+	cd rsp_sp1/app && cargo pico build
+
+build_rsp_pico:
+	cd rsp_pico/prover && cargo build --release
 
 build_keccak_pico:
 	cd keccak_pico/prover && cargo build --release
@@ -29,7 +32,7 @@ build_sp1:
 build_keccak_sp1:
 	cd keccak_sp1/script && cargo build --release
 
-build_rsp:
+build_rsp_sp1:
 	cd rsp_sp1/script && cargo build --release
 
 build_fibo_risc0:
