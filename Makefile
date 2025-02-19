@@ -1,4 +1,4 @@
-.PHONY: fibo_sp1 fibo_pico fibo_risc0 build_pico build_sp1 build_risc0 build_pico_elf build_keccak_sp1 build_keccak_pico keccak_pico keccak_sp1 run_plotter create_python_venv install_requirements clean test
+.PHONY: fibo_sp1 fibo_pico fibo_risc0 build_pico build_sp1 build_risc0 build_pico_elf build_keccak_sp1 build_keccak_pico keccak_pico keccak_sp1 run_plotter create_python_venv install_requirements clean rsp_pico build_rsp_pico build_rsp_sp1 rsp_sp1
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
