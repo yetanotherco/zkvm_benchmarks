@@ -106,3 +106,6 @@ make run_plotter INPUT_FILE=<path_to_file>.csv
 
 The output will be `<path_to_file>.png`.
 
+## Acknowledgments
+
+To build this benches, we used provers made by Risc0, Succinct, and Pico. We also used examples of each as starting points for the programs
