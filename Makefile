@@ -54,7 +54,7 @@ keccak_sp1:
 	./keccak_sp1/target/release/prover $(N)
 
 rsp_sp1:
-	./keccak_sp1/target/release/prover --prove
+	./rsp_sp1/script/target/release/prover
 
 fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
