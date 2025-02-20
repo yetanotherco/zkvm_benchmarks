@@ -5,7 +5,7 @@ use rand::rngs::StdRng; // Import StdRng
 use rand::SeedableRng; // Import SeedableRng trait
 
 /// The ELF we want to execute inside the zkVM.
-const ELF: &[u8] = include_elf!("fibonacci-program");
+const ELF: &[u8] = include_elf!("keccak-program");
 
 fn main() {
     // Setup a tracer for logging.
