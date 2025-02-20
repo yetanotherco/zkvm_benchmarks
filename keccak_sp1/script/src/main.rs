@@ -41,25 +41,26 @@ fn main() {
     let (_, report) = client.execute(ELF, &stdin).run().unwrap();
     println!("executed program with {} cycles", report.total_instruction_count());
 
-    let mut _proof;
+    let mut proof;
     if mode == "groth16" {
-        _proof = client.prove(&pk, &stdin).groth16().run().unwrap();
+        proof = client.prove(&pk, &stdin).groth16().run().unwrap();
     } else {
-        _proof = client.prove(&pk, &stdin).compressed().run().unwrap();
+        proof = client.prove(&pk, &stdin).compressed().run().unwrap();
     }
     // Save the proof.
     // proof.save("proof-with-io.json").expect("saving proof failed");
 
     println!("Successfully generated proof");
 
-    let output = _proof.public_values.read::<Vec<u8>>();
-    println!("Obtained output: {:?}", output);
-    let expected_keccak = keccak(data);
+    let mut hash_result: [u8; 32] = [42; 32]; // Fixed seed for reproducibility
+    proof.public_values.read_slice(&mut hash_result);
+    println!("Obtained output: {:?}", hash_result);
+    let expected_keccak = keccak(&data);
     println!("Expected output: {:?}", expected_keccak);
-    assert_eq!(output, expected_keccak);
+    assert_eq!(hash_result, expected_keccak);
 }
 
-fn keccak(bytes: Vec<u8>) -> [u8; 32] {
+fn keccak(bytes: &[u8]) -> [u8; 32] {
     // Compute the keccak of length N, using normal Rust code.
     let mut hash = [0u8; 32];
     let mut keccak256 = Keccak::v256();

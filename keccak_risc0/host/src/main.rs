@@ -46,7 +46,7 @@ fn main() {
 
     let output: Digest = receipt.journal.decode().unwrap();
     println!("Obtained output: {:?}", output);
-    let expected_keccak = keccak(data);
+    let expected_keccak = keccak(&data);
     println!("Expected output: {:?}", expected_keccak);
     assert_eq!(output, expected_keccak);
 
@@ -57,7 +57,7 @@ fn main() {
         .unwrap();
 }
 
-fn keccak(bytes: Vec<u8>) -> Digest {
+fn keccak(bytes: &[u8]) -> Digest {
     // Compute the keccak of length N, using normal Rust code.
     let mut hash = [0u8; 32];
     let mut keccak256 = Keccak::v256();
