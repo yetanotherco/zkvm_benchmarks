@@ -52,7 +52,7 @@ fn main() {
 
     println!("Successfully generated proof");
 
-    let output = _proof.public_values.read::<vec<u8>>();
+    let output = _proof.public_values.read::<Vec<u8>>();
     println!("Obtained output: {:?}", output);
     let expected_keccak = keccak(data);
     println!("Expected output: {:?}", expected_keccak);
