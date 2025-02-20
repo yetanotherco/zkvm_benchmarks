@@ -1,9 +1,9 @@
 #![no_main]
 
-pico_sdk::entrypoint!(main);
+use pico_sdk::io::{commit_bytes, read_vec};
 use tiny_keccak::{Hasher, Keccak};
-use pico_sdk::io::{commit, read_vec};
 
+pico_sdk::entrypoint!(main);
 pub fn main() {
     // Read inputs `n` from the environment
     let bytes = read_vec();
@@ -13,5 +13,5 @@ pub fn main() {
     keccak256.update(&bytes);
     keccak256.finalize(&mut hash);
 
-    commit(&hash);
+    commit_bytes(&hash);
 }

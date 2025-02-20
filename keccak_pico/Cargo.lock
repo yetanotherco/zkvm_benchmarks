@@ -2653,6 +2653,7 @@ dependencies = [
  "pico-sdk",
  "rand",
  "serde",
+ "tiny-keccak 2.0.2 (git+https://github.com/brevis-network/tiny-keccak?branch=patch-v1.0.0)",
 ]
 
 [[package]]
