@@ -4,7 +4,8 @@ use methods::{KECCAK_ELF, KECCAK_ID};
 use risc0_zkvm::{default_prover, ExecutorEnv};
 use rand::RngCore;
 use rand::rngs::StdRng; // Import StdRng
-use rand::SeedableRng; // Import SeedableRng trait
+use rand::SeedableRng; // Import SeedableRng
+use tiny_keccak::{Hasher, Keccak};
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -46,11 +47,23 @@ fn main() {
     // TODO: Implement code for retrieving receipt journal here.
 
     // For example:
-    // let _output: Vec<u8> = receipt.journal.decode().unwrap();
+    let output: Vec<u8> = receipt.journal.decode().unwrap();
+
+    // Assert that the output is correct
+    assert_eq!(output, keccak(data));
 
     // The receipt was verified at the end of proving, but the below code is an
     // example of how someone else could verify this receipt.
     receipt
         .verify(KECCAK_ID)
         .unwrap();
+}
+
+fn keccak(bytes: Vec<u8>) -> [u8; 32] {
+    // Compute the keccak of length N, using normal Rust code.
+    let mut hash = [0u8; 32];
+    let mut keccak256 = Keccak::v256();
+    keccak256.update(&bytes);
+    keccak256.finalize(&mut hash);
+    hash
 }
