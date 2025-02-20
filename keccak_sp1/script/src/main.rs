@@ -29,13 +29,8 @@ fn main() {
     let seed: [u8; 32] = [42; 32]; // Fixed seed for reproducibility
     let mut rng = StdRng::from_seed(seed);
     rng.fill_bytes(&mut data); // Fill the data vector with random bytes
-    stdin.write_vec(data.clone()); // Write the data to stdin
 
-    // Compute the Keccak-256 hash of the data.
-    let mut hasher = Keccak::v256(); // Create a new Keccak-256 hasher
-    hasher.update(&data); // Update the hasher with the data
-    let mut hash = [0u8; 32]; // Initialize the hash array
-    hasher.finalize(&mut hash); // Finalize and store the hash in the array
+    stdin.write_vec(data.clone()); // Write the data to stdin
 
     let start = std::time::Instant::now();
     let client = ProverClient::from_env();
@@ -56,4 +51,20 @@ fn main() {
     // proof.save("proof-with-io.json").expect("saving proof failed");
 
     println!("Successfully generated proof");
+
+    let output = _proof.public_values.read::<vec<u8>>();
+    println!("Obtained output: {:?}", output);
+    let expected_keccak = keccak(data);
+    println!("Expected output: {:?}", expected_keccak);
+    assert_eq!(output, expected_keccak);
+}
+
+fn keccak(bytes: Vec<u8>) -> Digest {
+    // Compute the keccak of length N, using normal Rust code.
+    let mut hash = [0u8; 32];
+    let mut keccak256 = Keccak::v256();
+    keccak256.update(&bytes);
+    keccak256.finalize(&mut hash);
+    hash
+    // Digest::from_bytes(hash)
 }

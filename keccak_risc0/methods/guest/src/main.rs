@@ -10,6 +10,6 @@ fn main() {
     keccak256.update(&bytes);
     keccak256.finalize(&mut hash);
     let digest = Digest::from_bytes(hash);
+
     env::commit(&digest);
-    // env::commit(&hash);
 }
