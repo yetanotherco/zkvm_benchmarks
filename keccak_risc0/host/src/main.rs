@@ -48,9 +48,10 @@ fn main() {
 
     // For example:
     let output: Digest = receipt.journal.decode().unwrap();
-
-    // Assert that the output is correct
-    assert_eq!(output, keccak(data));
+    println!("Obtained output: {:?}", output);
+    let expected_keccak = keccak(data);
+    println!("Expected output: {:?}", expected_keccak);
+    assert_eq!(output, expected_keccak);
 
     // The receipt was verified at the end of proving, but the below code is an
     // example of how someone else could verify this receipt.
