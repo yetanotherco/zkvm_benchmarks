@@ -66,5 +66,4 @@ fn keccak(bytes: Vec<u8>) -> [u8; 32] {
     keccak256.update(&bytes);
     keccak256.finalize(&mut hash);
     hash
-    // Digest::from_bytes(hash)
 }
