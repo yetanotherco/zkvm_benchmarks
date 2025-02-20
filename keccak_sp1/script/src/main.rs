@@ -59,7 +59,7 @@ fn main() {
     assert_eq!(output, expected_keccak);
 }
 
-fn keccak(bytes: Vec<u8>) -> Vec<u8> {
+fn keccak(bytes: Vec<u8>) -> [u8; 32] {
     // Compute the keccak of length N, using normal Rust code.
     let mut hash = [0u8; 32];
     let mut keccak256 = Keccak::v256();
