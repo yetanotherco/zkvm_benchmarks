@@ -44,9 +44,6 @@ fn main() {
     // extract the receipt.
     let receipt = prove_info.receipt;
 
-    // TODO: Implement code for retrieving receipt journal here.
-
-    // For example:
     let output: Digest = receipt.journal.decode().unwrap();
     println!("Obtained output: {:?}", output);
     let expected_keccak = keccak(data);
