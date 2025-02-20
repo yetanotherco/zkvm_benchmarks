@@ -1,4 +1,4 @@
-use risc0_zkvm::guest::env;
+use risc0_zkvm::{guest::env, sha::Digest};
 use tiny_keccak::{Hasher, Keccak};
 
 fn main() {
@@ -9,6 +9,7 @@ fn main() {
     let mut keccak256 = Keccak::v256();
     keccak256.update(&bytes);
     keccak256.finalize(&mut hash);
-
-    env::commit(&hash);
+    let digest = Digest::from_bytes(hash);
+    env::commit(&digest);
+    // env::commit(&hash);
 }
