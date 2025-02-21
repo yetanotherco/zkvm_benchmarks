@@ -4,8 +4,17 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import os   
 
-# Read data from CSV
+# Read arguments
+if len(sys.argv) < 4:
+    print("Usage: python script.py input_csv xlabel function")
+    print("Example: python script.py data.csv 'Vector Size (bytes)' 'Keccak'")
+    sys.exit(1)
+
 input_csv_path = sys.argv[1]
+x_label = sys.argv[2]
+function_type = sys.argv[3]
+
+# Read data from CSV
 df = pd.read_csv(input_csv_path)
 df['N'] = df['N'].astype(int)
 
@@ -62,9 +71,9 @@ def plot_data(ax, data):
 
 # Plot log-log scale
 plot_data(ax, df)
-ax.set_xlabel('Fibonacci N')
+ax.set_xlabel(x_label)
 ax.set_ylabel('Time (minutes)')
-ax.set_title('Fibonacci Performance Comparison (Log-Log Scale)')
+ax.set_title(f'{function_type} Performance Comparison (Log-Log Scale)')
 ax.grid(True, alpha=0.3)
 ax.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
 
