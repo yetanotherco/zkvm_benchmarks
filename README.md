@@ -1,16 +1,24 @@
 # zkVMs benchmarks
 
-## Results on Intel Xeon Gold 6226R (16 cores, 60 GiB ram)
+## Fibonacci Benchmarks
+
+### Results on Intel Xeon Gold 6226R (16 cores, 60 GiB ram)
 
 ![Benchmark Results on Xeon Gold 6226R](bench_results/17_feb_25_xeon6226R_16c_60gb.png)
 
-## Results on AMD EPYC 7543 (32 cores, 128 GiB ram)
+### Results on AMD EPYC 7543 (32 cores, 128 GiB ram)
 
 ![Benchmark Results on EPYC 7543](bench_results/18_feb_25_epyc7543_32c_128gb.png)
 
-## Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
+### Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
 
 ![Benchmark Results on EPYC 8534P](bench_results/18_feb_25_epyc8534p_64c_576gb.png)
+
+## Keccak Benchmarks
+
+### Results on AMD EPYS 7543 (32 cores, 128 GiB ram)
+
+![Benchmark Results on EPYC 7543](bench_results/keccak_20_feb_25_epyc7543_32c_128gb.png)
 
 ## Notes
 
@@ -35,23 +43,47 @@ Aligned supports verification of proofs of any stage, so you can use the faster 
 - pico
 - Docker (For SP1 groth16 compression)
 
-### Running the benchmark
-
+### Running the fibonacci benchmark
 
 To run the benchmark, first do a run with small programs to see if everything is working:
 
-```TEST_MODE=1 bash benchmark.sh```
-
+```shell
+TEST_MODE=1 bash benchmark.sh
+```
 
 If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
 
-```make build_sp1```
-```PROOF_MODE=groth16 N=5 make fibo_sp1```
+```shell
+make build_fibo_sp1
+PROOF_MODE=groth16 N=5 make fibo_sp1
+```
 
+After making sure it works, you can run:
 
-After making sure it work, you can run:
+```shell
+bash benchmark.sh
+```
 
-```bash benchmark.sh```
+### Running the keccak benchmark
+
+To run the benchmark, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_keccak.sh
+```
+
+If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
+
+```shell
+make build_keccak_sp1
+PROOF_MODE=groth16 N=5 make keccak_sp1
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_keccak.sh
+```
 
 
 ## Setting up the server
@@ -94,6 +126,7 @@ cargo +nightly install --git https://github.com/brevis-network/pico pico-cli
 
 echo "Installation complete! Please run 'newgrp docker' or log out and back in to use Docker without sudo."
 ```
+
 ### Debian
 
 Change the docker installation to the debian one, then use the same script as Ubuntu

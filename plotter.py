@@ -65,9 +65,9 @@ def plot_data(ax, data, is_log=False):
 
 # Plot linear scale
 plot_data(ax1, df, is_log=False)
-ax1.set_xlabel('Fibonacci N')
+ax1.set_xlabel('Vec of Length N bytes')
 ax1.set_ylabel('Time (minutes)')
-ax1.set_title('Fibonacci Performance Comparison (Linear Scale)')
+ax1.set_title('Keccak Performance Comparison (Linear Scale)')
 ax1.grid(True, alpha=0.3)
 ax1.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
 
@@ -86,9 +86,9 @@ ax1.xaxis.set_major_formatter(ticker.FuncFormatter(format_func))
 
 # Plot log scale
 plot_data(ax2, df, is_log=True)
-ax2.set_xlabel('Fibonacci N (log scale)')
+ax2.set_xlabel('Vec of Length N bytes')
 ax2.set_ylabel('Time (minutes)')
-ax2.set_title('Fibonacci Performance Comparison (Log Scale)')
+ax2.set_title('Keccack Performance Comparison (Log Scale)')
 ax2.grid(True, alpha=0.3)
 ax2.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
 
