@@ -21,12 +21,12 @@ format_time() {
 
 if [ -n "$TEST_MODE" ]; then
     echo "Running in test mode"
-    N_VALUES=(32)
+    N_VALUES=(10)
 else
-    N_VALUES=(32 64 128 256 512 1024) # ~ 10KB 100KB 1MB
+    N_VALUES=(10000 100000 1000000 4000000)
 fi
 
-OUTPUT_FILE="benchmark_keccak_results.csv"
+OUTPUT_FILE="benchmark_fibo_results.csv"
 
 # Detect CPU capabilities and set SP1 configuration
 if grep -q "avx512" /proc/cpuinfo; then
@@ -42,9 +42,9 @@ fi
 
 # Build all projects
 echo "Building all projects..."
-make build_keccak_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
-make build_keccak_pico
-make build_keccak_risc0
+make build_fibo_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
+make build_fibo_pico
+make build_fibo_risc0
 
 # Initialize results file
 echo "Prover,N,Time" > $OUTPUT_FILE
@@ -53,7 +53,7 @@ for n in "${N_VALUES[@]}"; do
     # Pico benchmark
     echo "Running Pico with N=$n"
     start=$(date +%s.%N)
-    make keccak_pico N=$n > /dev/null 2>&1
+    make fibo_pico_wrapped N=$n > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     echo "Pico Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
@@ -61,7 +61,7 @@ for n in "${N_VALUES[@]}"; do
     # SP1 Compressed benchmark
     echo "Running SP1 (Compressed) with N=$n"
     start=$(date +%s.%N)
-    make keccak_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
+    make fibo_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     echo "$SP1_NAME,$n,$(format_time $time)" >> $OUTPUT_FILE
@@ -70,7 +70,7 @@ for n in "${N_VALUES[@]}"; do
     if [[ "$(uname)" == "Linux" ]] && command -v docker >/dev/null 2>&1; then
         echo "Running SP1 (Groth16) with N=$n"
         start=$(date +%s.%N)
-        make keccak_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
+        make fibo_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
         end=$(date +%s.%N)
         time=$(echo "$end - $start" | bc)
         echo "$SP1_NAME-Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
@@ -79,7 +79,7 @@ for n in "${N_VALUES[@]}"; do
     # RISC0 benchmark
     echo "Running RISC0 with N=$n"
     start=$(date +%s.%N)
-    make keccak_risc0 N=$n > /dev/null 2>&1
+    make fibo_risc0 N=$n > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     echo "Risc0,$n,$(format_time $time)" >> $OUTPUT_FILE
