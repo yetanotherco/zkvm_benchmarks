@@ -76,7 +76,7 @@ PROOF_MODE=groth16 N=5 make fibo_sp1
 After making sure it works, you can run:
 
 ```shell
-bash benchmark.sh
+bash benchmark_fibo.sh
 ```
 
 ### Running the keccak benchmark
