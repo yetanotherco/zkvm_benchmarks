@@ -2,7 +2,7 @@
 
 Benchmarks of VM proving times made by Aligned and Lambdaclass
 
-Raw results can be found ![here](/bench_results)
+Raw results can be found [here](/bench_results)
 
 ## Fibonacci Benchmarks
 
