@@ -1,10 +1,8 @@
 # zkVMs benchmarks
 
+Benchmarks of zkVM proving times made by Aligned and Lambdaclass
+
 ## Fibonacci Benchmarks
-
-### Results on Intel Xeon Gold 6226R (16 cores, 60 GiB ram)
-
-![Benchmark Results on Xeon Gold 6226R](bench_results/17_feb_25_xeon6226R_16c_60gb.png)
 
 ### Results on AMD EPYC 7543 (32 cores, 128 GiB ram)
 
@@ -21,8 +19,6 @@
 ![Benchmark Results on EPYC 7543](bench_results/keccak_20_feb_25_epyc7543_32c_128gb.png)
 
 ## Notes
-
-This provides a benchmark for proving times of different zkVMs
 
 It's important to note most provers have three proofs that gets further
 
