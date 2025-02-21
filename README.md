@@ -8,10 +8,6 @@ Benchmarks of VM proving times made by Aligned and Lambdaclass
 
 ![Benchmark Results on EPYC 7543](bench_results/18_feb_25_epyc7543_32c_128gb.png)
 
-### Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
-
-![Benchmark Results on EPYC 8534P](bench_results/18_feb_25_epyc8534p_64c_576gb.png)
-
 ## Keccak Benchmarks
 
 ### Results on AMD EPYS 7543 (32 cores, 128 GiB ram)
