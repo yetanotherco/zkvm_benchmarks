@@ -1,20 +1,22 @@
 # zkVMs benchmarks
 
-## Results on Intel Xeon Gold 6226R (16 cores, 60 GiB ram)
+## Fibonacci Benchmarks
+
+### Results on Intel Xeon Gold 6226R (16 cores, 60 GiB ram)
 
 ![Benchmark Results on Xeon Gold 6226R](bench_results/17_feb_25_xeon6226R_16c_60gb.png)
 
-## Results on AMD EPYC 7543 (32 cores, 128 GiB ram)
+### Results on AMD EPYC 7543 (32 cores, 128 GiB ram)
 
 ![Benchmark Results on EPYC 7543](bench_results/18_feb_25_epyc7543_32c_128gb.png)
 
-## Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
+### Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
 
 ![Benchmark Results on EPYC 8534P](bench_results/18_feb_25_epyc8534p_64c_576gb.png)
 
-## Results of Keccak on AMD EPYS 7543 (32 cores, 128 GiB ram)
+## Keccak Benchmarks
 
-![Benchmark Results on EPYC 7543 v2](bench_results/keccak_20_feb_25_epyc7543_32c_128gb_v2.png)
+### Results on AMD EPYS 7543 (32 cores, 128 GiB ram)
 
 ![Benchmark Results on EPYC 7543](bench_results/keccak_20_feb_25_epyc7543_32c_128gb.png)
 
