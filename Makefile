@@ -1,4 +1,8 @@
-.PHONY: fibo_sp1 fibo_pico fibo_risc0 build_pico build_sp1 build_risc0 build_pico_elf build_keccak_sp1 build_keccak_pico build_keccak_risc0 keccak_pico keccak_sp1 keccak_risc0 run_plotter create_python_venv
+.PHONY: build_elf_fibo_pico build_fibo_pico build_fibo_sp1 build_fibo_risc0
+.PHONY: build_elf_keccak_pico build_keccak_pico build_keccak_sp1 build_keccak_risc0
+.PHONY: fibo_pico_wrapped fibo_sp1 fibo_risc0
+.PHONY: keccak_pico keccak_sp1 keccak_risc0
+.PHONY: run_plotter create_python_venv install_requirements
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
@@ -6,21 +10,23 @@ PROOF_MODE ?= compressed
 # Iterations of fibonacci
 N ?= 100000
 
+# action_function_proving-system
+
 # Pico is the only prover which doesn't
 # build ELF elf automatically if it's no thee
-build_pico_elf:
+build_elf_fibo_pico:
 	cd fibo_pico/app && cargo pico build
 
-build_pico_keccak_elf:
+build_elf_keccak_pico:
 	cd keccak_pico/app && cargo pico build
+
+build_fibo_pico:
+	cd fibo_pico/prover && cargo build --release
 
 build_keccak_pico:
 	cd keccak_pico/prover && cargo build --release
 
-build_pico:
-	cd fibo_pico/prover && cargo build --release
-
-build_sp1:
+build_fibo_sp1:
 	cd fibo_sp1/script && cargo build --release
 
 build_keccak_sp1:
@@ -32,11 +38,11 @@ build_fibo_risc0:
 build_keccak_risc0:
 	cd keccak_risc0/host && cargo build --release
 
-keccak_pico:
-	./keccak_pico/target/release/prover $(N)
-
 fibo_pico_wrapped:
 	./fibo_pico/target/release/prover $(N)
+
+keccak_pico:
+	./keccak_pico/target/release/prover $(N)
 
 fibo_sp1:
 	./fibo_sp1/target/release/fibonacci $(N) $(PROOF_MODE)

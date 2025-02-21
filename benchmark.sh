@@ -25,7 +25,7 @@ else
     N_VALUES=(10000 100000 1000000 4000000)
 fi
 
-OUTPUT_FILE="benchmark_results.csv"
+OUTPUT_FILE="benchmark_fibo_results.csv"
 
 # Detect CPU capabilities and set SP1 configuration
 if grep -q "avx512" /proc/cpuinfo; then
@@ -42,10 +42,11 @@ fi
 # Build all projects
 echo "Building all projects..."
 make build_fibo_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
-make build_fibo_pico build_fibo_risc0
+make build_fibo_pico
+make build_fibo_risc0
 
 # Initialize results file
-echo "Prover,Fibonacci N,Time" > $OUTPUT_FILE
+echo "Prover,N,Time" > $OUTPUT_FILE
 
 for n in "${N_VALUES[@]}"; do
     # Pico benchmark

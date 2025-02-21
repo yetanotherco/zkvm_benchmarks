@@ -43,38 +43,47 @@ Aligned supports verification of proofs of any stage, so you can use the faster 
 - pico
 - Docker (For SP1 groth16 compression)
 
-### Running the benchmark
-
+### Running the fibonacci benchmark
 
 To run the benchmark, first do a run with small programs to see if everything is working:
 
-```TEST_MODE=1 bash benchmark.sh```
-
+```shell
+TEST_MODE=1 bash benchmark.sh
+```
 
 If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
 
-```make build_sp1```
-```PROOF_MODE=groth16 N=5 make fibo_sp1```
-
+```shell
+make build_fibo_sp1
+PROOF_MODE=groth16 N=5 make fibo_sp1
+```
 
 After making sure it works, you can run:
 
-```bash benchmark.sh```
+```shell
+bash benchmark.sh
+```
 
 ### Running the keccak benchmark
 
 To run the benchmark, first do a run with small programs to see if everything is working:
 
-```TEST_MODE=1 bash benchmark_keccak.sh```
+```shell
+TEST_MODE=1 bash benchmark_keccak.sh
+```
 
 If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
 
-```make build_keccak_sp1```
-```PROOF_MODE=groth16 N=5 make keccak_sp1```
+```shell
+make build_keccak_sp1
+PROOF_MODE=groth16 N=5 make keccak_sp1
+```
 
 After making sure it works, you can run:
 
-```bash benchmark_keccak.sh```
+```shell
+bash benchmark_keccak.sh
+```
 
 
 ## Setting up the server
@@ -117,6 +126,7 @@ cargo +nightly install --git https://github.com/brevis-network/pico pico-cli
 
 echo "Installation complete! Please run 'newgrp docker' or log out and back in to use Docker without sudo."
 ```
+
 ### Debian
 
 Change the docker installation to the debian one, then use the same script as Ubuntu
