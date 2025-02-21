@@ -20,6 +20,7 @@ format_time() {
 }
 
 if [ -n "$TEST_MODE" ]; then
+    echo "Running in test mode"
     N_VALUES=(32)
 else
     N_VALUES=(32 64 128 256 512 1024) # ~ 10KB 100KB 1MB
