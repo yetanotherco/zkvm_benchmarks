@@ -1,6 +1,6 @@
 # zkVMs benchmarks
 
-Benchmarks of zkVM proving times made by Aligned and Lambdaclass
+Benchmarks of VM proving times made by Aligned and Lambdaclass
 
 ## Fibonacci Benchmarks
 
