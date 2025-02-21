@@ -14,9 +14,9 @@
 
 ## Results of Keccak on AMD EPYS 7543 (32 cores, 128 GiB ram)
 
-![Benchmark Results on EPYC 7543](bench_results/keccak_19_feb_25_epyc7543_32c_128gb.png)
+![Benchmark Results on EPYC 7543 v2](bench_results/keccak_20_feb_25_epyc7543_32c_128gb_v2.png)
 
-![Benchmark Results on EPYC 7543 v2](bench_results/keccak_19_feb_25_epyc7543_32c_128gb_v2.png)
+![Benchmark Results on EPYC 7543](bench_results/keccak_20_feb_25_epyc7543_32c_128gb.png)
 
 ## Notes
 
