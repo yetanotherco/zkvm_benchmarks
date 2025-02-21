@@ -134,8 +134,24 @@ Change the docker installation to the debian one, then use the same script as Ub
 ### Plotting results
 
 ```shell
-make run_plotter INPUT_FILE=<path_to_file>.csv
+make run_plotter INPUT_FILE=<path_to_file>.csv X_LABEL=<x_label> FUNCTION=<function>
 ```
+
+#### Plotting Fibonacci results
+
+```shell
+make run_plotter_fibo INPUT_FILE=<path_to_file>.csv
+```
+
+If no INPUT_FILE is provided, it will use the default file `benchmark_fibo_results.csv`.
+
+#### Plotting Keccak results
+
+```shell
+make run_plotter_keccak INPUT_FILE=<path_to_file>.csv
+```
+
+If no INPUT_FILE is provided, it will use the default file `benchmark_keccak_results.csv`.
 
 The output will be `<path_to_file>.png`.
 

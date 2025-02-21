@@ -56,9 +56,19 @@ fibo_risc0:
 keccak_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./keccak_risc0/target/release/host $(N)
 
+run_plotter_fibo: INPUT_FILE=benchmark_fibo_results.csv
+run_plotter_fibo: X_LABEL="Fibonacci N"
+run_plotter_fibo: FUNCTION="Fibonacci"
+run_plotter_fibo: run_plotter
+
+run_plotter_keccak: INPUT_FILE=benchmark_keccak_results.csv
+run_plotter_keccak: X_LABEL="Vec of Length N bytes"
+run_plotter_keccak: FUNCTION="Keccak"
+run_plotter_keccak: run_plotter
+
 run_plotter: create_python_venv install_requirements
 	@echo "Running plotter..."
-	@. venv/bin/activate && python3 plotter.py $(INPUT_FILE)
+	@. venv/bin/activate && python3 plotter.py $(INPUT_FILE) $(X_LABEL) $(FUNCTION)
 
 create_python_venv:
 	@echo "Creating virtual environment..."
