@@ -2,6 +2,8 @@
 
 Benchmarks of VM proving times made by Aligned and Lambdaclass
 
+Raw results can be found ![here](/bench_results)
+
 ## Fibonacci Benchmarks
 
 ### Results on AMD EPYC 7543 (32 cores, 128 GiB ram)
