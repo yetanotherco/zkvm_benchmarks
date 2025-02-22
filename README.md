@@ -18,11 +18,11 @@ Raw results can be found [here](/bench_results)
 
 ## Notes
 
-It's important to note most provers have three proofs that gets further
+It's important to note most provers have a pipeline for proof generation that looks like this:
 
 base_proofs -> recursive_stark_proof -> snark_proof
 
-Each phase adds more proving times and reduces proof size. The final step is only needed to verify directly in Ethereum.
+Each step of this pipeline adds more proving time and reduces proof size. The final step is only needed to verify directly in Ethereum.
 
 SP1 is benched with recursive_stark and snark proof. Pico is always using the snark proof. 
 
