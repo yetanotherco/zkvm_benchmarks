@@ -1,0 +1,2937 @@
+diff --git a/rsp_pico/Cargo.lock b/rsp_pico/Cargo.lock
+index b494fab..8c4d8d1 100644
+--- a/rsp_pico/Cargo.lock
++++ b/rsp_pico/Cargo.lock
+@@ -305,7 +305,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "1b1b3e9a48a6dd7bb052a111c8d93b5afc7956ed5e2cb4177793dc63bb1d2a36"
+ dependencies = [
+  "serde",
+- "winnow 0.7.2",
++ "winnow 0.7.3",
+ ]
+ 
+ [[package]]
+@@ -413,9 +413,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "anyhow"
+-version = "1.0.95"
++version = "1.0.96"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "34ac096ce696dc2fcabef30516bb13c0a68a11d30131d3df6f04711467681b04"
++checksum = "6b964d184e89d9b6b67dd2715bc8e74cf3107fb2b529990c90cf517326150bf4"
+ 
+ [[package]]
+ name = "app"
+@@ -423,7 +423,7 @@ version = "0.1.0"
+ dependencies = [
+  "bincode",
+  "pico-sdk",
+- "rsp-client-executor 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3)",
++ "rsp-client-executor",
+ ]
+ 
+ [[package]]
+@@ -730,6 +730,20 @@ dependencies = [
+  "subtle",
+ ]
+ 
++[[package]]
++name = "bls12_381"
++version = "0.8.0"
++source = "git+https://github.com/brevis-network/bls12_381?branch=patch-v1.0.1#4738552f987d748367fd6a055f3ae08797739fba"
++dependencies = [
++ "cfg-if",
++ "ff 0.13.0",
++ "group 0.13.0",
++ "pairing 0.23.0",
++ "pico-patch-libs 1.0.0 (git+https://github.com/brevis-network/pico.git)",
++ "rand_core",
++ "subtle",
++]
++
+ [[package]]
+ name = "blst"
+ version = "0.3.14"
+@@ -1066,13 +1080,14 @@ dependencies = [
+ [[package]]
+ name = "curve25519-dalek"
+ version = "4.1.3"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "97fb8b7c4503de7d6ae7b42ab72a5a59857b4c937ec27a3d4539dba95b5ab2be"
++source = "git+https://github.com/brevis-network/curve25519-dalek?branch=patch-v1.0.1#5939939bbcfa2236544181b77221eea0723114f7"
+ dependencies = [
++ "anyhow",
+  "cfg-if",
+  "cpufeatures",
+  "curve25519-dalek-derive",
+  "fiat-crypto",
++ "pico-patch-libs 1.0.0 (git+https://github.com/brevis-network/pico.git)",
+  "rustc_version 0.4.1",
+  "subtle",
+  "zeroize",
+@@ -1081,8 +1096,7 @@ dependencies = [
+ [[package]]
+ name = "curve25519-dalek-derive"
+ version = "0.1.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f46882e17999c6cc590af592290432be3bce0428cb0d5f8b6715e4dc7b383eb3"
++source = "git+https://github.com/brevis-network/curve25519-dalek?branch=patch-v1.0.1#5939939bbcfa2236544181b77221eea0723114f7"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -1323,12 +1337,14 @@ checksum = "feeef44e73baff3a26d371801df019877a9866a8c493d315ab00177843314f35"
+ [[package]]
+ name = "ecdsa"
+ version = "0.16.9"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ee27f32b5c5292967d2d4a9d7f1e0b0aed2c15daded5a60300e4abb9d8020bca"
++source = "git+https://github.com/brevis-network/signatures?branch=patch-v1.0.1#a074ada80115c4f6443856f379b0105cfacab4cf"
+ dependencies = [
++ "cfg-if",
+  "der",
+  "digest 0.10.7",
+  "elliptic-curve",
++ "hex-literal",
++ "pico-patch-libs 1.0.0 (git+https://github.com/brevis-network/pico.git)",
+  "rfc6979",
+  "signature",
+  "spki",
+@@ -1834,6 +1850,12 @@ dependencies = [
+  "serde",
+ ]
+ 
++[[package]]
++name = "hex-literal"
++version = "0.4.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "6fe2267d4ed49bc07b63801559be28c718ea06c4738b7a03c94df7386d2cde46"
++
+ [[package]]
+ name = "hmac"
+ version = "0.12.1"
+@@ -2089,15 +2111,6 @@ dependencies = [
+  "either",
+ ]
+ 
+-[[package]]
+-name = "itertools"
+-version = "0.12.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
+-dependencies = [
+- "either",
+-]
+-
+ [[package]]
+ name = "itertools"
+ version = "0.13.0"
+@@ -2130,7 +2143,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "a575df5f985fe1cd5b2b05664ff6accfc46559032b954529fd225a2168d27b0f"
+ dependencies = [
+  "bitvec",
+- "bls12_381",
++ "bls12_381 0.7.1",
+  "ff 0.12.1",
+  "group 0.12.1",
+  "rand_core",
+@@ -2172,14 +2185,13 @@ dependencies = [
+ 
+ [[package]]
+ name = "kzg-rs"
+-version = "0.2.5"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6efe7b9aea4a6b9454dc95a67f2de13505f6b4fbea885bc7a5c09bda48a85b18"
++version = "0.2.3"
++source = "git+https://github.com/MauroToscano/pico-kzg-rs#d49b752059e062d0509c6c1495a70b778132075e"
+ dependencies = [
++ "bls12_381 0.8.0",
+  "ff 0.13.0",
+  "hex",
+  "sha2",
+- "sp1_bls12_381",
+  "spin",
+ ]
+ 
+@@ -2572,8 +2584,8 @@ name = "p3-air"
+ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
++ "p3-field",
++ "p3-matrix",
+ ]
+ 
+ [[package]]
+@@ -2581,26 +2593,11 @@ name = "p3-baby-bear"
+ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+- "p3-field 0.1.0",
+- "p3-mds 0.1.0",
++ "p3-field",
++ "p3-mds",
+  "p3-monty-31",
+- "p3-poseidon2 0.1.0",
+- "p3-symmetric 0.1.0",
+- "rand",
+- "serde",
+-]
+-
+-[[package]]
+-name = "p3-baby-bear"
+-version = "0.2.0-succinct"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "080896e9d09e9761982febafe3b3da5cbf320e32f0c89b6e2e01e875129f4c2d"
+-dependencies = [
+- "num-bigint 0.4.6",
+- "p3-field 0.2.0-succinct",
+- "p3-mds 0.2.0-succinct",
+- "p3-poseidon2 0.2.0-succinct",
+- "p3-symmetric 0.2.0-succinct",
++ "p3-poseidon2",
++ "p3-symmetric",
+  "rand",
+  "serde",
+ ]
+@@ -2611,8 +2608,8 @@ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "blake3",
+- "p3-symmetric 0.1.0",
+- "p3-util 0.1.0",
++ "p3-symmetric",
++ "p3-util",
+ ]
+ 
+ [[package]]
+@@ -2623,9 +2620,9 @@ dependencies = [
+  "ff 0.13.0",
+  "halo2curves",
+  "num-bigint 0.4.6",
+- "p3-field 0.1.0",
+- "p3-poseidon2 0.1.0",
+- "p3-symmetric 0.1.0",
++ "p3-field",
++ "p3-poseidon2",
++ "p3-symmetric",
+  "rand",
+  "serde",
+ ]
+@@ -2635,10 +2632,10 @@ name = "p3-challenger"
+ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+- "p3-field 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-symmetric 0.1.0",
+- "p3-util 0.1.0",
++ "p3-field",
++ "p3-maybe-rayon",
++ "p3-symmetric",
++ "p3-util",
+  "tracing",
+ ]
+ 
+@@ -2650,12 +2647,12 @@ dependencies = [
+  "itertools 0.13.0",
+  "p3-challenger",
+  "p3-commit",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
++ "p3-dft",
++ "p3-field",
+  "p3-fri",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-util 0.1.0",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-util",
+  "serde",
+  "tracing",
+ ]
+@@ -2667,10 +2664,10 @@ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e
+ dependencies = [
+  "itertools 0.13.0",
+  "p3-challenger",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-util 0.1.0",
++ "p3-dft",
++ "p3-field",
++ "p3-matrix",
++ "p3-util",
+  "serde",
+ ]
+ 
+@@ -2680,23 +2677,10 @@ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "itertools 0.13.0",
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-util 0.1.0",
+- "tracing",
+-]
+-
+-[[package]]
+-name = "p3-dft"
+-version = "0.2.0-succinct"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "292e97d02d4c38d8b306c2b8c0428bf15f4d32a11a40bcf80018f675bf33267e"
+-dependencies = [
+- "p3-field 0.2.0-succinct",
+- "p3-matrix 0.2.0-succinct",
+- "p3-maybe-rayon 0.2.0",
+- "p3-util 0.2.0",
++ "p3-field",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-util",
+  "tracing",
+ ]
+ 
+@@ -2710,27 +2694,13 @@ dependencies = [
+  "num-integer",
+  "num-traits",
+  "nums",
+- "p3-maybe-rayon 0.1.0",
+- "p3-util 0.1.0",
++ "p3-maybe-rayon",
++ "p3-util",
+  "rand",
+  "serde",
+  "tracing",
+ ]
+ 
+-[[package]]
+-name = "p3-field"
+-version = "0.2.0-succinct"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f91d8e5f9ede1171adafdb0b6a0df1827fbd4eb6a6217bfa36374e5d86248757"
+-dependencies = [
+- "itertools 0.12.1",
+- "num-bigint 0.4.6",
+- "num-traits",
+- "p3-util 0.2.0",
+- "rand",
+- "serde",
+-]
+-
+ [[package]]
+ name = "p3-fri"
+ version = "0.1.0"
+@@ -2739,12 +2709,12 @@ dependencies = [
+  "itertools 0.13.0",
+  "p3-challenger",
+  "p3-commit",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
++ "p3-dft",
++ "p3-field",
+  "p3-interpolation",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-util 0.1.0",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-util",
+  "rand",
+  "serde",
+  "tracing",
+@@ -2756,12 +2726,12 @@ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "num-bigint 0.4.6",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
+- "p3-mds 0.1.0",
+- "p3-poseidon2 0.1.0",
+- "p3-symmetric 0.1.0",
+- "p3-util 0.1.0",
++ "p3-dft",
++ "p3-field",
++ "p3-mds",
++ "p3-poseidon2",
++ "p3-symmetric",
++ "p3-util",
+  "rand",
+  "serde",
+ ]
+@@ -2771,10 +2741,10 @@ name = "p3-interpolation"
+ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-util 0.1.0",
++ "p3-field",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-util",
+ ]
+ 
+ [[package]]
+@@ -2783,9 +2753,9 @@ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "itertools 0.13.0",
+- "p3-field 0.1.0",
+- "p3-symmetric 0.1.0",
+- "p3-util 0.1.0",
++ "p3-field",
++ "p3-symmetric",
++ "p3-util",
+  "tiny-keccak",
+ ]
+ 
+@@ -2795,10 +2765,10 @@ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "p3-air",
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-util 0.1.0",
++ "p3-field",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-util",
+  "tracing",
+ ]
+ 
+@@ -2807,11 +2777,11 @@ name = "p3-koala-bear"
+ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+- "p3-field 0.1.0",
+- "p3-mds 0.1.0",
++ "p3-field",
++ "p3-mds",
+  "p3-monty-31",
+- "p3-poseidon2 0.1.0",
+- "p3-symmetric 0.1.0",
++ "p3-poseidon2",
++ "p3-symmetric",
+  "rand",
+  "serde",
+ ]
+@@ -2822,30 +2792,15 @@ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "itertools 0.13.0",
+- "p3-field 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-util 0.1.0",
++ "p3-field",
++ "p3-maybe-rayon",
++ "p3-util",
+  "rand",
+  "serde",
+  "tracing",
+  "transpose",
+ ]
+ 
+-[[package]]
+-name = "p3-matrix"
+-version = "0.2.0-succinct"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "98bf2c7680b8e906a5e147fe4ceb05a11cc9fa35678aa724333bcb35c72483c1"
+-dependencies = [
+- "itertools 0.12.1",
+- "p3-field 0.2.0-succinct",
+- "p3-maybe-rayon 0.2.0",
+- "p3-util 0.2.0",
+- "rand",
+- "serde",
+- "tracing",
+-]
+-
+ [[package]]
+ name = "p3-maybe-rayon"
+ version = "0.1.0"
+@@ -2854,38 +2809,17 @@ dependencies = [
+  "rayon",
+ ]
+ 
+-[[package]]
+-name = "p3-maybe-rayon"
+-version = "0.2.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3925562a4c03183eafc92fd07b19f65ac6cb4b48d68c3920ce58d9bee6efe362"
+-
+ [[package]]
+ name = "p3-mds"
+ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "itertools 0.13.0",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-symmetric 0.1.0",
+- "p3-util 0.1.0",
+- "rand",
+-]
+-
+-[[package]]
+-name = "p3-mds"
+-version = "0.2.0-succinct"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "706cea48976f54702dc68dffa512684c1304d1a3606cadea423cfe0b1ee25134"
+-dependencies = [
+- "itertools 0.12.1",
+- "p3-dft 0.2.0-succinct",
+- "p3-field 0.2.0-succinct",
+- "p3-matrix 0.2.0-succinct",
+- "p3-symmetric 0.2.0-succinct",
+- "p3-util 0.2.0",
++ "p3-dft",
++ "p3-field",
++ "p3-matrix",
++ "p3-symmetric",
++ "p3-util",
+  "rand",
+ ]
+ 
+@@ -2896,11 +2830,11 @@ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e
+ dependencies = [
+  "itertools 0.13.0",
+  "p3-commit",
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-symmetric 0.1.0",
+- "p3-util 0.1.0",
++ "p3-field",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-symmetric",
++ "p3-util",
+  "rand",
+  "serde",
+  "tracing",
+@@ -2913,14 +2847,14 @@ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e
+ dependencies = [
+  "itertools 0.13.0",
+  "num-bigint 0.4.6",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-mds 0.1.0",
+- "p3-poseidon2 0.1.0",
+- "p3-symmetric 0.1.0",
+- "p3-util 0.1.0",
++ "p3-dft",
++ "p3-field",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-mds",
++ "p3-poseidon2",
++ "p3-symmetric",
++ "p3-util",
+  "rand",
+  "serde",
+ ]
+@@ -2932,14 +2866,14 @@ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e
+ dependencies = [
+  "itertools 0.13.0",
+  "num-bigint 0.4.6",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-mds 0.1.0",
+- "p3-poseidon2 0.1.0",
+- "p3-symmetric 0.1.0",
+- "p3-util 0.1.0",
++ "p3-dft",
++ "p3-field",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-mds",
++ "p3-poseidon2",
++ "p3-symmetric",
++ "p3-util",
+  "rand",
+  "serde",
+  "tracing",
+@@ -2952,44 +2886,19 @@ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "gcd",
+- "p3-field 0.1.0",
+- "p3-mds 0.1.0",
+- "p3-symmetric 0.1.0",
++ "p3-field",
++ "p3-mds",
++ "p3-symmetric",
+  "rand",
+ ]
+ 
+-[[package]]
+-name = "p3-poseidon2"
+-version = "0.2.0-succinct"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a2ce5f5ec7f1ba3a233a671621029def7bd416e7c51218c9d1167d21602cf312"
+-dependencies = [
+- "gcd",
+- "p3-field 0.2.0-succinct",
+- "p3-mds 0.2.0-succinct",
+- "p3-symmetric 0.2.0-succinct",
+- "rand",
+- "serde",
+-]
+-
+ [[package]]
+ name = "p3-symmetric"
+ version = "0.1.0"
+ source = "git+https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6c699ab6855eb49fa376a8a0e0321a6d3"
+ dependencies = [
+  "itertools 0.13.0",
+- "p3-field 0.1.0",
+- "serde",
+-]
+-
+-[[package]]
+-name = "p3-symmetric"
+-version = "0.2.0-succinct"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2f29dc5bb6c99d3de75869d5c086874b64890280eeb7d3e068955f939e219253"
+-dependencies = [
+- "itertools 0.12.1",
+- "p3-field 0.2.0-succinct",
++ "p3-field",
+  "serde",
+ ]
+ 
+@@ -3002,11 +2911,11 @@ dependencies = [
+  "p3-air",
+  "p3-challenger",
+  "p3-commit",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-util 0.1.0",
++ "p3-dft",
++ "p3-field",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-util",
+  "serde",
+  "tracing",
+ ]
+@@ -3019,15 +2928,6 @@ dependencies = [
+  "serde",
+ ]
+ 
+-[[package]]
+-name = "p3-util"
+-version = "0.2.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "88dd5ca3eb6ff33cb20084778c32a6d68064a1913b4632437408c5a1098408b3"
+-dependencies = [
+- "serde",
+-]
+-
+ [[package]]
+ name = "pairing"
+ version = "0.22.0"
+@@ -3154,7 +3054,7 @@ dependencies = [
+ [[package]]
+ name = "pico-derive"
+ version = "0.1.0"
+-source = "git+https://github.com/brevis-network/pico?branch=main#32ff33349f53a8697e9013629b4533b549ff2840"
++source = "git+https://github.com/brevis-network/pico?branch=main#0143796d9618251d619b3badf1afb64fb32c1b4c"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -3164,7 +3064,16 @@ dependencies = [
+ [[package]]
+ name = "pico-patch-libs"
+ version = "1.0.0"
+-source = "git+https://github.com/brevis-network/pico?branch=main#32ff33349f53a8697e9013629b4533b549ff2840"
++source = "git+https://github.com/brevis-network/pico?branch=main#0143796d9618251d619b3badf1afb64fb32c1b4c"
++dependencies = [
++ "bincode",
++ "serde",
++]
++
++[[package]]
++name = "pico-patch-libs"
++version = "1.0.0"
++source = "git+https://github.com/brevis-network/pico.git#0143796d9618251d619b3badf1afb64fb32c1b4c"
+ dependencies = [
+  "bincode",
+  "serde",
+@@ -3173,7 +3082,7 @@ dependencies = [
+ [[package]]
+ name = "pico-sdk"
+ version = "1.0.0"
+-source = "git+https://github.com/brevis-network/pico?branch=main#32ff33349f53a8697e9013629b4533b549ff2840"
++source = "git+https://github.com/brevis-network/pico?branch=main#0143796d9618251d619b3badf1afb64fb32c1b4c"
+ dependencies = [
+  "anyhow",
+  "bincode",
+@@ -3183,12 +3092,12 @@ dependencies = [
+  "hex",
+  "lazy_static",
+  "log",
+- "p3-baby-bear 0.1.0",
++ "p3-baby-bear",
+  "p3-challenger",
+- "p3-field 0.1.0",
++ "p3-field",
+  "p3-koala-bear",
+  "p3-mersenne-31",
+- "pico-patch-libs",
++ "pico-patch-libs 1.0.0 (git+https://github.com/brevis-network/pico?branch=main)",
+  "pico-vm",
+  "rand",
+  "serde",
+@@ -3199,7 +3108,7 @@ dependencies = [
+ [[package]]
+ name = "pico-vm"
+ version = "1.0.0"
+-source = "git+https://github.com/brevis-network/pico?branch=main#32ff33349f53a8697e9013629b4533b549ff2840"
++source = "git+https://github.com/brevis-network/pico?branch=main#0143796d9618251d619b3badf1afb64fb32c1b4c"
+ dependencies = [
+  "anyhow",
+  "arrayref",
+@@ -3234,28 +3143,28 @@ dependencies = [
+  "once_cell",
+  "p256",
+  "p3-air",
+- "p3-baby-bear 0.1.0",
++ "p3-baby-bear",
+  "p3-blake3",
+  "p3-bn254-fr",
+  "p3-challenger",
+  "p3-circle",
+  "p3-commit",
+- "p3-dft 0.1.0",
+- "p3-field 0.1.0",
++ "p3-dft",
++ "p3-field",
+  "p3-fri",
+  "p3-goldilocks",
+  "p3-keccak",
+  "p3-keccak-air",
+  "p3-koala-bear",
+- "p3-matrix 0.1.0",
+- "p3-maybe-rayon 0.1.0",
+- "p3-mds 0.1.0",
++ "p3-matrix",
++ "p3-maybe-rayon",
++ "p3-mds",
+  "p3-merkle-tree",
+  "p3-mersenne-31",
+- "p3-poseidon2 0.1.0",
+- "p3-symmetric 0.1.0",
++ "p3-poseidon2",
++ "p3-symmetric",
+  "p3-uni-stark",
+- "p3-util 0.1.0",
++ "p3-util",
+  "paste",
+  "pico-derive",
+  "rand",
+@@ -3411,11 +3320,10 @@ dependencies = [
+ name = "prover"
+ version = "1.0.0"
+ dependencies = [
+- "alloy-sol-types",
+  "bincode",
+  "pico-sdk",
+  "rand",
+- "rsp-client-executor 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
++ "rsp-client-executor",
+  "serde",
+ ]
+ 
+@@ -4069,8 +3977,7 @@ dependencies = [
+ [[package]]
+ name = "rfc6979"
+ version = "0.4.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f8dd2a808d456c4a54e300a23e9f5a67e122c3024119acbfd73e3bf664491cb2"
++source = "git+https://github.com/brevis-network/signatures?branch=patch-v1.0.1#a074ada80115c4f6443856f379b0105cfacab4cf"
+ dependencies = [
+  "hmac",
+  "subtle",
+@@ -4119,40 +4026,7 @@ dependencies = [
+ [[package]]
+ name = "rsp-client-executor"
+ version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
+-dependencies = [
+- "alloy-primitives",
+- "alloy-rlp",
+- "eyre",
+- "futures",
+- "itertools 0.13.0",
+- "reth-chainspec",
+- "reth-errors",
+- "reth-ethereum-consensus",
+- "reth-evm",
+- "reth-evm-ethereum",
+- "reth-evm-optimism",
+- "reth-execution-types",
+- "reth-optimism-consensus",
+- "reth-primitives",
+- "reth-revm",
+- "reth-storage-errors",
+- "reth-trie",
+- "revm",
+- "revm-primitives",
+- "rsp-mpt 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
+- "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
+- "rsp-witness-db 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
+- "serde",
+- "serde_json",
+- "tokio",
+- "url",
+-]
+-
+-[[package]]
+-name = "rsp-client-executor"
+-version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3#4ceefdfb74c1691dd009168f0c7aec3d746ef8b3"
++source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+ dependencies = [
+  "alloy-primitives",
+  "alloy-rlp",
+@@ -4173,9 +4047,9 @@ dependencies = [
+  "reth-trie",
+  "revm",
+  "revm-primitives",
+- "rsp-mpt 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3)",
+- "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3)",
+- "rsp-witness-db 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3)",
++ "rsp-mpt",
++ "rsp-primitives",
++ "rsp-witness-db",
+  "serde",
+  "serde_json",
+  "tokio",
+@@ -4185,29 +4059,7 @@ dependencies = [
+ [[package]]
+ name = "rsp-mpt"
+ version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
+-dependencies = [
+- "alloy-primitives",
+- "alloy-rlp",
+- "alloy-rpc-types",
+- "anyhow",
+- "eyre",
+- "itertools 0.13.0",
+- "reth-execution-types",
+- "reth-primitives",
+- "reth-trie",
+- "revm",
+- "revm-primitives",
+- "rlp",
+- "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
+- "serde",
+- "thiserror 1.0.69",
+-]
+-
+-[[package]]
+-name = "rsp-mpt"
+-version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3#4ceefdfb74c1691dd009168f0c7aec3d746ef8b3"
++source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+ dependencies = [
+  "alloy-primitives",
+  "alloy-rlp",
+@@ -4221,7 +4073,7 @@ dependencies = [
+  "revm",
+  "revm-primitives",
+  "rlp",
+- "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3)",
++ "rsp-primitives",
+  "serde",
+  "thiserror 1.0.69",
+ ]
+@@ -4229,27 +4081,7 @@ dependencies = [
+ [[package]]
+ name = "rsp-primitives"
+ version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
+-dependencies = [
+- "alloy-rpc-types",
+- "eyre",
+- "reth-chainspec",
+- "reth-optimism-chainspec",
+- "reth-primitives",
+- "reth-revm",
+- "reth-trie",
+- "revm-interpreter",
+- "revm-precompile",
+- "revm-primitives",
+- "serde",
+- "serde_json",
+- "tracing",
+-]
+-
+-[[package]]
+-name = "rsp-primitives"
+-version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3#4ceefdfb74c1691dd009168f0c7aec3d746ef8b3"
++source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+ dependencies = [
+  "alloy-rpc-types",
+  "eyre",
+@@ -4269,24 +4101,12 @@ dependencies = [
+ [[package]]
+ name = "rsp-witness-db"
+ version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
++source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+ dependencies = [
+  "reth-primitives",
+  "reth-storage-errors",
+  "revm-primitives",
+- "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=3647076)",
+- "serde",
+-]
+-
+-[[package]]
+-name = "rsp-witness-db"
+-version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3#4ceefdfb74c1691dd009168f0c7aec3d746ef8b3"
+-dependencies = [
+- "reth-primitives",
+- "reth-storage-errors",
+- "revm-primitives",
+- "rsp-primitives 0.1.0 (git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3)",
++ "rsp-primitives",
+  "serde",
+ ]
+ 
+@@ -4444,9 +4264,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "secp256k1"
+-version = "0.29.1"
++version = "0.29.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "9465315bc9d4566e1724f0fffcbcc446268cb522e60f9a27bcded6b19c108113"
++checksum = "0e0cc0f1cf93f4969faf3ea1c7d8a9faed25918d96affa959720823dfe86d4f3"
+ dependencies = [
+  "rand",
+  "secp256k1-sys",
+@@ -4487,9 +4307,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "serde"
+-version = "1.0.217"
++version = "1.0.218"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "02fc4265df13d6fa1d00ecff087228cc0a2b5f3c0e87e258d8b94a156e984c70"
++checksum = "e8dfc9d19bdbf6d17e22319da49161d5d0108e4188e8b680aef6299eed22df60"
+ dependencies = [
+  "serde_derive",
+ ]
+@@ -4505,9 +4325,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "serde_derive"
+-version = "1.0.217"
++version = "1.0.218"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5a9bf7cf98d04a2b28aead066b7496853d4779c9cc183c440dbac457641e19a0"
++checksum = "f09503e191f4e797cb8aac08e9a4a4695c5edf6a2e70e376d961ddd5c969f82b"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -4516,9 +4336,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "serde_json"
+-version = "1.0.138"
++version = "1.0.139"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d434192e7da787e94a6ea7e9670b26a036d0ca41e0b7efb2676dd32bae872949"
++checksum = "44f86c3acccc9c65b153fe1b85a3be07fe5515274ec9f0653b4a0875731c72a6"
+ dependencies = [
+  "indexmap 2.7.1",
+  "itoa",
+@@ -4560,8 +4380,7 @@ dependencies = [
+ [[package]]
+ name = "sha2"
+ version = "0.10.8"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "793db75ad2bcafc3ffa7c68b215fee268f537982cd901d132f89c6343f3a3dc8"
++source = "git+https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a00f17a42e9224d2f9aa20646421da3fc"
+ dependencies = [
+  "cfg-if",
+  "cpufeatures",
+@@ -4641,50 +4460,6 @@ dependencies = [
+  "scale-info",
+ ]
+ 
+-[[package]]
+-name = "sp1-lib"
+-version = "4.1.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "fab1b5989a446f294724cebab0e759ffd7034ba93d2aa7b97045303f7c50bf74"
+-dependencies = [
+- "bincode",
+- "serde",
+- "sp1-primitives",
+-]
+-
+-[[package]]
+-name = "sp1-primitives"
+-version = "4.1.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1cf66c2781c36037c94a5905b6e05e7396fd4d12df09cd7f05cf96e3f0889f49"
+-dependencies = [
+- "bincode",
+- "hex",
+- "lazy_static",
+- "num-bigint 0.4.6",
+- "p3-baby-bear 0.2.0-succinct",
+- "p3-field 0.2.0-succinct",
+- "p3-poseidon2 0.2.0-succinct",
+- "p3-symmetric 0.2.0-succinct",
+- "serde",
+- "sha2",
+-]
+-
+-[[package]]
+-name = "sp1_bls12_381"
+-version = "0.8.0-sp1-4.0.0-v2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e0800e0491c38cc686233518fce535d01ba0a0707781766fec38aee9c1b33890"
+-dependencies = [
+- "cfg-if",
+- "ff 0.13.0",
+- "group 0.13.0",
+- "pairing 0.23.0",
+- "rand_core",
+- "sp1-lib",
+- "subtle",
+-]
+-
+ [[package]]
+ name = "spin"
+ version = "0.9.8"
+@@ -4984,9 +4759,9 @@ dependencies = [
+ [[package]]
+ name = "tiny-keccak"
+ version = "2.0.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2c9d3793400a45f954c52e73d068316d76b6f4e36977e3fcebb13a2721e80237"
++source = "git+https://github.com/brevis-network/tiny-keccak?branch=patch-v1.0.0#fe487503bf562dc1a67ec702b9935ff0699ea62b"
+ dependencies = [
++ "cfg-if",
+  "crunchy",
+ ]
+ 
+@@ -5035,7 +4810,7 @@ checksum = "17b4795ff5edd201c7cd6dca065ae59972ce77d1b80fa0a84d94950ece7d1474"
+ dependencies = [
+  "indexmap 2.7.1",
+  "toml_datetime",
+- "winnow 0.7.2",
++ "winnow 0.7.3",
+ ]
+ 
+ [[package]]
+@@ -5154,9 +4929,9 @@ checksum = "eaea85b334db583fe3274d12b4cd1880032beab409c0d774be044d4480ab9a94"
+ 
+ [[package]]
+ name = "unicode-ident"
+-version = "1.0.16"
++version = "1.0.17"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a210d160f08b701c8721ba1c726c11662f877ea6b7094007e1ca9a1041945034"
++checksum = "00e2473a93778eb0bad35909dff6a10d28e63f792f16ed15e404fca9d5eeedbe"
+ 
+ [[package]]
+ name = "unicode-segmentation"
+@@ -5434,9 +5209,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "winnow"
+-version = "0.7.2"
++version = "0.7.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "59690dea168f2198d1a3b0cac23b8063efcd11012f10ae4698f284808c8ef603"
++checksum = "0e7f4ea97f6f78012141bcdb6a216b2609f0979ada50b20ca5b52dde2eac2bb1"
+ dependencies = [
+  "memchr",
+ ]
+@@ -5589,7 +5364,7 @@ dependencies = [
+  "ark-std 0.4.0",
+  "bitvec",
+  "blake2",
+- "bls12_381",
++ "bls12_381 0.7.1",
+  "byteorder",
+  "cfg-if",
+  "group 0.12.1",
+@@ -5605,3 +5380,28 @@ dependencies = [
+  "sha3",
+  "subtle",
+ ]
++
++[[patch.unused]]
++name = "crypto-bigint"
++version = "0.6.0-rc.6"
++source = "git+https://github.com/brevis-network/crypto-bigint?branch=patch-v1.0.0#61fb45572f00538583b842088a3802c195fa3e15"
++
++[[patch.unused]]
++name = "curve25519-dalek-ng"
++version = "4.1.1"
++source = "git+https://github.com/brevis-network/curve25519-dalek-ng?branch=patch-v1.0.1#483a6f0e2a3f63aed44f7f8cbd818281982d6ee7"
++
++[[patch.unused]]
++name = "ed25519-consensus"
++version = "2.1.0"
++source = "git+https://github.com/brevis-network/ed25519-consensus?branch=patch-v1.0.1#576f7def57fdfcc349f4fc33a8bf15c903927a64"
++
++[[patch.unused]]
++name = "secp256k1"
++version = "0.29.1"
++source = "git+https://github.com/brevis-network/rust-secp256k1?branch=patch-v1.0.1#ad8a4503d1d79fbf00293fd1c5bb5109e6ac2631"
++
++[[patch.unused]]
++name = "sha3"
++version = "0.11.0-pre.4"
++source = "git+https://github.com/brevis-network/hashes?branch=sha3-v1.0.0#d6031567de464bb207ef5df18c385ae2875db285"
+diff --git a/rsp_pico/Cargo.toml b/rsp_pico/Cargo.toml
+index 591eeb6..4a75fa0 100644
+--- a/rsp_pico/Cargo.toml
++++ b/rsp_pico/Cargo.toml
+@@ -8,3 +8,20 @@ resolver = "2"
+ [workspace.dependencies]
+ pico-sdk = { git = "https://github.com/brevis-network/pico", branch = "main"}
+ serde = { version = "1.0.205", features = ["derive"] }
++
++[patch.crates-io]
++sha2 = { git = "https://github.com/brevis-network/hashes", package = "sha2", rev = "ddeaa09" }
++tiny-keccak = { git = "https://github.com/brevis-network/tiny-keccak", features = ["keccak"], branch = "patch-v1.0.0" }
++sha3 = { git = "https://github.com/brevis-network/hashes", branch = "sha3-v1.0.0" }
++curve25519-dalek = { git = "https://github.com/brevis-network/curve25519-dalek", branch = "patch-v1.0.1" }
++bls12_381 = { git = "https://github.com/brevis-network/bls12_381", branch = "patch-v1.0.1" }
++kzg-rs = { git = "https://github.com/MauroToscano/pico-kzg-rs" }
++
++
++curve25519-dalek-ng = { git = "https://github.com/brevis-network/curve25519-dalek-ng", branch = "patch-v1.0.1" }
++ed25519-consensus = { git = "https://github.com/brevis-network/ed25519-consensus", branch = "patch-v1.0.1" }
++ecdsa = { git = "https://github.com/brevis-network/signatures", package = "ecdsa", branch = "patch-v1.0.1" }
++secp256k1 = { git = "https://github.com/brevis-network/rust-secp256k1", branch = "patch-v1.0.1" }
++#bn = { git = "https://github.com/brevis-network/bn", branch = "patch-v1.0.1" }
++crypto-bigint = { git = "https://github.com/brevis-network/crypto-bigint", branch = "patch-v1.0.0" }
++
+diff --git a/rsp_pico/app/Cargo.toml b/rsp_pico/app/Cargo.toml
+index 1111ea2..ffe129e 100644
+--- a/rsp_pico/app/Cargo.toml
++++ b/rsp_pico/app/Cargo.toml
+@@ -5,19 +5,6 @@ edition = "2024"
+ 
+ [dependencies]
+ pico-sdk = { workspace = true }
+-rsp-client-executor = { git = "https://github.com/succinctlabs/rsp/", rev = "4ceefdfb74c1691dd009168f0c7aec3d746ef8b3" }
++rsp-client-executor = { git = "https://github.com/succinctlabs/rsp/", rev = "249b34ee0c5307b59dc48f1f45a474b04669c6c4" }
+ 
+ bincode = "1.3.3"
+-
+-[patch.crates-io]
+-sha2 = { git = "https://github.com/brevis-network/hashes", package = "sha2", rev = "ddeaa09" }
+-tiny-keccak = { git = "https://github.com/brevis-network/tiny-keccak", features = ["keccak"], branch = "patch-v1.0.0" }
+-sha3 = { git = "https://github.com/brevis-network/hashes", branch = "sha3-v1.0.0" }
+-curve25519-dalek = { git = "https://github.com/brevis-network/curve25519-dalek", branch = "patch-v1.0.1" }
+-bls12_381 = { git = "https://github.com/brevis-network/bls12_381", branch = "patch-v1.0.1" }
+-curve25519-dalek-ng = { git = "https://github.com/brevis-network/curve25519-dalek-ng", branch = "patch-v1.0.1" }
+-ed25519-consensus = { git = "https://github.com/brevis-network/ed25519-consensus", branch = "patch-v1.0.1" }
+-ecdsa = { git = "https://github.com/brevis-network/signatures", package = "ecdsa", branch = "patch-v1.0.1" }
+-secp256k1 = { git = "https://github.com/brevis-network/rust-secp256k1", branch = "patch-v1.0.1" }
+-bn = { git = "https://github.com/brevis-network/bn", branch = "patch-v1.0.1" }
+-crypto-bigint = { git = "https://github.com/brevis-network/crypto-bigint", branch = "patch-v1.0.0" }
+diff --git a/rsp_pico/app/file.txt b/rsp_pico/app/file.txt
+new file mode 100644
+index 0000000..4f5b278
+--- /dev/null
++++ b/rsp_pico/app/file.txt
+@@ -0,0 +1 @@
++word
+diff --git a/rsp_pico/app/src/main.rs b/rsp_pico/app/src/main.rs
+index 5199411..e8c15be 100644
+--- a/rsp_pico/app/src/main.rs
++++ b/rsp_pico/app/src/main.rs
+@@ -1,3 +1,5 @@
++#![no_main]
++
+ pico_sdk::entrypoint!(main);
+ use pico_sdk::io::{commit, read_vec};
+ 
+@@ -6,6 +8,8 @@ use rsp_client_executor::{io::ClientExecutorInput, ClientExecutor, EthereumVaria
+ pub fn main() {
+     // Read the input.
+     let input = read_vec();
++    
++    
+     let input = bincode::deserialize::<ClientExecutorInput>(&input).unwrap();
+ 
+     // Execute the block.
+@@ -14,5 +18,6 @@ pub fn main() {
+     let block_hash = header.hash_slow();
+ 
+     // Commit the block hash.
++
+     commit(&block_hash);
+ }
+diff --git a/rsp_pico/app/tree.txt b/rsp_pico/app/tree.txt
+new file mode 100644
+index 0000000..79c90de
+--- /dev/null
++++ b/rsp_pico/app/tree.txt
+@@ -0,0 +1,1521 @@
++app v0.1.0 (/home/ubuntu/zkvm_benchmarks/rsp_pico/app)
++├── bincode v1.3.3
++│   └── serde v1.0.218
++│       └── serde_derive v1.0.218 (proc-macro)
++│           ├── proc-macro2 v1.0.93
++│           │   └── unicode-ident v1.0.17
++│           ├── quote v1.0.38
++│           │   └── proc-macro2 v1.0.93 (*)
++│           └── syn v2.0.98
++│               ├── proc-macro2 v1.0.93 (*)
++│               ├── quote v1.0.38 (*)
++│               └── unicode-ident v1.0.17
++├── pico-sdk v1.0.0 (https://github.com/brevis-network/pico?branch=main#0143796d)
++│   ├── anyhow v1.0.96
++│   ├── bincode v1.3.3 (*)
++│   ├── cfg-if v1.0.0
++│   ├── env_logger v0.11.6
++│   │   ├── anstream v0.6.18
++│   │   │   ├── anstyle v1.0.10
++│   │   │   ├── anstyle-parse v0.2.6
++│   │   │   │   └── utf8parse v0.2.2
++│   │   │   ├── anstyle-query v1.1.2
++│   │   │   ├── colorchoice v1.0.3
++│   │   │   ├── is_terminal_polyfill v1.70.1
++│   │   │   └── utf8parse v0.2.2
++│   │   ├── anstyle v1.0.10
++│   │   ├── env_filter v0.1.3
++│   │   │   ├── log v0.4.25
++│   │   │   └── regex v1.11.1
++│   │   │       ├── aho-corasick v1.1.3
++│   │   │       │   └── memchr v2.7.4
++│   │   │       ├── memchr v2.7.4
++│   │   │       ├── regex-automata v0.4.9
++│   │   │       │   ├── aho-corasick v1.1.3 (*)
++│   │   │       │   ├── memchr v2.7.4
++│   │   │       │   └── regex-syntax v0.8.5
++│   │   │       └── regex-syntax v0.8.5
++│   │   ├── humantime v2.1.0
++│   │   └── log v0.4.25
++│   ├── getrandom v0.2.15
++│   │   ├── cfg-if v1.0.0
++│   │   └── libc v0.2.169
++│   ├── hex v0.4.3
++│   │   └── serde v1.0.218 (*)
++│   ├── lazy_static v1.5.0
++│   │   └── spin v0.9.8
++│   ├── log v0.4.25
++│   ├── p3-baby-bear v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── itertools v0.13.0
++│   │   │   │   └── either v1.13.0
++│   │   │   ├── num-bigint v0.4.6
++│   │   │   │   ├── num-integer v0.1.46
++│   │   │   │   │   └── num-traits v0.2.19
++│   │   │   │   │       [build-dependencies]
++│   │   │   │   │       └── autocfg v1.4.0
++│   │   │   │   ├── num-traits v0.2.19 (*)
++│   │   │   │   └── rand v0.8.5
++│   │   │   │       ├── libc v0.2.169
++│   │   │   │       ├── rand_chacha v0.3.1
++│   │   │   │       │   ├── ppv-lite86 v0.2.20
++│   │   │   │       │   │   └── zerocopy v0.7.35
++│   │   │   │       │   │       ├── byteorder v1.5.0
++│   │   │   │       │   │       └── zerocopy-derive v0.7.35 (proc-macro)
++│   │   │   │       │   │           ├── proc-macro2 v1.0.93 (*)
++│   │   │   │       │   │           ├── quote v1.0.38 (*)
++│   │   │   │       │   │           └── syn v2.0.98 (*)
++│   │   │   │       │   └── rand_core v0.6.4
++│   │   │   │       │       └── getrandom v0.2.15 (*)
++│   │   │   │       └── rand_core v0.6.4 (*)
++│   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   ├── num-traits v0.2.19 (*)
++│   │   │   ├── nums v0.1.0
++│   │   │   │   ├── num-bigint v0.4.6 (*)
++│   │   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   │   ├── num-traits v0.2.19 (*)
++│   │   │   │   └── rand v0.8.5 (*)
++│   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   └── rayon v1.10.0
++│   │   │   │       ├── either v1.13.0
++│   │   │   │       └── rayon-core v1.12.1
++│   │   │   │           ├── crossbeam-deque v0.8.6
++│   │   │   │           │   ├── crossbeam-epoch v0.9.18
++│   │   │   │           │   │   └── crossbeam-utils v0.8.21
++│   │   │   │           │   └── crossbeam-utils v0.8.21
++│   │   │   │           └── crossbeam-utils v0.8.21
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   └── serde v1.0.218 (*)
++│   │   │   ├── rand v0.8.5 (*)
++│   │   │   ├── serde v1.0.218 (*)
++│   │   │   └── tracing v0.1.41
++│   │   │       ├── pin-project-lite v0.2.16
++│   │   │       ├── tracing-attributes v0.1.28 (proc-macro)
++│   │   │       │   ├── proc-macro2 v1.0.93 (*)
++│   │   │       │   ├── quote v1.0.38 (*)
++│   │   │       │   └── syn v2.0.98 (*)
++│   │   │       └── tracing-core v0.1.33
++│   │   │           └── once_cell v1.20.3
++│   │   │               ├── critical-section v1.2.0
++│   │   │               └── portable-atomic v1.10.0
++│   │   ├── p3-mds v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── itertools v0.13.0 (*)
++│   │   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   ├── itertools v0.13.0 (*)
++│   │   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   │   ├── itertools v0.13.0 (*)
++│   │   │   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   │   ├── rand v0.8.5 (*)
++│   │   │   │   │   ├── serde v1.0.218 (*)
++│   │   │   │   │   ├── tracing v0.1.41 (*)
++│   │   │   │   │   └── transpose v0.2.3
++│   │   │   │   │       ├── num-integer v0.1.46 (*)
++│   │   │   │   │       └── strength_reduce v0.2.4
++│   │   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   └── tracing v0.1.41 (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   ├── itertools v0.13.0 (*)
++│   │   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   └── serde v1.0.218 (*)
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   └── rand v0.8.5 (*)
++│   │   ├── p3-monty-31 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── itertools v0.13.0 (*)
++│   │   │   ├── num-bigint v0.4.6 (*)
++│   │   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-mds v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-poseidon2 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   ├── gcd v2.3.0
++│   │   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-mds v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   └── rand v0.8.5 (*)
++│   │   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── rand v0.8.5 (*)
++│   │   │   ├── serde v1.0.218 (*)
++│   │   │   ├── tracing v0.1.41 (*)
++│   │   │   └── transpose v0.2.3 (*)
++│   │   ├── p3-poseidon2 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── rand v0.8.5 (*)
++│   │   └── serde v1.0.218 (*)
++│   ├── p3-challenger v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   └── tracing v0.1.41 (*)
++│   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   ├── p3-koala-bear v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-mds v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-monty-31 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-poseidon2 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── rand v0.8.5 (*)
++│   │   └── serde v1.0.218 (*)
++│   ├── p3-mersenne-31 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   ├── itertools v0.13.0 (*)
++│   │   ├── num-bigint v0.4.6 (*)
++│   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-mds v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-poseidon2 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── rand v0.8.5 (*)
++│   │   └── serde v1.0.218 (*)
++│   ├── pico-patch-libs v1.0.0 (https://github.com/brevis-network/pico?branch=main#0143796d)
++│   │   ├── bincode v1.3.3 (*)
++│   │   └── serde v1.0.218 (*)
++│   ├── pico-vm v1.0.0 (https://github.com/brevis-network/pico?branch=main#0143796d)
++│   │   ├── anyhow v1.0.96
++│   │   ├── arrayref v0.3.9
++│   │   ├── backtrace v0.3.74
++│   │   │   ├── addr2line v0.24.2
++│   │   │   │   └── gimli v0.31.1
++│   │   │   ├── cfg-if v1.0.0
++│   │   │   ├── libc v0.2.169
++│   │   │   ├── miniz_oxide v0.8.4
++│   │   │   │   └── adler2 v2.0.0
++│   │   │   ├── object v0.36.7
++│   │   │   │   └── memchr v2.7.4
++│   │   │   └── rustc-demangle v0.1.24
++│   │   ├── bincode v1.3.3 (*)
++│   │   ├── bytemuck v1.21.0
++│   │   ├── cfg-if v1.0.0
++│   │   ├── clap v4.5.30
++│   │   │   ├── clap_builder v4.5.30
++│   │   │   │   ├── anstream v0.6.18 (*)
++│   │   │   │   ├── anstyle v1.0.10
++│   │   │   │   ├── clap_lex v0.7.4
++│   │   │   │   └── strsim v0.11.1
++│   │   │   └── clap_derive v4.5.28 (proc-macro)
++│   │   │       ├── heck v0.5.0
++│   │   │       ├── proc-macro2 v1.0.93 (*)
++│   │   │       ├── quote v1.0.38 (*)
++│   │   │       └── syn v2.0.98 (*)
++│   │   ├── cpu-time v1.0.0
++│   │   │   └── libc v0.2.169
++│   │   ├── crossbeam v0.8.4
++│   │   │   ├── crossbeam-channel v0.5.14
++│   │   │   │   └── crossbeam-utils v0.8.21
++│   │   │   ├── crossbeam-deque v0.8.6 (*)
++│   │   │   ├── crossbeam-epoch v0.9.18 (*)
++│   │   │   ├── crossbeam-queue v0.3.12
++│   │   │   │   └── crossbeam-utils v0.8.21
++│   │   │   └── crossbeam-utils v0.8.21
++│   │   ├── csv v1.3.1
++│   │   │   ├── csv-core v0.1.12
++│   │   │   │   └── memchr v2.7.4
++│   │   │   ├── itoa v1.0.14
++│   │   │   ├── ryu v1.0.19
++│   │   │   └── serde v1.0.218 (*)
++│   │   ├── curve25519-dalek v4.1.3 (https://github.com/brevis-network/curve25519-dalek?branch=patch-v1.0.1#5939939b)
++│   │   │   ├── cfg-if v1.0.0
++│   │   │   ├── cpufeatures v0.2.17
++│   │   │   ├── curve25519-dalek-derive v0.1.1 (proc-macro) (https://github.com/brevis-network/curve25519-dalek?branch=patch-v1.0.1#5939939b)
++│   │   │   │   ├── proc-macro2 v1.0.93 (*)
++│   │   │   │   ├── quote v1.0.38 (*)
++│   │   │   │   └── syn v2.0.98 (*)
++│   │   │   ├── subtle v2.6.1
++│   │   │   └── zeroize v1.8.1
++│   │   │       └── zeroize_derive v1.4.2 (proc-macro)
++│   │   │           ├── proc-macro2 v1.0.93 (*)
++│   │   │           ├── quote v1.0.38 (*)
++│   │   │           └── syn v2.0.98 (*)
++│   │   │   [build-dependencies]
++│   │   │   └── rustc_version v0.4.1
++│   │   │       └── semver v1.0.25
++│   │   ├── dashmap v6.1.0
++│   │   │   ├── cfg-if v1.0.0
++│   │   │   ├── crossbeam-utils v0.8.21
++│   │   │   ├── hashbrown v0.14.5
++│   │   │   │   ├── ahash v0.8.11
++│   │   │   │   │   ├── cfg-if v1.0.0
++│   │   │   │   │   ├── once_cell v1.20.3 (*)
++│   │   │   │   │   └── zerocopy v0.7.35 (*)
++│   │   │   │   │   [build-dependencies]
++│   │   │   │   │   └── version_check v0.9.5
++│   │   │   │   ├── allocator-api2 v0.2.21
++│   │   │   │   └── serde v1.0.218 (*)
++│   │   │   ├── lock_api v0.4.12
++│   │   │   │   └── scopeguard v1.2.0
++│   │   │   │   [build-dependencies]
++│   │   │   │   └── autocfg v1.4.0
++│   │   │   ├── once_cell v1.20.3 (*)
++│   │   │   └── parking_lot_core v0.9.10
++│   │   │       ├── cfg-if v1.0.0
++│   │   │       ├── libc v0.2.169
++│   │   │       └── smallvec v1.14.0
++│   │   │           └── serde v1.0.218 (*)
++│   │   ├── dashu v0.4.2
++│   │   │   ├── dashu-base v0.4.1
++│   │   │   ├── dashu-float v0.4.3
++│   │   │   │   ├── dashu-base v0.4.1
++│   │   │   │   ├── dashu-int v0.4.1
++│   │   │   │   │   ├── cfg-if v1.0.0
++│   │   │   │   │   ├── dashu-base v0.4.1
++│   │   │   │   │   ├── num-modular v0.6.1
++│   │   │   │   │   ├── num-order v1.2.0
++│   │   │   │   │   │   └── num-modular v0.6.1
++│   │   │   │   │   ├── rustversion v1.0.19 (proc-macro)
++│   │   │   │   │   └── static_assertions v1.1.0
++│   │   │   │   ├── num-modular v0.6.1
++│   │   │   │   ├── num-order v1.2.0 (*)
++│   │   │   │   ├── rustversion v1.0.19 (proc-macro)
++│   │   │   │   └── static_assertions v1.1.0
++│   │   │   ├── dashu-int v0.4.1 (*)
++│   │   │   ├── dashu-macros v0.4.1 (proc-macro)
++│   │   │   │   ├── dashu-base v0.4.1
++│   │   │   │   ├── dashu-float v0.4.3
++│   │   │   │   │   ├── dashu-base v0.4.1
++│   │   │   │   │   ├── dashu-int v0.4.1
++│   │   │   │   │   │   ├── cfg-if v1.0.0
++│   │   │   │   │   │   ├── dashu-base v0.4.1
++│   │   │   │   │   │   ├── num-modular v0.6.1
++│   │   │   │   │   │   ├── rustversion v1.0.19 (proc-macro)
++│   │   │   │   │   │   └── static_assertions v1.1.0
++│   │   │   │   │   ├── rustversion v1.0.19 (proc-macro)
++│   │   │   │   │   └── static_assertions v1.1.0
++│   │   │   │   ├── dashu-int v0.4.1 (*)
++│   │   │   │   ├── dashu-ratio v0.4.1
++│   │   │   │   │   ├── dashu-base v0.4.1
++│   │   │   │   │   ├── dashu-int v0.4.1 (*)
++│   │   │   │   │   └── rustversion v1.0.19 (proc-macro)
++│   │   │   │   ├── paste v1.0.15 (proc-macro)
++│   │   │   │   ├── proc-macro2 v1.0.93 (*)
++│   │   │   │   ├── quote v1.0.38 (*)
++│   │   │   │   └── rustversion v1.0.19 (proc-macro)
++│   │   │   ├── dashu-ratio v0.4.1
++│   │   │   │   ├── dashu-base v0.4.1
++│   │   │   │   ├── dashu-float v0.4.3 (*)
++│   │   │   │   ├── dashu-int v0.4.1 (*)
++│   │   │   │   ├── num-modular v0.6.1
++│   │   │   │   ├── num-order v1.2.0 (*)
++│   │   │   │   └── rustversion v1.0.19 (proc-macro)
++│   │   │   └── rustversion v1.0.19 (proc-macro)
++│   │   ├── elf v0.7.4
++│   │   ├── elliptic-curve v0.13.8
++│   │   │   ├── base16ct v0.2.0
++│   │   │   ├── crypto-bigint v0.5.5
++│   │   │   │   ├── generic-array v0.14.7
++│   │   │   │   │   ├── typenum v1.18.0
++│   │   │   │   │   └── zeroize v1.8.1 (*)
++│   │   │   │   │   [build-dependencies]
++│   │   │   │   │   └── version_check v0.9.5
++│   │   │   │   ├── rand_core v0.6.4 (*)
++│   │   │   │   ├── subtle v2.6.1
++│   │   │   │   └── zeroize v1.8.1 (*)
++│   │   │   ├── digest v0.10.7
++│   │   │   │   ├── block-buffer v0.10.4
++│   │   │   │   │   └── generic-array v0.14.7 (*)
++│   │   │   │   ├── const-oid v0.9.6
++│   │   │   │   ├── crypto-common v0.1.6
++│   │   │   │   │   ├── generic-array v0.14.7 (*)
++│   │   │   │   │   └── typenum v1.18.0
++│   │   │   │   └── subtle v2.6.1
++│   │   │   ├── ff v0.13.0
++│   │   │   │   ├── bitvec v1.0.1
++│   │   │   │   │   ├── funty v2.0.0
++│   │   │   │   │   ├── radium v0.7.0
++│   │   │   │   │   ├── serde v1.0.218 (*)
++│   │   │   │   │   ├── tap v1.0.1
++│   │   │   │   │   └── wyz v0.5.1
++│   │   │   │   │       └── tap v1.0.1
++│   │   │   │   ├── byteorder v1.5.0
++│   │   │   │   ├── ff_derive v0.13.0 (proc-macro)
++│   │   │   │   │   ├── addchain v0.2.0
++│   │   │   │   │   │   ├── num-bigint v0.3.3
++│   │   │   │   │   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   │   │   │   │   └── num-traits v0.2.19 (*)
++│   │   │   │   │   │   │   [build-dependencies]
++│   │   │   │   │   │   │   └── autocfg v1.4.0
++│   │   │   │   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   │   │   │   └── num-traits v0.2.19 (*)
++│   │   │   │   │   ├── cfg-if v1.0.0
++│   │   │   │   │   ├── num-bigint v0.3.3 (*)
++│   │   │   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   │   │   ├── num-traits v0.2.19 (*)
++│   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++│   │   │   │   │   ├── quote v1.0.38 (*)
++│   │   │   │   │   └── syn v1.0.109
++│   │   │   │   │       ├── proc-macro2 v1.0.93 (*)
++│   │   │   │   │       ├── quote v1.0.38 (*)
++│   │   │   │   │       └── unicode-ident v1.0.17
++│   │   │   │   ├── rand_core v0.6.4 (*)
++│   │   │   │   └── subtle v2.6.1
++│   │   │   ├── generic-array v0.14.7 (*)
++│   │   │   ├── group v0.13.0
++│   │   │   │   ├── ff v0.13.0 (*)
++│   │   │   │   ├── rand_core v0.6.4 (*)
++│   │   │   │   └── subtle v2.6.1
++│   │   │   ├── pem-rfc7468 v0.7.0
++│   │   │   │   └── base64ct v1.6.0
++│   │   │   ├── pkcs8 v0.10.2
++│   │   │   │   ├── der v0.7.9
++│   │   │   │   │   ├── const-oid v0.9.6
++│   │   │   │   │   ├── pem-rfc7468 v0.7.0 (*)
++│   │   │   │   │   └── zeroize v1.8.1 (*)
++│   │   │   │   └── spki v0.7.3
++│   │   │   │       └── der v0.7.9 (*)
++│   │   │   ├── rand_core v0.6.4 (*)
++│   │   │   ├── sec1 v0.7.3
++│   │   │   │   ├── base16ct v0.2.0
++│   │   │   │   ├── der v0.7.9 (*)
++│   │   │   │   ├── generic-array v0.14.7 (*)
++│   │   │   │   ├── pkcs8 v0.10.2 (*)
++│   │   │   │   ├── serdect v0.2.0
++│   │   │   │   │   ├── base16ct v0.2.0
++│   │   │   │   │   └── serde v1.0.218 (*)
++│   │   │   │   ├── subtle v2.6.1
++│   │   │   │   └── zeroize v1.8.1 (*)
++│   │   │   ├── serdect v0.2.0 (*)
++│   │   │   ├── subtle v2.6.1
++│   │   │   └── zeroize v1.8.1 (*)
++│   │   ├── eyre v0.6.12
++│   │   │   ├── indenter v0.3.3
++│   │   │   └── once_cell v1.20.3 (*)
++│   │   ├── ff v0.13.0 (*)
++│   │   ├── halo2curves v0.7.0
++│   │   │   ├── blake2 v0.10.6
++│   │   │   │   └── digest v0.10.7 (*)
++│   │   │   ├── digest v0.10.7 (*)
++│   │   │   ├── ff v0.13.0 (*)
++│   │   │   ├── group v0.13.0 (*)
++│   │   │   ├── halo2derive v0.1.0 (proc-macro)
++│   │   │   │   ├── num-bigint v0.4.6
++│   │   │   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   │   │   └── num-traits v0.2.19 (*)
++│   │   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   │   ├── num-traits v0.2.19 (*)
++│   │   │   │   ├── proc-macro2 v1.0.93 (*)
++│   │   │   │   ├── quote v1.0.38 (*)
++│   │   │   │   └── syn v1.0.109 (*)
++│   │   │   ├── hex v0.4.3 (*)
++│   │   │   ├── lazy_static v1.5.0 (*)
++│   │   │   ├── num-bigint v0.4.6 (*)
++│   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   ├── num-traits v0.2.19 (*)
++│   │   │   ├── pairing v0.23.0
++│   │   │   │   └── group v0.13.0 (*)
++│   │   │   ├── pasta_curves v0.5.1
++│   │   │   │   ├── blake2b_simd v1.0.3
++│   │   │   │   │   ├── arrayref v0.3.9
++│   │   │   │   │   ├── arrayvec v0.7.6
++│   │   │   │   │   │   └── serde v1.0.218 (*)
++│   │   │   │   │   └── constant_time_eq v0.3.1
++│   │   │   │   ├── ff v0.13.0 (*)
++│   │   │   │   ├── group v0.13.0 (*)
++│   │   │   │   ├── hex v0.4.3 (*)
++│   │   │   │   ├── lazy_static v1.5.0 (*)
++│   │   │   │   ├── rand v0.8.5 (*)
++│   │   │   │   ├── serde v1.0.218 (*)
++│   │   │   │   ├── static_assertions v1.1.0
++│   │   │   │   └── subtle v2.6.1
++│   │   │   ├── paste v1.0.15 (proc-macro)
++│   │   │   ├── rand v0.8.5 (*)
++│   │   │   ├── rand_core v0.6.4 (*)
++│   │   │   ├── rayon v1.10.0 (*)
++│   │   │   ├── serde v1.0.218 (*)
++│   │   │   ├── serde_arrays v0.1.0
++│   │   │   │   └── serde v1.0.218 (*)
++│   │   │   ├── sha2 v0.10.8 (https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a)
++│   │   │   │   ├── cfg-if v1.0.0
++│   │   │   │   ├── cpufeatures v0.2.17
++│   │   │   │   └── digest v0.10.7 (*)
++│   │   │   ├── static_assertions v1.1.0
++│   │   │   ├── subtle v2.6.1
++│   │   │   └── unroll v0.1.5 (proc-macro)
++│   │   │       ├── quote v1.0.38 (*)
++│   │   │       └── syn v1.0.109 (*)
++│   │   ├── hashbrown v0.14.5 (*)
++│   │   ├── hex v0.4.3 (*)
++│   │   ├── hybrid-array v0.2.3
++│   │   │   └── typenum v1.18.0
++│   │   ├── itertools v0.13.0 (*)
++│   │   ├── k256 v0.13.4
++│   │   │   ├── cfg-if v1.0.0
++│   │   │   ├── ecdsa v0.16.9 (https://github.com/brevis-network/signatures?branch=patch-v1.0.1#a074ada8)
++│   │   │   │   ├── cfg-if v1.0.0
++│   │   │   │   ├── der v0.7.9 (*)
++│   │   │   │   ├── digest v0.10.7 (*)
++│   │   │   │   ├── elliptic-curve v0.13.8 (*)
++│   │   │   │   ├── hex-literal v0.4.1
++│   │   │   │   ├── rfc6979 v0.4.0 (https://github.com/brevis-network/signatures?branch=patch-v1.0.1#a074ada8)
++│   │   │   │   │   ├── hmac v0.12.1
++│   │   │   │   │   │   └── digest v0.10.7 (*)
++│   │   │   │   │   └── subtle v2.6.1
++│   │   │   │   ├── serdect v0.2.0 (*)
++│   │   │   │   ├── signature v2.2.0
++│   │   │   │   │   ├── digest v0.10.7 (*)
++│   │   │   │   │   └── rand_core v0.6.4 (*)
++│   │   │   │   └── spki v0.7.3 (*)
++│   │   │   ├── elliptic-curve v0.13.8 (*)
++│   │   │   ├── once_cell v1.20.3 (*)
++│   │   │   ├── serdect v0.2.0 (*)
++│   │   │   ├── sha2 v0.10.8 (https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a) (*)
++│   │   │   └── signature v2.2.0 (*)
++│   │   ├── lazy_static v1.5.0 (*)
++│   │   ├── log v0.4.25
++│   │   ├── nohash-hasher v0.2.0
++│   │   ├── num v0.4.3
++│   │   │   ├── num-bigint v0.4.6 (*)
++│   │   │   ├── num-complex v0.4.6
++│   │   │   │   └── num-traits v0.2.19 (*)
++│   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   ├── num-iter v0.1.45
++│   │   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   │   └── num-traits v0.2.19 (*)
++│   │   │   │   [build-dependencies]
++│   │   │   │   └── autocfg v1.4.0
++│   │   │   ├── num-rational v0.4.2
++│   │   │   │   ├── num-bigint v0.4.6 (*)
++│   │   │   │   ├── num-integer v0.1.46 (*)
++│   │   │   │   └── num-traits v0.2.19 (*)
++│   │   │   └── num-traits v0.2.19 (*)
++│   │   ├── num-bigint v0.4.6 (*)
++│   │   ├── num-traits v0.2.19 (*)
++│   │   ├── num_cpus v1.16.0
++│   │   │   └── libc v0.2.169
++│   │   ├── once_cell v1.20.3 (*)
++│   │   ├── p256 v0.13.2
++│   │   │   ├── ecdsa v0.16.9 (https://github.com/brevis-network/signatures?branch=patch-v1.0.1#a074ada8) (*)
++│   │   │   ├── elliptic-curve v0.13.8 (*)
++│   │   │   ├── primeorder v0.13.6
++│   │   │   │   └── elliptic-curve v0.13.8 (*)
++│   │   │   └── sha2 v0.10.8 (https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a) (*)
++│   │   ├── p3-air v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   └── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-baby-bear v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-blake3 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── blake3 v1.6.0
++│   │   │   │   ├── arrayref v0.3.9
++│   │   │   │   ├── arrayvec v0.7.6 (*)
++│   │   │   │   ├── cfg-if v1.0.0
++│   │   │   │   ├── constant_time_eq v0.3.1
++│   │   │   │   └── memmap2 v0.9.5
++│   │   │   │       └── libc v0.2.169
++│   │   │   │   [build-dependencies]
++│   │   │   │   └── cc v1.2.14
++│   │   │   │       └── shlex v1.3.0
++│   │   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   └── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-bn254-fr v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── ff v0.13.0 (*)
++│   │   │   ├── halo2curves v0.7.0 (*)
++│   │   │   ├── num-bigint v0.4.6 (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-poseidon2 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── rand v0.8.5 (*)
++│   │   │   └── serde v1.0.218 (*)
++│   │   ├── p3-challenger v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-circle v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── itertools v0.13.0 (*)
++│   │   │   ├── p3-challenger v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-commit v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   ├── itertools v0.13.0 (*)
++│   │   │   │   ├── p3-challenger v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   └── serde v1.0.218 (*)
++│   │   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-fri v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   ├── itertools v0.13.0 (*)
++│   │   │   │   ├── p3-challenger v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-commit v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-interpolation v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   │   └── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   │   ├── rand v0.8.5 (*)
++│   │   │   │   ├── serde v1.0.218 (*)
++│   │   │   │   └── tracing v0.1.41 (*)
++│   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── serde v1.0.218 (*)
++│   │   │   └── tracing v0.1.41 (*)
++│   │   ├── p3-commit v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-fri v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-goldilocks v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── num-bigint v0.4.6 (*)
++│   │   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-mds v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-poseidon2 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── rand v0.8.5 (*)
++│   │   │   └── serde v1.0.218 (*)
++│   │   ├── p3-keccak v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── itertools v0.13.0 (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   └── tiny-keccak v2.0.2 (https://github.com/brevis-network/tiny-keccak?branch=patch-v1.0.0#fe487503)
++│   │   │       ├── cfg-if v1.0.0
++│   │   │       └── crunchy v0.2.3
++│   │   ├── p3-keccak-air v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── p3-air v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   └── tracing v0.1.41 (*)
++│   │   ├── p3-koala-bear v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-mds v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-merkle-tree v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── itertools v0.13.0 (*)
++│   │   │   ├── p3-commit v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── rand v0.8.5 (*)
++│   │   │   ├── serde v1.0.218 (*)
++│   │   │   └── tracing v0.1.41 (*)
++│   │   ├── p3-mersenne-31 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-poseidon2 v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-symmetric v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── p3-uni-stark v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6)
++│   │   │   ├── itertools v0.13.0 (*)
++│   │   │   ├── p3-air v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-challenger v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-commit v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-dft v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-field v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-matrix v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-maybe-rayon v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   │   ├── serde v1.0.218 (*)
++│   │   │   └── tracing v0.1.41 (*)
++│   │   ├── p3-util v0.1.0 (https://github.com/brevis-network/Plonky3.git?rev=7192b3e6#7192b3e6) (*)
++│   │   ├── paste v1.0.15 (proc-macro)
++│   │   ├── pico-derive v0.1.0 (proc-macro) (https://github.com/brevis-network/pico?branch=main#0143796d)
++│   │   │   ├── proc-macro2 v1.0.93 (*)
++│   │   │   ├── quote v1.0.38 (*)
++│   │   │   └── syn v1.0.109 (*)
++│   │   ├── rand v0.8.5 (*)
++│   │   ├── rayon v1.10.0 (*)
++│   │   ├── rayon-scan v0.1.1
++│   │   │   └── rayon v1.10.0 (*)
++│   │   ├── rrs-succinct v0.1.0
++│   │   │   ├── downcast-rs v1.2.1
++│   │   │   ├── num_enum v0.5.11
++│   │   │   │   └── num_enum_derive v0.5.11 (proc-macro)
++│   │   │   │       ├── proc-macro-crate v1.3.1
++│   │   │   │       │   ├── once_cell v1.20.3
++│   │   │   │       │   └── toml_edit v0.19.15
++│   │   │   │       │       ├── indexmap v2.7.1
++│   │   │   │       │       │   ├── equivalent v1.0.2
++│   │   │   │       │       │   └── hashbrown v0.15.2
++│   │   │   │       │       ├── toml_datetime v0.6.8
++│   │   │   │       │       └── winnow v0.5.40
++│   │   │   │       ├── proc-macro2 v1.0.93 (*)
++│   │   │   │       ├── quote v1.0.38 (*)
++│   │   │   │       └── syn v1.0.109 (*)
++│   │   │   └── paste v1.0.15 (proc-macro)
++│   │   ├── serde v1.0.218 (*)
++│   │   ├── serde_json v1.0.139
++│   │   │   ├── itoa v1.0.14
++│   │   │   ├── memchr v2.7.4
++│   │   │   ├── ryu v1.0.19
++│   │   │   └── serde v1.0.218 (*)
++│   │   ├── serde_with v3.12.0
++│   │   │   ├── serde v1.0.218 (*)
++│   │   │   ├── serde_derive v1.0.218 (proc-macro) (*)
++│   │   │   └── serde_with_macros v3.12.0 (proc-macro)
++│   │   │       ├── darling v0.20.10
++│   │   │       │   ├── darling_core v0.20.10
++│   │   │       │   │   ├── fnv v1.0.7
++│   │   │       │   │   ├── ident_case v1.0.1
++│   │   │       │   │   ├── proc-macro2 v1.0.93 (*)
++│   │   │       │   │   ├── quote v1.0.38 (*)
++│   │   │       │   │   ├── strsim v0.11.1
++│   │   │       │   │   └── syn v2.0.98 (*)
++│   │   │       │   └── darling_macro v0.20.10 (proc-macro)
++│   │   │       │       ├── darling_core v0.20.10 (*)
++│   │   │       │       ├── quote v1.0.38 (*)
++│   │   │       │       └── syn v2.0.98 (*)
++│   │   │       ├── proc-macro2 v1.0.93 (*)
++│   │   │       ├── quote v1.0.38 (*)
++│   │   │       └── syn v2.0.98 (*)
++│   │   ├── snowbridge-amcl v1.0.2
++│   │   │   ├── parity-scale-codec v3.7.4
++│   │   │   │   ├── arrayvec v0.7.6 (*)
++│   │   │   │   ├── byte-slice-cast v1.2.2
++│   │   │   │   ├── const_format v0.2.34
++│   │   │   │   │   └── const_format_proc_macros v0.2.34 (proc-macro)
++│   │   │   │   │       ├── proc-macro2 v1.0.93 (*)
++│   │   │   │   │       ├── quote v1.0.38 (*)
++│   │   │   │   │       └── unicode-xid v0.2.6
++│   │   │   │   ├── impl-trait-for-tuples v0.2.3 (proc-macro)
++│   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++│   │   │   │   │   ├── quote v1.0.38 (*)
++│   │   │   │   │   └── syn v2.0.98 (*)
++│   │   │   │   └── parity-scale-codec-derive v3.7.4 (proc-macro)
++│   │   │   │       ├── proc-macro-crate v3.2.0
++│   │   │   │       │   └── toml_edit v0.22.24
++│   │   │   │       │       ├── indexmap v2.7.1 (*)
++│   │   │   │       │       ├── toml_datetime v0.6.8
++│   │   │   │       │       └── winnow v0.7.3
++│   │   │   │       ├── proc-macro2 v1.0.93 (*)
++│   │   │   │       ├── quote v1.0.38 (*)
++│   │   │   │       └── syn v2.0.98 (*)
++│   │   │   │   [build-dependencies]
++│   │   │   │   └── rustversion v1.0.19 (proc-macro)
++│   │   │   └── scale-info v2.11.6
++│   │   │       ├── cfg-if v1.0.0
++│   │   │       ├── derive_more v1.0.0
++│   │   │       │   └── derive_more-impl v1.0.0 (proc-macro)
++│   │   │       │       ├── convert_case v0.6.0
++│   │   │       │       │   └── unicode-segmentation v1.12.0
++│   │   │       │       ├── proc-macro2 v1.0.93 (*)
++│   │   │       │       ├── quote v1.0.38 (*)
++│   │   │       │       ├── syn v2.0.98 (*)
++│   │   │       │       └── unicode-xid v0.2.6
++│   │   │       ├── parity-scale-codec v3.7.4 (*)
++│   │   │       └── scale-info-derive v2.11.6 (proc-macro)
++│   │   │           ├── proc-macro-crate v3.2.0 (*)
++│   │   │           ├── proc-macro2 v1.0.93 (*)
++│   │   │           ├── quote v1.0.38 (*)
++│   │   │           └── syn v2.0.98 (*)
++│   │   ├── static_assertions v1.1.0
++│   │   ├── strum v0.26.3
++│   │   │   └── strum_macros v0.26.4 (proc-macro)
++│   │   │       ├── heck v0.5.0
++│   │   │       ├── proc-macro2 v1.0.93 (*)
++│   │   │       ├── quote v1.0.38 (*)
++│   │   │       ├── rustversion v1.0.19 (proc-macro)
++│   │   │       └── syn v2.0.98 (*)
++│   │   ├── strum_macros v0.26.4 (proc-macro) (*)
++│   │   ├── sysinfo v0.30.13
++│   │   │   ├── cfg-if v1.0.0
++│   │   │   ├── libc v0.2.169
++│   │   │   ├── once_cell v1.20.3 (*)
++│   │   │   └── rayon v1.10.0 (*)
++│   │   ├── thiserror v1.0.69
++│   │   │   └── thiserror-impl v1.0.69 (proc-macro)
++│   │   │       ├── proc-macro2 v1.0.93 (*)
++│   │   │       ├── quote v1.0.38 (*)
++│   │   │       └── syn v2.0.98 (*)
++│   │   ├── tiny-keccak v2.0.2 (https://github.com/brevis-network/tiny-keccak?branch=patch-v1.0.0#fe487503) (*)
++│   │   ├── tracing v0.1.41 (*)
++│   │   ├── tracing-forest v0.1.6
++│   │   │   ├── ansi_term v0.12.1
++│   │   │   ├── smallvec v1.14.0 (*)
++│   │   │   ├── thiserror v1.0.69 (*)
++│   │   │   ├── tracing v0.1.41 (*)
++│   │   │   └── tracing-subscriber v0.3.19
++│   │   │       ├── matchers v0.1.0
++│   │   │       │   └── regex-automata v0.1.10
++│   │   │       │       └── regex-syntax v0.6.29
++│   │   │       ├── nu-ansi-term v0.46.0
++│   │   │       │   └── overload v0.1.1
++│   │   │       ├── once_cell v1.20.3 (*)
++│   │   │       ├── regex v1.11.1 (*)
++│   │   │       ├── serde v1.0.218 (*)
++│   │   │       ├── serde_json v1.0.139 (*)
++│   │   │       ├── sharded-slab v0.1.7
++│   │   │       │   └── lazy_static v1.5.0 (*)
++│   │   │       ├── smallvec v1.14.0 (*)
++│   │   │       ├── thread_local v1.1.8
++│   │   │       │   ├── cfg-if v1.0.0
++│   │   │       │   └── once_cell v1.20.3 (*)
++│   │   │       ├── tracing v0.1.41 (*)
++│   │   │       ├── tracing-core v0.1.33 (*)
++│   │   │       ├── tracing-log v0.2.0
++│   │   │       │   ├── log v0.4.25
++│   │   │       │   ├── once_cell v1.20.3 (*)
++│   │   │       │   └── tracing-core v0.1.33 (*)
++│   │   │       └── tracing-serde v0.2.0
++│   │   │           ├── serde v1.0.218 (*)
++│   │   │           └── tracing-core v0.1.33 (*)
++│   │   ├── tracing-subscriber v0.3.19 (*)
++│   │   ├── typenum v1.18.0
++│   │   ├── vec_map v0.8.2
++│   │   └── zkhash v0.2.0
++│   │       ├── ark-ff v0.4.2
++│   │       │   ├── ark-ff-asm v0.4.2 (proc-macro)
++│   │       │   │   ├── quote v1.0.38 (*)
++│   │       │   │   └── syn v1.0.109 (*)
++│   │       │   ├── ark-ff-macros v0.4.2 (proc-macro)
++│   │       │   │   ├── num-bigint v0.4.6 (*)
++│   │       │   │   ├── num-traits v0.2.19 (*)
++│   │       │   │   ├── proc-macro2 v1.0.93 (*)
++│   │       │   │   ├── quote v1.0.38 (*)
++│   │       │   │   └── syn v1.0.109 (*)
++│   │       │   ├── ark-serialize v0.4.2
++│   │       │   │   ├── ark-std v0.4.0
++│   │       │   │   │   ├── num-traits v0.2.19 (*)
++│   │       │   │   │   └── rand v0.8.5 (*)
++│   │       │   │   ├── digest v0.10.7 (*)
++│   │       │   │   └── num-bigint v0.4.6 (*)
++│   │       │   ├── ark-std v0.4.0 (*)
++│   │       │   ├── derivative v2.2.0 (proc-macro)
++│   │       │   │   ├── proc-macro2 v1.0.93 (*)
++│   │       │   │   ├── quote v1.0.38 (*)
++│   │       │   │   └── syn v1.0.109 (*)
++│   │       │   ├── digest v0.10.7 (*)
++│   │       │   ├── itertools v0.10.5
++│   │       │   │   └── either v1.13.0
++│   │       │   ├── num-bigint v0.4.6 (*)
++│   │       │   ├── num-traits v0.2.19 (*)
++│   │       │   ├── paste v1.0.15 (proc-macro)
++│   │       │   └── zeroize v1.8.1 (*)
++│   │       │   [build-dependencies]
++│   │       │   └── rustc_version v0.4.1 (*)
++│   │       ├── ark-std v0.4.0 (*)
++│   │       ├── bitvec v1.0.1 (*)
++│   │       ├── blake2 v0.10.6 (*)
++│   │       ├── bls12_381 v0.7.1
++│   │       │   ├── ff v0.12.1
++│   │       │   │   ├── bitvec v1.0.1 (*)
++│   │       │   │   ├── rand_core v0.6.4 (*)
++│   │       │   │   └── subtle v2.6.1
++│   │       │   ├── group v0.12.1
++│   │       │   │   ├── ff v0.12.1 (*)
++│   │       │   │   ├── memuse v0.2.2
++│   │       │   │   ├── rand_core v0.6.4 (*)
++│   │       │   │   └── subtle v2.6.1
++│   │       │   ├── pairing v0.22.0
++│   │       │   │   └── group v0.12.1 (*)
++│   │       │   ├── rand_core v0.6.4 (*)
++│   │       │   └── subtle v2.6.1
++│   │       ├── byteorder v1.5.0
++│   │       ├── cfg-if v1.0.0
++│   │       ├── group v0.12.1 (*)
++│   │       ├── group v0.13.0 (*)
++│   │       ├── halo2 v0.1.0-beta.2
++│   │       │   └── halo2_proofs v0.1.0
++│   │       │       ├── blake2b_simd v1.0.3 (*)
++│   │       │       ├── ff v0.12.1 (*)
++│   │       │       ├── group v0.12.1 (*)
++│   │       │       ├── pasta_curves v0.4.1
++│   │       │       │   ├── blake2b_simd v1.0.3 (*)
++│   │       │       │   ├── ff v0.12.1 (*)
++│   │       │       │   ├── group v0.12.1 (*)
++│   │       │       │   ├── lazy_static v1.5.0 (*)
++│   │       │       │   ├── rand v0.8.5 (*)
++│   │       │       │   ├── static_assertions v1.1.0
++│   │       │       │   └── subtle v2.6.1
++│   │       │       ├── rand_core v0.6.4 (*)
++│   │       │       └── rayon v1.10.0 (*)
++│   │       ├── hex v0.4.3 (*)
++│   │       ├── jubjub v0.9.0
++│   │       │   ├── bitvec v1.0.1 (*)
++│   │       │   ├── bls12_381 v0.7.1 (*)
++│   │       │   ├── ff v0.12.1 (*)
++│   │       │   ├── group v0.12.1 (*)
++│   │       │   ├── rand_core v0.6.4 (*)
++│   │       │   └── subtle v2.6.1
++│   │       ├── lazy_static v1.5.0 (*)
++│   │       ├── pasta_curves v0.5.1 (*)
++│   │       ├── rand v0.8.5 (*)
++│   │       ├── serde v1.0.218 (*)
++│   │       ├── sha2 v0.10.8 (https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a) (*)
++│   │       ├── sha3 v0.10.8
++│   │       │   ├── digest v0.10.7 (*)
++│   │       │   └── keccak v0.1.5
++│   │       └── subtle v2.6.1
++│   ├── rand v0.8.5 (*)
++│   ├── serde v1.0.218 (*)
++│   ├── serde_json v1.0.139 (*)
++│   └── sha2 v0.10.8 (https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a) (*)
++└── rsp-client-executor v0.1.0 (https://github.com/succinctlabs/rsp/?rev=dea86b9#dea86b9c)
++    ├── alloy-consensus v0.11.1
++    │   ├── alloy-eips v0.11.1
++    │   │   ├── alloy-eip2124 v0.1.0
++    │   │   │   ├── alloy-primitives v0.8.21
++    │   │   │   │   ├── alloy-rlp v0.3.11
++    │   │   │   │   │   ├── alloy-rlp-derive v0.3.11 (proc-macro)
++    │   │   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   │   │   │   └── syn v2.0.98 (*)
++    │   │   │   │   │   ├── arrayvec v0.7.6 (*)
++    │   │   │   │   │   └── bytes v1.10.0
++    │   │   │   │   │       └── serde v1.0.218 (*)
++    │   │   │   │   ├── bytes v1.10.0 (*)
++    │   │   │   │   ├── cfg-if v1.0.0
++    │   │   │   │   ├── const-hex v1.14.0
++    │   │   │   │   │   ├── cfg-if v1.0.0
++    │   │   │   │   │   ├── cpufeatures v0.2.17
++    │   │   │   │   │   └── serde v1.0.218 (*)
++    │   │   │   │   ├── derive_more v1.0.0 (*)
++    │   │   │   │   ├── foldhash v0.1.4
++    │   │   │   │   ├── hashbrown v0.15.2
++    │   │   │   │   │   ├── foldhash v0.1.4
++    │   │   │   │   │   └── serde v1.0.218 (*)
++    │   │   │   │   ├── itoa v1.0.14
++    │   │   │   │   ├── k256 v0.13.4 (*)
++    │   │   │   │   ├── paste v1.0.15 (proc-macro)
++    │   │   │   │   ├── ruint v1.13.1
++    │   │   │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   │   │   ├── ruint-macro v1.2.1 (proc-macro)
++    │   │   │   │   │   └── serde v1.0.218 (*)
++    │   │   │   │   ├── serde v1.0.218 (*)
++    │   │   │   │   ├── sha3 v0.10.8 (*)
++    │   │   │   │   └── tiny-keccak v2.0.2 (https://github.com/brevis-network/tiny-keccak?branch=patch-v1.0.0#fe487503) (*)
++    │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   ├── crc v3.2.1
++    │   │   │   │   └── crc-catalog v2.4.0
++    │   │   │   └── thiserror v2.0.11
++    │   │   │       └── thiserror-impl v2.0.11 (proc-macro)
++    │   │   │           ├── proc-macro2 v1.0.93 (*)
++    │   │   │           ├── quote v1.0.38 (*)
++    │   │   │           └── syn v2.0.98 (*)
++    │   │   ├── alloy-eip2930 v0.1.0
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   └── serde v1.0.218 (*)
++    │   │   ├── alloy-eip7702 v0.5.0
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   ├── derive_more v1.0.0 (*)
++    │   │   │   ├── k256 v0.13.4 (*)
++    │   │   │   ├── serde v1.0.218 (*)
++    │   │   │   └── serde_with v3.12.0 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   ├── alloy-serde v0.11.1
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── serde v1.0.218 (*)
++    │   │   │   └── serde_json v1.0.139 (*)
++    │   │   ├── auto_impl v1.2.1 (proc-macro)
++    │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   └── syn v2.0.98 (*)
++    │   │   ├── derive_more v1.0.0 (*)
++    │   │   ├── serde v1.0.218 (*)
++    │   │   └── sha2 v0.10.8 (https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a) (*)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── alloy-rlp v0.3.11 (*)
++    │   ├── alloy-serde v0.11.1 (*)
++    │   ├── alloy-trie v0.7.9
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   ├── arrayvec v0.7.6 (*)
++    │   │   ├── derive_more v1.0.0 (*)
++    │   │   ├── nybbles v0.3.4
++    │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   ├── const-hex v1.14.0 (*)
++    │   │   │   ├── serde v1.0.218 (*)
++    │   │   │   └── smallvec v1.14.0 (*)
++    │   │   ├── serde v1.0.218 (*)
++    │   │   ├── smallvec v1.14.0 (*)
++    │   │   └── tracing v0.1.41 (*)
++    │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   ├── derive_more v1.0.0 (*)
++    │   ├── serde v1.0.218 (*)
++    │   └── serde_with v3.12.0 (*)
++    ├── alloy-eips v0.11.1 (*)
++    ├── alloy-genesis v0.11.1
++    │   ├── alloy-eips v0.11.1 (*)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── alloy-serde v0.11.1 (*)
++    │   ├── alloy-trie v0.7.9 (*)
++    │   └── serde v1.0.218 (*)
++    ├── alloy-network v0.11.1
++    │   ├── alloy-consensus v0.11.1 (*)
++    │   ├── alloy-consensus-any v0.11.1
++    │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   ├── alloy-serde v0.11.1 (*)
++    │   │   └── serde v1.0.218 (*)
++    │   ├── alloy-eips v0.11.1 (*)
++    │   ├── alloy-json-rpc v0.11.1
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-sol-types v0.8.21
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── alloy-sol-macro v0.8.21 (proc-macro)
++    │   │   │   │   ├── alloy-sol-macro-expander v0.8.21
++    │   │   │   │   │   ├── alloy-sol-macro-input v0.8.21
++    │   │   │   │   │   │   ├── const-hex v1.14.0
++    │   │   │   │   │   │   │   ├── cfg-if v1.0.0
++    │   │   │   │   │   │   │   └── cpufeatures v0.2.17
++    │   │   │   │   │   │   ├── dunce v1.0.5
++    │   │   │   │   │   │   ├── heck v0.5.0
++    │   │   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   │   │   │   ├── syn v2.0.98 (*)
++    │   │   │   │   │   │   └── syn-solidity v0.8.21
++    │   │   │   │   │   │       ├── paste v1.0.15 (proc-macro)
++    │   │   │   │   │   │       ├── proc-macro2 v1.0.93 (*)
++    │   │   │   │   │   │       ├── quote v1.0.38 (*)
++    │   │   │   │   │   │       └── syn v2.0.98 (*)
++    │   │   │   │   │   ├── const-hex v1.14.0 (*)
++    │   │   │   │   │   ├── heck v0.5.0
++    │   │   │   │   │   ├── indexmap v2.7.1 (*)
++    │   │   │   │   │   ├── proc-macro-error2 v2.0.1
++    │   │   │   │   │   │   ├── proc-macro-error-attr2 v2.0.0 (proc-macro)
++    │   │   │   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   │   │   │   │   └── quote v1.0.38 (*)
++    │   │   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   │   │   │   └── syn v2.0.98 (*)
++    │   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   │   │   ├── syn v2.0.98 (*)
++    │   │   │   │   │   ├── syn-solidity v0.8.21 (*)
++    │   │   │   │   │   └── tiny-keccak v2.0.2 (https://github.com/brevis-network/tiny-keccak?branch=patch-v1.0.0#fe487503)
++    │   │   │   │   │       ├── cfg-if v1.0.0
++    │   │   │   │   │       └── crunchy v0.2.3
++    │   │   │   │   ├── alloy-sol-macro-input v0.8.21 (*)
++    │   │   │   │   ├── proc-macro-error2 v2.0.1 (*)
++    │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   │   └── syn v2.0.98 (*)
++    │   │   │   └── const-hex v1.14.0 (*)
++    │   │   ├── serde v1.0.218 (*)
++    │   │   ├── serde_json v1.0.139 (*)
++    │   │   ├── thiserror v2.0.11 (*)
++    │   │   └── tracing v0.1.41 (*)
++    │   ├── alloy-network-primitives v0.11.1
++    │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-serde v0.11.1 (*)
++    │   │   └── serde v1.0.218 (*)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── alloy-rpc-types-any v0.11.1
++    │   │   ├── alloy-consensus-any v0.11.1 (*)
++    │   │   ├── alloy-rpc-types-eth v0.11.1
++    │   │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   │   ├── alloy-consensus-any v0.11.1 (*)
++    │   │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   │   ├── alloy-network-primitives v0.11.1 (*)
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   ├── alloy-serde v0.11.1 (*)
++    │   │   │   ├── alloy-sol-types v0.8.21 (*)
++    │   │   │   ├── itertools v0.14.0
++    │   │   │   │   └── either v1.13.0
++    │   │   │   ├── serde v1.0.218 (*)
++    │   │   │   ├── serde_json v1.0.139 (*)
++    │   │   │   └── thiserror v2.0.11 (*)
++    │   │   └── alloy-serde v0.11.1 (*)
++    │   ├── alloy-rpc-types-eth v0.11.1 (*)
++    │   ├── alloy-serde v0.11.1 (*)
++    │   ├── alloy-signer v0.11.1
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── async-trait v0.1.86 (proc-macro)
++    │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   └── syn v2.0.98 (*)
++    │   │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   │   ├── either v1.13.0
++    │   │   ├── elliptic-curve v0.13.8 (*)
++    │   │   ├── k256 v0.13.4 (*)
++    │   │   └── thiserror v2.0.11 (*)
++    │   ├── alloy-sol-types v0.8.21 (*)
++    │   ├── async-trait v0.1.86 (proc-macro) (*)
++    │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   ├── futures-utils-wasm v0.1.0
++    │   ├── serde v1.0.218 (*)
++    │   ├── serde_json v1.0.139 (*)
++    │   └── thiserror v2.0.11 (*)
++    ├── alloy-primitives v0.8.21 (*)
++    ├── alloy-rpc-types v0.11.1
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── alloy-rpc-types-eth v0.11.1 (*)
++    │   ├── alloy-serde v0.11.1 (*)
++    │   └── serde v1.0.218 (*)
++    ├── itertools v0.13.0 (*)
++    ├── reth-chainspec v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   ├── alloy-chains v0.1.62
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   ├── num_enum v0.7.3
++    │   │   │   └── num_enum_derive v0.7.3 (proc-macro)
++    │   │   │       ├── proc-macro2 v1.0.93 (*)
++    │   │   │       ├── quote v1.0.38 (*)
++    │   │   │       └── syn v2.0.98 (*)
++    │   │   ├── serde v1.0.218 (*)
++    │   │   └── strum v0.27.1
++    │   │       └── strum_macros v0.27.1 (proc-macro)
++    │   │           ├── heck v0.5.0
++    │   │           ├── proc-macro2 v1.0.93 (*)
++    │   │           ├── quote v1.0.38 (*)
++    │   │           ├── rustversion v1.0.19 (proc-macro)
++    │   │           └── syn v2.0.98 (*)
++    │   ├── alloy-consensus v0.11.1 (*)
++    │   ├── alloy-eips v0.11.1 (*)
++    │   ├── alloy-genesis v0.11.1 (*)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── alloy-trie v0.7.9 (*)
++    │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   ├── derive_more v1.0.0 (*)
++    │   ├── reth-ethereum-forks v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── alloy-chains v0.1.62 (*)
++    │   │   ├── alloy-eip2124 v0.1.0 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   │   ├── dyn-clone v1.0.18
++    │   │   ├── once_cell v1.20.3 (*)
++    │   │   └── rustc-hash v2.1.1
++    │   ├── reth-network-peers v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   ├── serde_with v3.12.0 (*)
++    │   │   ├── thiserror v2.0.11 (*)
++    │   │   └── url v2.5.4
++    │   │       ├── form_urlencoded v1.2.1
++    │   │       │   └── percent-encoding v2.3.1
++    │   │       ├── idna v1.0.3
++    │   │       │   ├── idna_adapter v1.2.0
++    │   │       │   │   ├── icu_normalizer v1.5.0
++    │   │       │   │   │   ├── displaydoc v0.2.5 (proc-macro)
++    │   │       │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │       │   │   │   │   ├── quote v1.0.38 (*)
++    │   │       │   │   │   │   └── syn v2.0.98 (*)
++    │   │       │   │   │   ├── icu_collections v1.5.0
++    │   │       │   │   │   │   ├── displaydoc v0.2.5 (proc-macro) (*)
++    │   │       │   │   │   │   ├── yoke v0.7.5
++    │   │       │   │   │   │   │   ├── stable_deref_trait v1.2.0
++    │   │       │   │   │   │   │   ├── yoke-derive v0.7.5 (proc-macro)
++    │   │       │   │   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │       │   │   │   │   │   │   ├── quote v1.0.38 (*)
++    │   │       │   │   │   │   │   │   ├── syn v2.0.98 (*)
++    │   │       │   │   │   │   │   │   └── synstructure v0.13.1
++    │   │       │   │   │   │   │   │       ├── proc-macro2 v1.0.93 (*)
++    │   │       │   │   │   │   │   │       ├── quote v1.0.38 (*)
++    │   │       │   │   │   │   │   │       └── syn v2.0.98 (*)
++    │   │       │   │   │   │   │   └── zerofrom v0.1.5
++    │   │       │   │   │   │   │       └── zerofrom-derive v0.1.5 (proc-macro)
++    │   │       │   │   │   │   │           ├── proc-macro2 v1.0.93 (*)
++    │   │       │   │   │   │   │           ├── quote v1.0.38 (*)
++    │   │       │   │   │   │   │           ├── syn v2.0.98 (*)
++    │   │       │   │   │   │   │           └── synstructure v0.13.1 (*)
++    │   │       │   │   │   │   ├── zerofrom v0.1.5 (*)
++    │   │       │   │   │   │   └── zerovec v0.10.4
++    │   │       │   │   │   │       ├── yoke v0.7.5 (*)
++    │   │       │   │   │   │       ├── zerofrom v0.1.5 (*)
++    │   │       │   │   │   │       └── zerovec-derive v0.10.3 (proc-macro)
++    │   │       │   │   │   │           ├── proc-macro2 v1.0.93 (*)
++    │   │       │   │   │   │           ├── quote v1.0.38 (*)
++    │   │       │   │   │   │           └── syn v2.0.98 (*)
++    │   │       │   │   │   ├── icu_normalizer_data v1.5.0
++    │   │       │   │   │   ├── icu_properties v1.5.1
++    │   │       │   │   │   │   ├── displaydoc v0.2.5 (proc-macro) (*)
++    │   │       │   │   │   │   ├── icu_collections v1.5.0 (*)
++    │   │       │   │   │   │   ├── icu_locid_transform v1.5.0
++    │   │       │   │   │   │   │   ├── displaydoc v0.2.5 (proc-macro) (*)
++    │   │       │   │   │   │   │   ├── icu_locid v1.5.0
++    │   │       │   │   │   │   │   │   ├── displaydoc v0.2.5 (proc-macro) (*)
++    │   │       │   │   │   │   │   │   ├── litemap v0.7.4
++    │   │       │   │   │   │   │   │   ├── tinystr v0.7.6
++    │   │       │   │   │   │   │   │   │   ├── displaydoc v0.2.5 (proc-macro) (*)
++    │   │       │   │   │   │   │   │   │   └── zerovec v0.10.4 (*)
++    │   │       │   │   │   │   │   │   ├── writeable v0.5.5
++    │   │       │   │   │   │   │   │   └── zerovec v0.10.4 (*)
++    │   │       │   │   │   │   │   ├── icu_locid_transform_data v1.5.0
++    │   │       │   │   │   │   │   ├── icu_provider v1.5.0
++    │   │       │   │   │   │   │   │   ├── displaydoc v0.2.5 (proc-macro) (*)
++    │   │       │   │   │   │   │   │   ├── icu_locid v1.5.0 (*)
++    │   │       │   │   │   │   │   │   ├── icu_provider_macros v1.5.0 (proc-macro)
++    │   │       │   │   │   │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │       │   │   │   │   │   │   │   ├── quote v1.0.38 (*)
++    │   │       │   │   │   │   │   │   │   └── syn v2.0.98 (*)
++    │   │       │   │   │   │   │   │   ├── stable_deref_trait v1.2.0
++    │   │       │   │   │   │   │   │   ├── tinystr v0.7.6 (*)
++    │   │       │   │   │   │   │   │   ├── writeable v0.5.5
++    │   │       │   │   │   │   │   │   ├── yoke v0.7.5 (*)
++    │   │       │   │   │   │   │   │   ├── zerofrom v0.1.5 (*)
++    │   │       │   │   │   │   │   │   └── zerovec v0.10.4 (*)
++    │   │       │   │   │   │   │   ├── tinystr v0.7.6 (*)
++    │   │       │   │   │   │   │   └── zerovec v0.10.4 (*)
++    │   │       │   │   │   │   ├── icu_properties_data v1.5.0
++    │   │       │   │   │   │   ├── icu_provider v1.5.0 (*)
++    │   │       │   │   │   │   ├── tinystr v0.7.6 (*)
++    │   │       │   │   │   │   └── zerovec v0.10.4 (*)
++    │   │       │   │   │   ├── icu_provider v1.5.0 (*)
++    │   │       │   │   │   ├── smallvec v1.14.0 (*)
++    │   │       │   │   │   ├── utf16_iter v1.0.5
++    │   │       │   │   │   ├── utf8_iter v1.0.4
++    │   │       │   │   │   ├── write16 v1.0.0
++    │   │       │   │   │   └── zerovec v0.10.4 (*)
++    │   │       │   │   └── icu_properties v1.5.1 (*)
++    │   │       │   ├── smallvec v1.14.0 (*)
++    │   │       │   └── utf8_iter v1.0.4
++    │   │       └── percent-encoding v2.3.1
++    │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   ├── alloy-genesis v0.11.1 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   ├── alloy-trie v0.7.9 (*)
++    │   │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   │   ├── bytes v1.10.0 (*)
++    │   │   ├── derive_more v1.0.0 (*)
++    │   │   ├── k256 v0.13.4 (*)
++    │   │   ├── once_cell v1.20.3 (*)
++    │   │   ├── revm-primitives v15.2.0
++    │   │   │   ├── alloy-eip2930 v0.1.0 (*)
++    │   │   │   ├── alloy-eip7702 v0.5.0 (*)
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   │   │   ├── bitflags v2.8.0
++    │   │   │   │   └── serde v1.0.218 (*)
++    │   │   │   ├── bitvec v1.0.1 (*)
++    │   │   │   ├── cfg-if v1.0.0
++    │   │   │   ├── dyn-clone v1.0.18
++    │   │   │   ├── enumn v0.1.14 (proc-macro)
++    │   │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   │   └── syn v2.0.98 (*)
++    │   │   │   ├── kzg-rs v0.2.5
++    │   │   │   │   ├── ff v0.13.0 (*)
++    │   │   │   │   ├── hex v0.4.3 (*)
++    │   │   │   │   ├── sha2 v0.10.8 (https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a) (*)
++    │   │   │   │   ├── sp1_bls12_381 v0.8.0-sp1-4.0.0-v2
++    │   │   │   │   │   ├── cfg-if v1.0.0
++    │   │   │   │   │   ├── ff v0.13.0 (*)
++    │   │   │   │   │   ├── group v0.13.0 (*)
++    │   │   │   │   │   ├── pairing v0.23.0 (*)
++    │   │   │   │   │   ├── rand_core v0.6.4 (*)
++    │   │   │   │   │   └── subtle v2.6.1
++    │   │   │   │   └── spin v0.9.8
++    │   │   │   │   [build-dependencies]
++    │   │   │   │   ├── hex v0.4.3 (*)
++    │   │   │   │   └── sp1_bls12_381 v0.8.0-sp1-4.0.0-v2 (*)
++    │   │   │   └── serde v1.0.218 (*)
++    │   │   │   [build-dependencies]
++    │   │   │   └── hex v0.4.3 (*)
++    │   │   ├── serde v1.0.218 (*)
++    │   │   ├── serde_with v3.12.0 (*)
++    │   │   └── thiserror v2.0.11 (*)
++    │   └── serde_json v1.0.139 (*)
++    ├── reth-consensus v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   ├── alloy-consensus v0.11.1 (*)
++    │   ├── alloy-eips v0.11.1 (*)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   ├── derive_more v1.0.0 (*)
++    │   └── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    ├── reth-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   ├── reth-consensus v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-execution-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   ├── nybbles v0.3.4 (*)
++    │   │   ├── reth-storage-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   ├── derive_more v1.0.0 (*)
++    │   │   │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   ├── reth-prune-types v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   │   ├── derive_more v1.0.0 (*)
++    │   │   │   │   └── thiserror v2.0.11 (*)
++    │   │   │   ├── reth-static-file-types v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   │   ├── derive_more v1.0.0 (*)
++    │   │   │   │   ├── serde v1.0.218 (*)
++    │   │   │   │   └── strum v0.26.3 (*)
++    │   │   │   └── thiserror v2.0.11 (*)
++    │   │   └── thiserror v2.0.11 (*)
++    │   ├── reth-fs-util v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── serde v1.0.218 (*)
++    │   │   ├── serde_json v1.0.139 (*)
++    │   │   └── thiserror v2.0.11 (*)
++    │   ├── reth-storage-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   └── thiserror v2.0.11 (*)
++    ├── reth-ethereum-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   ├── alloy-consensus v0.11.1 (*)
++    │   ├── alloy-eips v0.11.1 (*)
++    │   ├── alloy-network v0.11.1 (*)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── alloy-rlp v0.3.11 (*)
++    │   ├── alloy-rpc-types-eth v0.11.1 (*)
++    │   ├── alloy-serde v0.11.1 (*)
++    │   ├── derive_more v1.0.0 (*)
++    │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── revm-primitives v15.2.0 (*)
++    │   └── serde v1.0.218 (*)
++    ├── reth-evm v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   ├── alloy-consensus v0.11.1 (*)
++    │   ├── alloy-eips v0.11.1 (*)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   ├── futures-util v0.3.31
++    │   │   ├── futures-core v0.3.31
++    │   │   ├── futures-macro v0.3.31 (proc-macro)
++    │   │   │   ├── proc-macro2 v1.0.93 (*)
++    │   │   │   ├── quote v1.0.38 (*)
++    │   │   │   └── syn v2.0.98 (*)
++    │   │   ├── futures-task v0.3.31
++    │   │   ├── pin-project-lite v0.2.16
++    │   │   ├── pin-utils v0.1.0
++    │   │   └── slab v0.4.9
++    │   │       [build-dependencies]
++    │   │       └── autocfg v1.4.0
++    │   ├── metrics v0.24.1
++    │   │   └── ahash v0.8.11 (*)
++    │   ├── reth-chainspec v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-consensus v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-consensus-common v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── reth-chainspec v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-consensus v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   └── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-ethereum-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-execution-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-execution-types v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── reth-execution-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   │   ├── once_cell v1.20.3 (*)
++    │   │   │   ├── reth-ethereum-forks v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   ├── reth-ethereum-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   └── reth-static-file-types v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-trie v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   ├── alloy-trie v0.7.9 (*)
++    │   │   │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   │   │   ├── itertools v0.13.0 (*)
++    │   │   │   ├── reth-execution-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   ├── reth-stages-types v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   │   └── reth-trie-common v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   │       ├── alloy-consensus v0.11.1 (*)
++    │   │   │   │       ├── alloy-primitives v0.8.21 (*)
++    │   │   │   │       ├── alloy-rlp v0.3.11 (*)
++    │   │   │   │       ├── alloy-trie v0.7.9 (*)
++    │   │   │   │       ├── derive_more v1.0.0 (*)
++    │   │   │   │       ├── itertools v0.13.0 (*)
++    │   │   │   │       ├── nybbles v0.3.4 (*)
++    │   │   │   │       ├── rayon v1.10.0 (*)
++    │   │   │   │       ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   │       └── revm v19.5.0
++    │   │   │   │           ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   │   │   │           ├── cfg-if v1.0.0
++    │   │   │   │           ├── dyn-clone v1.0.18
++    │   │   │   │           ├── once_cell v1.20.3 (*)
++    │   │   │   │           ├── revm-interpreter v15.2.0
++    │   │   │   │           │   ├── revm-primitives v15.2.0 (*)
++    │   │   │   │           │   └── serde v1.0.218 (*)
++    │   │   │   │           ├── revm-precompile v16.1.0
++    │   │   │   │           │   ├── aurora-engine-modexp v1.2.0
++    │   │   │   │           │   │   ├── hex v0.4.3 (*)
++    │   │   │   │           │   │   └── num v0.4.3 (*)
++    │   │   │   │           │   ├── cfg-if v1.0.0
++    │   │   │   │           │   ├── k256 v0.13.4 (*)
++    │   │   │   │           │   ├── kzg-rs v0.2.5 (*)
++    │   │   │   │           │   ├── once_cell v1.20.3 (*)
++    │   │   │   │           │   ├── p256 v0.13.2 (*)
++    │   │   │   │           │   ├── revm-primitives v15.2.0 (*)
++    │   │   │   │           │   ├── ripemd v0.1.3
++    │   │   │   │           │   │   └── digest v0.10.7 (*)
++    │   │   │   │           │   ├── sha2 v0.10.8 (https://github.com/brevis-network/hashes?rev=ddeaa09#ddeaa09a) (*)
++    │   │   │   │           │   └── substrate-bn v0.6.0
++    │   │   │   │           │       ├── byteorder v1.5.0
++    │   │   │   │           │       ├── crunchy v0.2.3
++    │   │   │   │           │       ├── lazy_static v1.5.0 (*)
++    │   │   │   │           │       ├── rand v0.8.5 (*)
++    │   │   │   │           │       └── rustc-hex v2.1.0
++    │   │   │   │           └── serde v1.0.218 (*)
++    │   │   │   ├── reth-storage-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   ├── reth-trie-common v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   ├── reth-trie-sparse v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   │   ├── reth-execution-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   │   ├── reth-tracing v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   │   │   ├── clap v4.5.30 (*)
++    │   │   │   │   │   ├── eyre v0.6.12 (*)
++    │   │   │   │   │   ├── rolling-file v0.2.0
++    │   │   │   │   │   │   └── chrono v0.4.39
++    │   │   │   │   │   │       ├── iana-time-zone v0.1.61
++    │   │   │   │   │   │       └── num-traits v0.2.19 (*)
++    │   │   │   │   │   ├── tracing v0.1.41 (*)
++    │   │   │   │   │   ├── tracing-appender v0.2.3
++    │   │   │   │   │   │   ├── crossbeam-channel v0.5.14 (*)
++    │   │   │   │   │   │   ├── thiserror v1.0.69 (*)
++    │   │   │   │   │   │   ├── time v0.3.37
++    │   │   │   │   │   │   │   ├── deranged v0.3.11
++    │   │   │   │   │   │   │   │   └── powerfmt v0.2.0
++    │   │   │   │   │   │   │   ├── itoa v1.0.14
++    │   │   │   │   │   │   │   ├── num-conv v0.1.0
++    │   │   │   │   │   │   │   ├── powerfmt v0.2.0
++    │   │   │   │   │   │   │   └── time-core v0.1.2
++    │   │   │   │   │   │   └── tracing-subscriber v0.3.19 (*)
++    │   │   │   │   │   ├── tracing-journald v0.3.1
++    │   │   │   │   │   │   ├── libc v0.2.169
++    │   │   │   │   │   │   ├── tracing-core v0.1.33 (*)
++    │   │   │   │   │   │   └── tracing-subscriber v0.3.19 (*)
++    │   │   │   │   │   ├── tracing-logfmt v0.3.5
++    │   │   │   │   │   │   ├── time v0.3.37 (*)
++    │   │   │   │   │   │   ├── tracing v0.1.41 (*)
++    │   │   │   │   │   │   ├── tracing-core v0.1.33 (*)
++    │   │   │   │   │   │   └── tracing-subscriber v0.3.19 (*)
++    │   │   │   │   │   └── tracing-subscriber v0.3.19 (*)
++    │   │   │   │   ├── reth-trie-common v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   │   │   ├── smallvec v1.14.0 (*)
++    │   │   │   │   └── thiserror v2.0.11 (*)
++    │   │   │   ├── revm v19.5.0 (*)
++    │   │   │   └── tracing v0.1.41 (*)
++    │   │   └── revm v19.5.0 (*)
++    │   ├── reth-metrics v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── metrics v0.24.1 (*)
++    │   │   └── metrics-derive v0.1.0 (proc-macro)
++    │   │       ├── proc-macro2 v1.0.93 (*)
++    │   │       ├── quote v1.0.38 (*)
++    │   │       ├── regex v1.11.1
++    │   │       │   ├── aho-corasick v1.1.3 (*)
++    │   │       │   ├── memchr v2.7.4
++    │   │       │   ├── regex-automata v0.4.9
++    │   │       │   │   ├── aho-corasick v1.1.3 (*)
++    │   │       │   │   ├── memchr v2.7.4
++    │   │       │   │   └── regex-syntax v0.8.5
++    │   │       │   └── regex-syntax v0.8.5
++    │   │       └── syn v2.0.98 (*)
++    │   ├── reth-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-storage-errors v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── revm v19.5.0 (*)
++    │   └── revm-primitives v15.2.0 (*)
++    ├── reth-evm-ethereum v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   ├── alloy-consensus v0.11.1 (*)
++    │   ├── alloy-eips v0.11.1 (*)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── alloy-sol-types v0.8.21 (*)
++    │   ├── derive_more v1.0.0 (*)
++    │   ├── reth-chainspec v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-consensus v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-ethereum-consensus v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── reth-chainspec v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-consensus v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-consensus-common v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   └── tracing v0.1.41 (*)
++    │   ├── reth-ethereum-forks v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-evm v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── revm v19.5.0 (*)
++    │   └── revm-primitives v15.2.0 (*)
++    ├── reth-execution-types v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    ├── reth-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    ├── reth-trie v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    ├── revm v19.5.0 (*)
++    ├── revm-primitives v15.2.0 (*)
++    ├── rsp-mpt v0.1.0 (https://github.com/succinctlabs/rsp/?rev=dea86b9#dea86b9c)
++    │   ├── alloy-primitives v0.8.21 (*)
++    │   ├── alloy-rlp v0.3.11 (*)
++    │   ├── alloy-rpc-types v0.11.1 (*)
++    │   ├── itertools v0.13.0 (*)
++    │   ├── reth-execution-types v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-trie v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── revm v19.5.0 (*)
++    │   ├── revm-primitives v15.2.0 (*)
++    │   ├── rlp v0.5.2
++    │   │   ├── bytes v1.10.0 (*)
++    │   │   └── rustc-hex v2.1.0
++    │   ├── serde v1.0.218 (*)
++    │   └── thiserror v1.0.69 (*)
++    ├── rsp-primitives v0.1.0 (https://github.com/succinctlabs/rsp/?rev=dea86b9#dea86b9c)
++    │   ├── alloy-genesis v0.11.1 (*)
++    │   ├── alloy-rpc-types v0.11.1 (*)
++    │   ├── eyre v0.6.12 (*)
++    │   ├── reth-chainspec v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-optimism-chainspec v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   ├── alloy-chains v0.1.62 (*)
++    │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   ├── alloy-genesis v0.11.1 (*)
++    │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   ├── derive_more v1.0.0 (*)
++    │   │   ├── once_cell v1.20.3 (*)
++    │   │   ├── op-alloy-consensus v0.10.5
++    │   │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── alloy-rlp v0.3.11 (*)
++    │   │   │   ├── alloy-serde v0.11.1 (*)
++    │   │   │   ├── derive_more v1.0.0 (*)
++    │   │   │   ├── serde v1.0.218 (*)
++    │   │   │   └── thiserror v2.0.11 (*)
++    │   │   ├── op-alloy-rpc-types v0.10.5
++    │   │   │   ├── alloy-consensus v0.11.1 (*)
++    │   │   │   ├── alloy-eips v0.11.1 (*)
++    │   │   │   ├── alloy-network-primitives v0.11.1 (*)
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── alloy-rpc-types-eth v0.11.1 (*)
++    │   │   │   ├── alloy-serde v0.11.1 (*)
++    │   │   │   ├── derive_more v1.0.0 (*)
++    │   │   │   ├── op-alloy-consensus v0.10.5 (*)
++    │   │   │   ├── serde v1.0.218 (*)
++    │   │   │   └── serde_json v1.0.139 (*)
++    │   │   ├── reth-chainspec v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-ethereum-forks v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-network-peers v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-optimism-forks v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf)
++    │   │   │   ├── alloy-chains v0.1.62 (*)
++    │   │   │   ├── alloy-primitives v0.8.21 (*)
++    │   │   │   ├── auto_impl v1.2.1 (proc-macro) (*)
++    │   │   │   ├── once_cell v1.20.3 (*)
++    │   │   │   └── reth-ethereum-forks v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── reth-primitives-traits v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   │   ├── serde_json v1.0.139 (*)
++    │   │   └── thiserror v2.0.11 (*)
++    │   ├── reth-optimism-forks v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-primitives v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── reth-trie v1.2.0 (https://github.com/paradigmxyz/reth?tag=v1.2.0#1e965caf) (*)
++    │   ├── serde v1.0.218 (*)
++    │   └── serde_json v1.0.139 (*)
++    ├── serde v1.0.218 (*)
++    ├── serde_json v1.0.139 (*)
++    ├── serde_with v3.12.0 (*)
++    └── thiserror v1.0.69 (*)
+diff --git a/rsp_pico/prover/Cargo.toml b/rsp_pico/prover/Cargo.toml
+index 6dd111f..239d690 100644
+--- a/rsp_pico/prover/Cargo.toml
++++ b/rsp_pico/prover/Cargo.toml
+@@ -6,6 +6,6 @@ version = "1.0.0"
+ pico-sdk = { workspace = true }
+ bincode = "1.3.3"
+ serde = { version = "1.0", features = ["derive"] }
+-alloy-sol-types = "0.8.0"
++#alloy-sol-types = "0.8.0"
+ rand = "0.8"
+-rsp-client-executor = { git = "https://github.com/succinctlabs/rsp/", rev = "3647076" }
++rsp-client-executor = { git = "https://github.com/succinctlabs/rsp/", rev = "249b34ee0c5307b59dc48f1f45a474b04669c6c4" }
+diff --git a/rsp_sp1/program/Cargo.lock b/rsp_sp1/program/Cargo.lock
+index 837b6e0..e323852 100644
+--- a/rsp_sp1/program/Cargo.lock
++++ b/rsp_sp1/program/Cargo.lock
+@@ -629,6 +629,20 @@ name = "bytemuck"
+ version = "1.21.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "ef657dfab802224e671f5818e9a4935f9b1957ed18e58292690cc39e7a4092a3"
++dependencies = [
++ "bytemuck_derive",
++]
++
++[[package]]
++name = "bytemuck_derive"
++version = "1.8.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "3fa76293b4f7bb636ab88fd78228235b5248b4d05cc589aed610f954af5d7c7a"
++dependencies = [
++ "proc-macro2",
++ "quote",
++ "syn 2.0.98",
++]
+ 
+ [[package]]
+ name = "byteorder"
+@@ -954,14 +968,16 @@ checksum = "feeef44e73baff3a26d371801df019877a9866a8c493d315ab00177843314f35"
+ [[package]]
+ name = "ecdsa"
+ version = "0.16.9"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ee27f32b5c5292967d2d4a9d7f1e0b0aed2c15daded5a60300e4abb9d8020bca"
++source = "git+https://github.com/sp1-patches/signatures?tag=patch-0.16.9-sp1-4.0.0-rc.3-v2#1df079061349e013c78151f8a10a9f54b2fbf2ff"
+ dependencies = [
++ "cfg-if",
+  "der",
+  "digest 0.10.7",
+  "elliptic-curve",
++ "hex-literal",
+  "rfc6979",
+  "signature",
++ "sp1-lib",
+  "spki",
+ ]
+ 
+@@ -983,6 +999,7 @@ dependencies = [
+  "ff",
+  "generic-array",
+  "group",
++ "hkdf",
+  "pkcs8",
+  "rand_core",
+  "sec1",
+@@ -1338,6 +1355,21 @@ dependencies = [
+  "serde",
+ ]
+ 
++[[package]]
++name = "hex-literal"
++version = "0.4.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "6fe2267d4ed49bc07b63801559be28c718ea06c4738b7a03c94df7386d2cde46"
++
++[[package]]
++name = "hkdf"
++version = "0.12.4"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "7b5f8eb2ad728638ea2c7d47a21db23b7b58a72ed6a38256b8a1849f15fbbdf7"
++dependencies = [
++ "hmac",
++]
++
+ [[package]]
+ name = "hmac"
+ version = "0.12.1"
+@@ -2814,8 +2846,7 @@ dependencies = [
+ [[package]]
+ name = "rfc6979"
+ version = "0.4.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f8dd2a808d456c4a54e300a23e9f5a67e122c3024119acbfd73e3bf664491cb2"
++source = "git+https://github.com/sp1-patches/signatures?tag=patch-0.16.9-sp1-4.0.0-rc.3-v2#1df079061349e013c78151f8a10a9f54b2fbf2ff"
+ dependencies = [
+  "hmac",
+  "subtle",
+@@ -2853,7 +2884,7 @@ dependencies = [
+ [[package]]
+ name = "rsp-client-executor"
+ version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
++source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+ dependencies = [
+  "alloy-primitives",
+  "alloy-rlp",
+@@ -2886,7 +2917,7 @@ dependencies = [
+ [[package]]
+ name = "rsp-mpt"
+ version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
++source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+ dependencies = [
+  "alloy-primitives",
+  "alloy-rlp",
+@@ -2908,7 +2939,7 @@ dependencies = [
+ [[package]]
+ name = "rsp-primitives"
+ version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
++source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+ dependencies = [
+  "alloy-rpc-types",
+  "eyre",
+@@ -2937,7 +2968,7 @@ dependencies = [
+ [[package]]
+ name = "rsp-witness-db"
+ version = "0.1.0"
+-source = "git+https://github.com/succinctlabs/rsp/?rev=3647076#3647076da6580e30384dd911a3fc50d4bcdb5bc1"
++source = "git+https://github.com/succinctlabs/rsp/?rev=249b34ee0c5307b59dc48f1f45a474b04669c6c4#249b34ee0c5307b59dc48f1f45a474b04669c6c4"
+ dependencies = [
+  "reth-primitives",
+  "reth-storage-errors",
+@@ -3183,8 +3214,7 @@ dependencies = [
+ [[package]]
+ name = "sha2"
+ version = "0.10.8"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "793db75ad2bcafc3ffa7c68b215fee268f537982cd901d132f89c6343f3a3dc8"
++source = "git+https://github.com/sp1-patches/RustCrypto-hashes?tag=patch-sha2-0.10.8-sp1-4.0.0-rc.3#1f224388fdede7cef649bce0d63876d1a9e3f515"
+ dependencies = [
+  "cfg-if",
+  "cpufeatures",
+@@ -3252,6 +3282,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "fab1b5989a446f294724cebab0e759ffd7034ba93d2aa7b97045303f7c50bf74"
+ dependencies = [
+  "bincode",
++ "elliptic-curve",
+  "serde",
+  "sp1-primitives",
+ ]
+@@ -3389,14 +3420,17 @@ dependencies = [
+ [[package]]
+ name = "substrate-bn"
+ version = "0.6.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "72b5bbfa79abbae15dd642ea8176a21a635ff3c00059961d1ea27ad04e5b441c"
++source = "git+https://github.com/sp1-patches/bn?tag=patch-0.6.0-sp1-4.0.0-rc.3-v1#3556ab0c3fb2391613e9b848a0fd3ac48128e1b8"
+ dependencies = [
++ "bytemuck",
+  "byteorder",
++ "cfg-if",
+  "crunchy",
+  "lazy_static",
++ "num-bigint 0.4.6",
+  "rand",
+  "rustc-hex",
++ "sp1-lib",
+ ]
+ 
+ [[package]]
+@@ -3573,9 +3607,9 @@ dependencies = [
+ [[package]]
+ name = "tiny-keccak"
+ version = "2.0.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2c9d3793400a45f954c52e73d068316d76b6f4e36977e3fcebb13a2721e80237"
++source = "git+https://github.com/sp1-patches/tiny-keccak?tag=patch-2.0.2-sp1-4.0.0-rc.3#d2ffd330259c8f290b07d99cc1ef1f74774382c2"
+ dependencies = [
++ "cfg-if",
+  "crunchy",
+ ]
+ 
+@@ -4040,3 +4074,8 @@ dependencies = [
+  "quote",
+  "syn 2.0.98",
+ ]
++
++[[patch.unused]]
++name = "kzg-rs"
++version = "0.2.3-sp1-4.0.0"
++source = "git+https://github.com/succinctlabs/kzg-rs?branch=n%2Fv4#b568bd88ff05482db5c66e61670706150d7c824c"
+diff --git a/rsp_sp1/program/Cargo.toml b/rsp_sp1/program/Cargo.toml
+index 98a4bad..45dee01 100644
+--- a/rsp_sp1/program/Cargo.toml
++++ b/rsp_sp1/program/Cargo.toml
+@@ -10,8 +10,14 @@ bincode = "1.3.3"
+ rsp-client-executor = { git = "https://github.com/succinctlabs/rsp/", rev = "249b34ee0c5307b59dc48f1f45a474b04669c6c4" }
+ 
+ [patch.crates-io]
+-sha2 = { git = "https://github.com/sp1-patches/RustCrypto-hashes", package = "sha2", tag = "patch-sha2-0.10.8-sp1-4.0.0-rc.3" }
+-ecdsa-core = { git = "https://github.com/sp1-patches/signatures", package = "ecdsa", tag = "patch-0.16.9-sp1-4.0.0-rc.3-v2" }
+-tiny-keccak = { git = "https://github.com/sp1-patches/tiny-keccak", tag = "patch-2.0.2-sp1-4.0.0-rc.3" }
+-bn = { git = "https://github.com/sp1-patches/bn", tag = "patch-0.6.0-sp1-4.0.0-rc.3-v1", package = "substrate-bn" }
+-kzg-rs = { git = "https://github.com/succinctlabs/kzg-rs", branch = "n/v4" }
++sha2 = { git = "https://github.com/brevis-network/hashes", package = "sha2", rev = "ddeaa09" }
++tiny-keccak = { git = "https://github.com/brevis-network/tiny-keccak", features = ["keccak"], branch = "patch-v1.0.0" }
++sha3 = { git = "https://github.com/brevis-network/hashes", branch = "sha3-v1.0.0" }
++curve25519-dalek = { git = "https://github.com/brevis-network/curve25519-dalek", branch = "patch-v1.0.1" }
++bls12_381 = { git = "https://github.com/brevis-network/bls12_381", branch = "patch-v1.0.1" }
++curve25519-dalek-ng = { git = "https://github.com/brevis-network/curve25519-dalek-ng", branch = "patch-v1.0.1" }
++ed25519-consensus = { git = "https://github.com/brevis-network/ed25519-consensus", branch = "patch-v1.0.1" }
++ecdsa = { git = "https://github.com/brevis-network/signatures", package = "ecdsa", branch = "patch-v1.0.1" }
++secp256k1 = { git = "https://github.com/brevis-network/rust-secp256k1", branch = "patch-v1.0.1" }
++bn = { git = "https://github.com/brevis-network/bn", branch = "patch-v1.0.1" }
++crypto-bigint = { git = "https://github.com/brevis-network/crypto-bigint", branch = "patch-v1.0.0" }
