@@ -27,8 +27,8 @@ fn main() {
     let client = ProverClient::from_env();
 
     // Execute the program using the `ProverClient.execute` method, without generating a proof.
-    let (_, report) = client.execute(ELF, &stdin).run().unwrap();
-    println!("executed program with {} cycles", report.total_instruction_count());
+    // let (_, report) = client.execute(ELF, &stdin).run().unwrap();
+    // println!("executed program with {} cycles", report.total_instruction_count());
 
 
     // Generate the proof for the given program and input.
@@ -59,9 +59,9 @@ fn main() {
     //client.verify(&proof, &vk).expect("verification failed");
 
     // Test a round trip of proof serialization and deserialization.
-    proof.save("proof-with-pis.bin").expect("saving proof failed");
-    //let deserialized_proof =
-        SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
+    // proof.save("proof-with-pis.bin").expect("saving proof failed");
+    // let deserialized_proof =
+    //     SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
 
     // Verify the deserialized proof.
     //client.verify(&deserialized_proof, &vk).expect("verification failed");
