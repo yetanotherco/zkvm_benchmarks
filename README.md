@@ -15,23 +15,23 @@ Raw results can be found [here](/bench_results)
 
   Data loaded from: `bench_results/18_feb_25_epyc7543_32c_128gb.csv`
 
-Prover,N,Time
-Pico Groth16,10000,27.1s
-SP1-AVX2,10000,15.5s
-SP1-AVX2-Groth16,10000,1m33.6s
-Risc0,10000,9.0s
-Pico Groth16,100000,42.3s
-SP1-AVX2,100000,35.7s
-SP1-AVX2-Groth16,100000,1m54.6s
-Risc0,100000,53.3s
-Pico Groth16,1000000,3m3.9s
-SP1-AVX2,1000000,2m2.9s
-SP1-AVX2-Groth16,1000000,3m20.7s
-Risc0,1000000,8m18.6s
-Pico Groth16,4000000,11m3.8s
-SP1-AVX2,4000000,6m42.2s
-SP1-AVX2-Groth16,4000000,7m53.7s
-Risc0,4000000,32m21.2s
+    Prover,N,Time
+    Pico Groth16,10000,27.1s
+    SP1-AVX2,10000,15.5s
+    SP1-AVX2-Groth16,10000,1m33.6s
+    Risc0,10000,9.0s
+    Pico Groth16,100000,42.3s
+    SP1-AVX2,100000,35.7s
+    SP1-AVX2-Groth16,100000,1m54.6s
+    Risc0,100000,53.3s
+    Pico Groth16,1000000,3m3.9s
+    SP1-AVX2,1000000,2m2.9s
+    SP1-AVX2-Groth16,1000000,3m20.7s
+    Risc0,1000000,8m18.6s
+    Pico Groth16,4000000,11m3.8s
+    SP1-AVX2,4000000,6m42.2s
+    SP1-AVX2-Groth16,4000000,7m53.7s
+    Risc0,4000000,32m21.2s
 
 </details>
 
