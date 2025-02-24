@@ -3,8 +3,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import os   
-# Read data from CSV
+
+# Read arguments
+if len(sys.argv) < 4:
+    print("Usage: python script.py input_csv xlabel function")
+    print("Example: python script.py data.csv 'Vector Size (bytes)' 'Keccak'")
+    sys.exit(1)
+
 input_csv_path = sys.argv[1]
+x_label = sys.argv[2]
+function_type = sys.argv[3]
+
+# Read data from CSV
 df = pd.read_csv(input_csv_path)
 df['N'] = df['N'].astype(int)
 
@@ -44,32 +54,28 @@ print(validation_df.to_string())
 plt.style.use('tableau-colorblind10')
 colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
-# Create two subplots
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+# Create single figure
+plt.figure(figsize=(10, 6))
+ax = plt.gca()
 
 # Function to plot data
-def plot_data(ax, data, is_log=False):
+def plot_data(ax, data):
     for i, prover in enumerate(data['Prover'].unique()):
         prover_data = data[data['Prover'] == prover].sort_values('N')
         print(f"\nPlotting data for {prover}:")
         print(prover_data[['N', 'Minutes']].to_string())
-        
-        if is_log:
-            ax.semilogx(prover_data['N'], prover_data['Minutes'], 'o-', 
-                       label=prover, linewidth=2, markersize=8,
-                       color=colors[i % len(colors)])
-        else:
-            ax.plot(prover_data['N'], prover_data['Minutes'], 'o-', 
-                   label=prover, linewidth=2, markersize=8,
-                   color=colors[i % len(colors)])
 
-# Plot linear scale
-plot_data(ax1, df, is_log=False)
-ax1.set_xlabel('Fibonacci N')
-ax1.set_ylabel('Time (minutes)')
-ax1.set_title('Fibonacci Performance Comparison (Linear Scale)')
-ax1.grid(True, alpha=0.3)
-ax1.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+        ax.loglog(prover_data['N'], prover_data['Minutes'], 'o-',
+                 label=prover, linewidth=2, markersize=8,
+                 color=colors[i % len(colors)])
+
+# Plot log-log scale
+plot_data(ax, df)
+ax.set_xlabel(x_label)
+ax.set_ylabel('Time (minutes)')
+ax.set_title(f'{function_type} Performance Comparison (Log-Log Scale)')
+ax.grid(True, alpha=0.3)
+ax.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
 
 # Format x-axis to show numbers in millions/thousands
 def format_func(x, p):
@@ -82,15 +88,7 @@ def format_func(x, p):
     elif x >= 1_000:
         return f'{int(x/1_000)}K'
     return str(int(x))
-ax1.xaxis.set_major_formatter(ticker.FuncFormatter(format_func))
-
-# Plot log scale
-plot_data(ax2, df, is_log=True)
-ax2.set_xlabel('Fibonacci N (log scale)')
-ax2.set_ylabel('Time (minutes)')
-ax2.set_title('Fibonacci Performance Comparison (Log Scale)')
-ax2.grid(True, alpha=0.3)
-ax2.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_func))
 
 plt.tight_layout()
 

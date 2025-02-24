@@ -1594,14 +1594,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "fibonacci-program"
-version = "0.1.0"
-dependencies = [
- "sp1-zkvm",
- "tiny-keccak 2.0.2 (git+https://github.com/sp1-patches/tiny-keccak?tag=patch-2.0.2-sp1-4.0.0)",
-]
-
-[[package]]
 name = "fixed-hash"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2239,6 +2231,14 @@ checksum = "422fbc7ff2f2f5bdffeb07718e5a5324dca72b0c9293d50df4026652385e3314"
 dependencies = [
  "digest 0.10.7",
  "sha3-asm",
+]
+
+[[package]]
+name = "keccak-program"
+version = "0.1.0"
+dependencies = [
+ "sp1-zkvm",
+ "tiny-keccak 2.0.2 (git+https://github.com/sp1-patches/tiny-keccak?tag=patch-2.0.2-sp1-4.0.0)",
 ]
 
 [[package]]

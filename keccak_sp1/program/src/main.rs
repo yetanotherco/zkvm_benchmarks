@@ -11,5 +11,5 @@ pub fn main() {
     keccak256.update(&bytes);
     keccak256.finalize(&mut hash);
 
-    sp1_zkvm::io::commit(&hash);
+    sp1_zkvm::io::commit_slice(&hash);
 }
