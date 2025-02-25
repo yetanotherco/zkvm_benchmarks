@@ -3,7 +3,7 @@
 use methods::{
     FIBONACCI_ELF, FIBONACCI_ID
 };
-use risc0_zkvm::{default_prover, ExecutorEnv};
+use risc0_zkvm::{default_prover, ExecutorEnv, ProverOpts};
 
 fn main() {
 
@@ -25,14 +25,15 @@ fn main() {
         .build()
         .unwrap();
 
-    // Obtain the default prover.
+    // Wwe are using the succinct prover options (compressed mode)
+    let opts = ProverOpts::succinct();
     let prover = default_prover();
 
     // Proof information by proving the specified ELF binary.
     // This struct contains the receipt along with statistics about execution of the guest
-    let prove_info = prover
-        .prove(env, FIBONACCI_ELF)
-        .unwrap();
+        let prove_info = prover
+            .prove_with_opts(env, FIBONACCI_ELF, &opts)
+            .unwrap();
 
     // extract the receipt.
     let receipt = prove_info.receipt;

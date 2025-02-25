@@ -38,8 +38,8 @@ fn main() {
     let (pk, _vk) = client.setup(ELF);
     println!("Setup in {:?}", start.elapsed());
 
-    let (_, report) = client.execute(ELF, &stdin).run().unwrap();
-    println!("executed program with {} cycles", report.total_instruction_count());
+    // let (_, report) = client.execute(ELF, &stdin).run().unwrap();
+    // println!("executed program with {} cycles", report.total_instruction_count());
 
     let mut proof;
     if mode == "groth16" {
