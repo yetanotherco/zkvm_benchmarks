@@ -38,25 +38,21 @@ fn main() {
     let (pk, _vk) = client.setup(ELF);
     println!("Setup in {:?}", start.elapsed());
 
-    // let (_, report) = client.execute(ELF, &stdin).run().unwrap();
-    // println!("executed program with {} cycles", report.total_instruction_count());
-
     let mut proof;
     if mode == "groth16" {
         proof = client.prove(&pk, &stdin).groth16().run().unwrap();
     } else {
         proof = client.prove(&pk, &stdin).compressed().run().unwrap();
     }
-    // Save the proof.
-    // proof.save("proof-with-io.json").expect("saving proof failed");
 
     println!("Successfully generated proof");
 
-    let mut hash_result: [u8; 32] = [42; 32]; // Fixed seed for reproducibility
+    // TODO: Add an extra flag to enable this sanity check
+    // Time spent here is not relevant vs the time used for proving
+    // But in a general benchmark is not needed
+    let mut hash_result: [u8; 32] = [42; 32];
     proof.public_values.read_slice(&mut hash_result);
-    println!("Obtained output: {:?}", hash_result);
     let expected_keccak = keccak(&data);
-    println!("Expected output: {:?}", expected_keccak);
     assert_eq!(hash_result, expected_keccak);
 }
 

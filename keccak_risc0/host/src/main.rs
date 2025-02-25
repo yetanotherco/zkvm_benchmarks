@@ -45,10 +45,11 @@ fn main() {
     // extract the receipt.
     let receipt = prove_info.receipt;
 
+    // TODO: Add an extra flag to enable this sanity check
+    // Time spent here is not relevant vs the time used for proving
+    // But in a general benchmark is not needed
     let output: Digest = receipt.journal.decode().unwrap();
-    println!("Obtained output: {:?}", output);
     let expected_keccak = keccak(&data);
-    println!("Expected output: {:?}", expected_keccak);
     assert_eq!(output, expected_keccak);
 
     // The receipt was verified at the end of proving, but the below code is an
