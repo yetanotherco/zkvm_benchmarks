@@ -1,4 +1,4 @@
-use sp1_sdk::{include_elf, utils, ProverClient, SP1ProofWithPublicValues, SP1Stdin};
+use sp1_sdk::{include_elf, utils, ProverClient, SP1Stdin};
 
 /// The ELF we want to execute inside the zkVM.
 const ELF: &[u8] = include_elf!("fibonacci-program");
@@ -26,45 +26,15 @@ fn main() {
     // Create a `ProverClient` method.
     let client = ProverClient::from_env();
 
-    // Execute the program using the `ProverClient.execute` method, without generating a proof.
-    // let (_, report) = client.execute(ELF, &stdin).run().unwrap();
-    // println!("executed program with {} cycles", report.total_instruction_count());
-
-
     // Generate the proof for the given program and input.
     let (pk, _vk) = client.setup(ELF);
 
-
-    let mut proof;
+    let mut _proof;
     if mode == "groth16" {
-        proof = client.prove(&pk, &stdin).groth16().run().unwrap();
+        _proof = client.prove(&pk, &stdin).groth16().run().unwrap();
     } else {
-        proof = client.prove(&pk, &stdin).compressed().run().unwrap();
+        _proof = client.prove(&pk, &stdin).compressed().run().unwrap();
     }
 
     println!("generated proof");
-
-    // Read and verify the output.
-    //
-    // Note that this output is read from values committed to in the program using
-    // `sp1_zkvm::io::commit`.
-    let _ = proof.public_values.read::<u32>();
-    let a = proof.public_values.read::<u32>();
-    let b = proof.public_values.read::<u32>();
-
-    println!("a: {}", a);
-    println!("b: {}", b);
-
-    //Verify proof and public values
-    //client.verify(&proof, &vk).expect("verification failed");
-
-    // Test a round trip of proof serialization and deserialization.
-    // proof.save("proof-with-pis.bin").expect("saving proof failed");
-    // let deserialized_proof =
-    //     SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
-
-    // Verify the deserialized proof.
-    //client.verify(&deserialized_proof, &vk).expect("verification failed");
-
-    println!("successfully generated and verified proof for the program!")
 }
