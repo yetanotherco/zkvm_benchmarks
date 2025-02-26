@@ -62,7 +62,7 @@ fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
 
 fibo_risc0_cuda:
-	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host 100
+	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
 
 keccak_risc0:
 	RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
