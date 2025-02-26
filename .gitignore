@@ -1,4 +1,4 @@
-**.DS_Store
+DS_Store
 *.csv
 !bench_results/*.csv
 fibo_sp1/script/proof-with-pis.bin
