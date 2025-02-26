@@ -39,7 +39,7 @@ for n in "${N_VALUES[@]}"; do
     # Run rsp_sp1 benchmark
     echo "Running RSP SP1 with BLOCK_MEGAGAS=$n"
     start=$(date +%s.%N)
-    make rsp_sp1 BLOCK_MEGAGAS=$n > /dev/null 2>&1
+    SP1_PROVER="cuda" make rsp_sp1 BLOCK_MEGAGAS=$n > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     echo "RSP SP1,$n,$(format_time $time)" >> $OUTPUT_FILE
