@@ -63,5 +63,5 @@ for n in "${N_VALUES[@]}"; do
     make rsp_sp1 BLOCK_MEGAGAS=$n > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
-    echo "RSP SP1,$n,$(format_time $time)" >> $OUTPUT_FILE
+    echo "RSP SP1,$megagas,$(format_time $time)" >> $OUTPUT_FILE
 done
