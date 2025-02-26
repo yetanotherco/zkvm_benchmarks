@@ -1,8 +1,8 @@
 Prover,Megagas,Time
-RSP Pico,1,4m50.2s
-RSP SP1,1,3m12.4s
-RSP Pico,6,23m47.8s
-RSP SP1,6,16m15.9s
-RSP Pico,15,47m56.3s
-RSP SP1,15,30m24.0s
-RSP Pico,24,100m17.1s
+Prover Alpha,1,4m50.2s
+Prover Beta,1,3m12.4s
+Prover Alpha,6,23m47.8s
+Prover Beta,6,16m15.9s
+Prover Alpha,15,47m56.3s
+Prover Beta,15,30m24.0s
+Prover Alpha,24,100m17.1s
