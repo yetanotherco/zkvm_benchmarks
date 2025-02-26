@@ -57,9 +57,6 @@ build_keccak_risc0:
 fibo_pico_wrapped:
 	./fibo_pico/target/release/prover $(N)
 
-keccak_pico:
-	./keccak_pico/target/release/prover $(N)
-
 fibo_sp1:
 	./fibo_sp1/target/release/fibonacci $(N) $(PROOF_MODE)
 
