@@ -21,9 +21,9 @@ format_time() {
 
 if [ -n "$TEST_MODE" ]; then
     echo "Running in test mode"
-    N_VALUES=(32)
+    N_VALUES=(1)
 else
-    N_VALUES=(1 6 15 24 36) # ~ 10KB 100KB 1MB
+    N_VALUES=(1 6 18 27 36)
 fi
 
 OUTPUT_FILE="benchmark_reth_gpu_results.csv"
