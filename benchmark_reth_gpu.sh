@@ -30,7 +30,7 @@ OUTPUT_FILE="benchmark_reth_gpu_results.csv"
 
 # Build all projects
 echo "Building all projects..."
-make build_rsp_sp1 RUSTFLAGS="cuda"
+make build_rsp_sp1 SP1_PROVER="cuda"
 make build_rsp_pico
 
 # Initialize results file
