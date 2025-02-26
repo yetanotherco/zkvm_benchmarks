@@ -46,7 +46,7 @@ make build_rsp_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
 make build_rsp_pico
 
 # Initialize results file
-echo "Prover,N,Time" > $OUTPUT_FILE
+echo "Prover,Megagas,Time" > $OUTPUT_FILE
 
 for n in "${N_VALUES[@]}"; do
     # Run rsp_pico benchmark
@@ -63,5 +63,5 @@ for n in "${N_VALUES[@]}"; do
     make rsp_sp1 BLOCK_MEGAGAS=$n > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
-    echo "RSP SP1,$megagas,$(format_time $time)" >> $OUTPUT_FILE
+    echo "RSP SP1,$n,$(format_time $time)" >> $OUTPUT_FILE
 done
