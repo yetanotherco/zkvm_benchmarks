@@ -1,26 +1,33 @@
+use std::{path::PathBuf, env};
 use alloy_primitives::B256;
-use rsp_client_executor::{io::ClientExecutorInput, CHAIN_ID_ETH_MAINNET};
-use std::path::PathBuf;
+use rsp_client_executor::{io::ClientExecutorInput};
 
 use sp1_sdk::{include_elf, utils, ProverClient, SP1Stdin};
 // const ELF: &[u8] = include_elf!("fibonacci-program");
 
-
-fn load_input_from_cache(chain_id: u64, block_number: u64) -> ClientExecutorInput {
-    let cache_path = PathBuf::from(format!("./rsp_sp1/script/input/{}/{}.bin", chain_id, block_number));
-    // println!("{:?}", &cache_path);
+fn load_input_from_cache(path: &str) -> ClientExecutorInput {
+    //let cache_path = PathBuf::from(format!("./input/{}/{}.bin", chain_id, block_number));
+    let cache_path = PathBuf::from(path);
+    //println!("Cache path: {:?}", cache_path);
     let mut cache_file = std::fs::File::open(cache_path).unwrap();
     let client_input: ClientExecutorInput = bincode::deserialize_from(&mut cache_file).unwrap();
+
     client_input
 }
+
 
 fn main() {
     // Initialize the logger.
     utils::setup_logger();
 
-    // Load the input from the cache.
-    let client_input = load_input_from_cache(CHAIN_ID_ETH_MAINNET, 20526624);
+    // Get the input path from command-line arguments
+    let args: Vec<String> = env::args().collect();
+    let input_path = if args.len() > 1 { &args[1] } else { 
+        panic!("Please provide the input path as an argument."); 
+    };
 
+    // Load the input from the cache.
+    let client_input = load_input_from_cache(input_path);
     // Generate the proof.
     let client = ProverClient::from_env();
 
