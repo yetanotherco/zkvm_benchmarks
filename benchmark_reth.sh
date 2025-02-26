@@ -26,7 +26,7 @@ else
     N_VALUES=(1 6 15 24 36) # ~ 10KB 100KB 1MB
 fi
 
-OUTPUT_FILE="benchmark_keccak_results.csv"
+OUTPUT_FILE="benchmark_reth_results.csv"
 
 # Detect CPU capabilities and set SP1 configuration
 if grep -q "avx512" /proc/cpuinfo; then
@@ -65,18 +65,4 @@ for n in "${N_VALUES[@]}"; do
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     echo "RSP SP1,$n,$(format_time $time)" >> $OUTPUT_FILE
-
-    # SP1 Groth16 benchmark (Linux + Docker only)
-    if [[ "$(uname)" == "Linux" ]] && command -v docker >/dev/null 2>&1; then
-        echo "Running SP1 (Groth16) with N=$n"
-        start=$(date +%s.%N)
-        make keccak_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
-        end=$(date +%s.%N)
-        time=$(echo "$end - $start" | bc)
-        echo "$SP1_NAME-Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
-    fi
-
-
-
-
 done
