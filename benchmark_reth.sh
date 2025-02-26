@@ -42,9 +42,8 @@ fi
 
 # Build all projects
 echo "Building all projects..."
-make build_keccak_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
-make build_keccak_pico
-make build_keccak_risc0
+make build_rsp_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
+make build_rsp_pico
 
 # Initialize results file
 echo "Prover,N,Time" > $OUTPUT_FILE
