@@ -4,6 +4,7 @@
 .PHONY: fibo_pico_wrapped fibo_sp1 fibo_risc0
 .PHONY: keccak_pico keccak_sp1 keccak_risc0
 .PHONY: run_plotter create_python_venv install_requirements
+.PHONY: build_rsp_risc0 build_rsp_risc0_cuda rsp_risc0
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
@@ -45,14 +46,21 @@ build_rsp_sp1:
 build_fibo_risc0:
 	cd fibo_risc0/host && cargo build --release
 
+build_keccak_risc0:
+	cd keccak_risc0/host && cargo build --release
+
+build_rsp_risc0:
+	cd rsp_risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release
+
+build_rsp_risc0_cuda:
+	cd rsp_risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release -F cuda
+
 rsp_pico:
 	./rsp_pico/target/release/prover block_data/$(BLOCK_MEGAGAS)M.bin
 
 keccak_pico:
 	./keccak_pico/target/release/prover $(N)
 
-build_keccak_risc0:
-	cd keccak_risc0/host && cargo build --release
 
 fibo_pico_wrapped:
 	./fibo_pico/target/release/prover $(N)
@@ -70,7 +78,10 @@ fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
 
 keccak_risc0:
-	RUST_LOG=info RISC0_INFO=1 ./keccak_risc0/target/release/host $(N)
+	RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
+
+rsp_risc0:
+	RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
 
 run_plotter_fibo: INPUT_FILE=benchmark_fibo_results.csv
 run_plotter_fibo: X_LABEL="Fibonacci N"
