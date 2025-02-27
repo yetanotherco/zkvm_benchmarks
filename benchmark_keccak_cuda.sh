@@ -26,7 +26,7 @@ else
     N_VALUES=(32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 131072 262144 524288 1048576 2097152 4194304 8388608) # ~ 10KB 100KB 1MB
 fi
 
-OUTPUT_FILE="benchmark_keccak_results.csv"
+OUTPUT_FILE="benchmark_keccak_cuda_results.csv"
 
 # Detect CPU capabilities and set SP1 configuration
 if grep -q "avx512" /proc/cpuinfo; then
