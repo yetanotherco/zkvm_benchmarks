@@ -46,6 +46,9 @@ build_fibo_risc0_cuda:
 build_keccak_risc0:
 	cd keccak_risc0/host && cargo build --release
 
+build_keccak_risc0_cuda:
+	cd keccak_risc0/host && cargo build --release -F cuda
+
 fibo_pico_wrapped:
 	./fibo_pico/target/release/prover $(N)
 
@@ -66,6 +69,9 @@ fibo_risc0_cuda:
 
 keccak_risc0:
 	RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
+
+keccak_risc0_cuda:
+	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
 
 run_plotter_fibo: INPUT_FILE=benchmark_fibo_results.csv
 run_plotter_fibo: X_LABEL="Fibonacci N"
