@@ -31,6 +31,7 @@ OUTPUT_FILE="benchmark_reth_gpu_results.csv"
 # Build all projects
 echo "Building all projects..."
 make build_rsp_sp1 SP1_PROVER="cuda"
+make build_rsp_risc0_cuda
 
 # Initialize results file
 echo "Prover,Megagas,Time" > $OUTPUT_FILE
@@ -43,4 +44,12 @@ for n in "${N_VALUES[@]}"; do
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
     echo "RSP SP1,$n,$(format_time $time)" >> $OUTPUT_FILE
+
+    # Run rsp_risc0 benchmark
+    echo "Running RSP RISC0 with BLOCK_MEGAGAS=$n"
+    start=$(date +%s.%N)
+    make rsp_risc0_cuda BLOCK_MEGAGAS=$n > /dev/null 2>&1
+    end=$(date +%s.%N)
+    time=$(echo "$end - $start" | bc)
+    echo "RSP RISC0,$n,$(format_time $time)" >> $OUTPUT_FILE
 done
