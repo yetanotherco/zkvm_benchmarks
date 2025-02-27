@@ -77,7 +77,7 @@ fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
 
 keccak_risc0:
-	RUST_LOG=info RISC0_INFO=1 ./keccak_risc0/target/release/host $(N)
+	RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
 
 rsp_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
