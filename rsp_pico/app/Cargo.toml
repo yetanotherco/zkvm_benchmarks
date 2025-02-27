@@ -1,0 +1,10 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pico-sdk = { workspace = true }
+rsp-client-executor = { git = "https://github.com/succinctlabs/rsp/", rev = "249b34ee0c5307b59dc48f1f45a474b04669c6c4" }
+
+bincode = "1.3.3"
