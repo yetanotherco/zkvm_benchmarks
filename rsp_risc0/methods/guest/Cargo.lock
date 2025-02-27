@@ -3148,6 +3148,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "rsp"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "c-kzg",
+ "risc0-zkvm",
+ "risc0-zkvm-platform",
+ "rsp-client-executor",
+ "serde",
+]
+
+[[package]]
 name = "rsp-client-executor"
 version = "0.1.0"
 source = "git+https://github.com/succinctlabs/rsp/?rev=4ceefdfb74c1691dd009168f0c7aec3d746ef8b3#4ceefdfb74c1691dd009168f0c7aec3d746ef8b3"
@@ -3220,18 +3232,6 @@ dependencies = [
  "serde",
  "serde_json",
  "tracing",
-]
-
-[[package]]
-name = "rsp-risc0"
-version = "0.1.0"
-dependencies = [
- "bincode",
- "c-kzg",
- "risc0-zkvm",
- "risc0-zkvm-platform",
- "rsp-client-executor",
- "serde",
 ]
 
 [[package]]
