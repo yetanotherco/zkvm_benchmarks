@@ -4,6 +4,7 @@
 .PHONY: fibo_pico_wrapped fibo_sp1 fibo_risc0
 .PHONY: keccak_pico keccak_sp1 keccak_risc0
 .PHONY: run_plotter create_python_venv install_requirements
+.PHONY: build_rsp_risc0 build_rsp_risc0_cuda rsp_risc0
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
@@ -49,7 +50,7 @@ build_keccak_risc0:
 	cd keccak_risc0/host && cargo build --release
 
 build_rsp_risc0:
-	cd rsp_risc0/host && cargo build --release
+	cd rsp_risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release
 
 build_rsp_risc0_cuda:
 	cd rsp_risc0/host && cargo build --release -F cuda
