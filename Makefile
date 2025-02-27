@@ -53,7 +53,7 @@ build_rsp_risc0:
 	cd rsp_risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release
 
 build_rsp_risc0_cuda:
-	cd rsp_risc0/host && cargo build --release -F cuda
+	cd rsp_risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release -F cuda
 
 rsp_pico:
 	./rsp_pico/target/release/prover block_data/$(BLOCK_MEGAGAS)M.bin
