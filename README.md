@@ -173,6 +173,8 @@ If no INPUT_FILE is provided, it will use the default file `benchmark_keccak_res
 
 The output will be `<path_to_file>.png`.
 
+You can also use the flag ```--linear``` to generate plots in linear scale instead of log log
+
 ## Acknowledgments
 
 To build this benches, we used provers made by Risc0, Succinct, and Pico. We also used examples of each as starting points for the programs

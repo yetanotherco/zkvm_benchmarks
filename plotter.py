@@ -2,21 +2,29 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import os   
+import os
 
 # Read arguments
 if len(sys.argv) < 4:
-    print("Usage: python script.py input_csv xlabel function")
-    print("Example: python script.py data.csv 'Vector Size (bytes)' 'Keccak'")
+    print("Usage: python script.py input_csv xlabel function [--linear]")
+    print("Example: python script.py data.csv 'Vector Size (bytes)' 'Keccak' [--linear]")
     sys.exit(1)
 
 input_csv_path = sys.argv[1]
 x_label = sys.argv[2]
 function_type = sys.argv[3]
+linear_scale = '--linear' in sys.argv  # Check for --linear flag
 
 # Read data from CSV
 df = pd.read_csv(input_csv_path)
-df['N'] = df['N'].astype(int)
+
+# Dynamically find the column name ('N' or 'Megagas')
+column_name = next((col for col in df.columns if col in ['N', 'Megagas']), None)
+if column_name is None:
+    raise ValueError("Neither 'N' nor 'Megagas' column found in the DataFrame")
+
+# Convert the column to integer
+df[column_name] = df[column_name].astype(int)
 
 def time_to_seconds(time_str):
     time_str = time_str.strip()
@@ -39,15 +47,15 @@ def time_to_seconds(time_str):
 print("Raw time conversion check:")
 for idx, row in df.iterrows():
     seconds = time_to_seconds(row['Time'])
-    print(f"{row['Prover']}, N={row['N']}, Time={row['Time']} => {seconds:.1f}s = {seconds/60:.2f}m")
+    print(f"{row['Prover']}, {column_name}={row[column_name]}, Time={row['Time']} => {seconds:.1f}s = {seconds/60:.2f}m")
 
 df['Seconds'] = df['Time'].apply(time_to_seconds)
 df['Minutes'] = df['Seconds'] / 60
 
 # Print sorted data for validation
-print("\nData sorted by Prover and N for validation:")
+print(f"\nData sorted by Prover and {column_name} for validation:")
 pd.set_option('display.float_format', '{:.2f}'.format)
-validation_df = df.sort_values(['Prover', 'N'])[['Prover', 'N', 'Time', 'Minutes']]
+validation_df = df.sort_values(['Prover', column_name])[['Prover', column_name, 'Time', 'Minutes']]
 print(validation_df.to_string())
 
 # Set style and color cycle
@@ -59,21 +67,27 @@ plt.figure(figsize=(10, 6))
 ax = plt.gca()
 
 # Function to plot data
-def plot_data(ax, data):
+def plot_data(ax, data, use_linear=False):
     for i, prover in enumerate(data['Prover'].unique()):
-        prover_data = data[data['Prover'] == prover].sort_values('N')
+        prover_data = data[data['Prover'] == prover].sort_values(column_name)
         print(f"\nPlotting data for {prover}:")
-        print(prover_data[['N', 'Minutes']].to_string())
+        print(prover_data[[column_name, 'Minutes']].to_string())
 
-        ax.loglog(prover_data['N'], prover_data['Minutes'], 'o-',
-                 label=prover, linewidth=2, markersize=8,
-                 color=colors[i % len(colors)])
+        if use_linear:
+            ax.plot(prover_data[column_name], prover_data['Minutes'], 'o-',
+                    label=prover, linewidth=2, markersize=8,
+                    color=colors[i % len(colors)])
+        else:
+            ax.loglog(prover_data[column_name], prover_data['Minutes'], 'o-',
+                     label=prover, linewidth=2, markersize=8,
+                     color=colors[i % len(colors)])
 
-# Plot log-log scale
-plot_data(ax, df)
+# Plot with chosen scale
+plot_data(ax, df, use_linear=linear_scale)
 ax.set_xlabel(x_label)
 ax.set_ylabel('Time (minutes)')
-ax.set_title(f'{function_type} Performance Comparison (Log-Log Scale)')
+scale_label = 'Linear Scale' if linear_scale else 'Log-Log Scale'
+ax.set_title(f'{function_type} Performance Comparison ({scale_label})')
 ax.grid(True, alpha=0.3)
 ax.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
 
