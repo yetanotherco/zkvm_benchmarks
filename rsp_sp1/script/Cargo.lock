@@ -4541,7 +4541,7 @@ dependencies = [
 [[package]]
 name = "rsp-client-executor"
 version = "0.1.0"
-source = "git+https://github.com/succinctlabs/rsp/#7ca364f3357056ef84dea757b385728bbacd1fe8"
+source = "git+https://github.com/succinctlabs/rsp/?rev=7ca364f3357056ef84dea757b385728bbacd1fe8#7ca364f3357056ef84dea757b385728bbacd1fe8"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -4573,7 +4573,7 @@ dependencies = [
 [[package]]
 name = "rsp-mpt"
 version = "0.1.0"
-source = "git+https://github.com/succinctlabs/rsp/#7ca364f3357056ef84dea757b385728bbacd1fe8"
+source = "git+https://github.com/succinctlabs/rsp/?rev=7ca364f3357056ef84dea757b385728bbacd1fe8#7ca364f3357056ef84dea757b385728bbacd1fe8"
 dependencies = [
  "alloy-primitives",
  "alloy-rlp",
@@ -4592,7 +4592,7 @@ dependencies = [
 [[package]]
 name = "rsp-primitives"
 version = "0.1.0"
-source = "git+https://github.com/succinctlabs/rsp/#7ca364f3357056ef84dea757b385728bbacd1fe8"
+source = "git+https://github.com/succinctlabs/rsp/?rev=7ca364f3357056ef84dea757b385728bbacd1fe8#7ca364f3357056ef84dea757b385728bbacd1fe8"
 dependencies = [
  "alloy-genesis",
  "alloy-rpc-types",
