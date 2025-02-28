@@ -8,13 +8,13 @@ Raw results can be found [here](/bench_results)
 
 ### Results on AMD EPYC 7543 (32 cores, 128 GiB ram)
 
-![Benchmark Results on EPYC 7543](bench_results/18_feb_25_epyc7543_32c_128gb.png)
+![Benchmark Results on EPYC 7543](bench_results/fibo_24_feb_25_epyc7543_32c_128gb.png)
 
 ## Keccak Benchmarks
 
 ### Results on AMD EPYS 7543 (32 cores, 128 GiB ram)
 
-![Benchmark Results on EPYC 7543](bench_results/keccak_20_feb_25_epyc7543_32c_128gb.png)
+![Benchmark Results on EPYC 7543](bench_results/keccak_24_feb_25_epyc7543_32c_128gb.png)
 
 ## Notes
 

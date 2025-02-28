@@ -52,16 +52,13 @@ fn main() {
     // Generate proof
     let _proof = client.prove(pv_path).expect("Failed to generate proof");
 
+    // TODO: Add an extra flag to enable this sanity check
+    // Time spent here is not relevant vs the time used for proving
+    // But in a general benchmark is not needed
     let string = fs::read_to_string("./pv_file").expect("Failed to read public_values");
     let hash_result = hex::decode(&string).expect("Failed to decode public_values");
-    println!("Obtained output: {:?}", hash_result);
     let expected_keccak = keccak(&data);
-    println!("Expected output: {:?}", expected_keccak);
     assert_eq!(hash_result, expected_keccak);
-
-    // Deserialize public_buffer into FibonacciData
-    // let _public_values: FibonacciData =
-    //    bincode::deserialize(&public_buffer).expect("Failed to deserialize");
 }
 
 fn keccak(bytes: &[u8]) -> [u8; 32] {
