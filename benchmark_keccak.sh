@@ -21,9 +21,11 @@ format_time() {
 
 if [ -n "$TEST_MODE" ]; then
     echo "Running in test mode"
-    N_VALUES=(32)
+    N_VALUES_OTHERS=(100)
+    N_VALUES_RISC0=(100)
 else
-    N_VALUES=(32 64 128 256 512 1024) # ~ 10KB 100KB 1MB
+    N_VALUES_OTHERS=(100 1000 10000 100000 1000000 10000000)
+    N_VALUES_RISC0=(100 1000 10000 100000)
 fi
 
 OUTPUT_FILE="benchmark_keccak_results.csv"
@@ -55,7 +57,8 @@ make build_keccak_risc0
 # Initialize results file
 echo "Prover,N,Time" > $OUTPUT_FILE
 
-for n in "${N_VALUES[@]}"; do
+# Benchmark Pico and SP1 with N_VALUES_OTHERS
+for n in "${N_VALUES_OTHERS[@]}"; do
     # Pico benchmark
     echo "Running Pico with N=$n"
     start=$(date +%s.%N)
@@ -81,7 +84,10 @@ for n in "${N_VALUES[@]}"; do
         time=$(echo "$end - $start" | bc)
         echo "$SP1_NAME-Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
     fi
+done
 
+# Benchmark RISC0 with N_VALUES_RISC0
+for n in "${N_VALUES_RISC0[@]}"; do
     # RISC0 benchmark
     echo "Running RISC0 with N=$n"
     start=$(date +%s.%N)
