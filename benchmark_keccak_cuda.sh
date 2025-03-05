@@ -50,7 +50,7 @@ echo "Prover,N,Time" > $OUTPUT_FILE
 
 for n in "${N_VALUES[@]}"; do
 
-    SP1 Compressed benchmark
+    # SP1 Compressed benchmark
     echo "Running SP1 (Compressed) with N=$n"
     start=$(date +%s.%N)
     SP1_PROVER="cuda" make keccak_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
@@ -58,7 +58,7 @@ for n in "${N_VALUES[@]}"; do
     time=$(echo "$end - $start" | bc)
     echo "$SP1_NAME,$n,$(format_time $time)" >> $OUTPUT_FILE
 
-     SP1 Groth16 benchmark (Linux + Docker only)
+    # SP1 Groth16 benchmark (Linux + Docker only)
     if [[ "$(uname)" == "Linux" ]] && command -v docker >/dev/null 2>&1; then
         echo "Running SP1 (Groth16) with N=$n"
         start=$(date +%s.%N)

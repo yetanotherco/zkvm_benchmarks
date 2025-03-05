@@ -63,6 +63,8 @@ bash benchmark.sh
 
 ### Running the fibonacci benchmark
 
+#### Using CPU
+
 To run the benchmark, first do a run with small programs to see if everything is working:
 
 ```shell
@@ -82,7 +84,30 @@ After making sure it works, you can run:
 bash benchmark_fibo.sh
 ```
 
+#### Using GPU (CUDA)
+
+To run the benchmark using CUDA, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_fibo_cuda.sh
+```
+
+If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
+
+```shell
+make build_fibo_sp1
+SP1_PROVER="cuda" PROOF_MODE=groth16 N=5 make fibo_sp1
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_fibo_cuda.sh
+```
+
 ### Running the keccak benchmark
+
+#### Using CPU
 
 To run the benchmark, first do a run with small programs to see if everything is working:
 
@@ -103,6 +128,27 @@ After making sure it works, you can run:
 bash benchmark_keccak.sh
 ```
 
+#### Using GPU (CUDA)
+
+
+To run the benchmark using CUDA, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_keccak_cuda.sh
+```
+
+If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
+
+```shell
+make build_keccak_sp1
+SP1_PROVER="cuda" PROOF_MODE=groth16 N=5 make keccak_sp1
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_keccak_cuda.sh
+```
 
 ## Setting up the server
 
