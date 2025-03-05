@@ -21,23 +21,31 @@ format_time() {
 
 if [ -n "$TEST_MODE" ]; then
     echo "Running in test mode"
-    N_VALUES=(32)
+    N_VALUES_OTHERS=(100)
+    N_VALUES_RISC0=(100)
 else
-    N_VALUES=(32 64 128 256 512 1024) # ~ 10KB 100KB 1MB
+    N_VALUES_OTHERS=(100 1000 10000 100000 1000000 10000000)
+    N_VALUES_RISC0=(100 1000 10000 100000)
 fi
 
 OUTPUT_FILE="benchmark_keccak_results.csv"
 
-# Detect CPU capabilities and set SP1 configuration
+# Detect CPU capabilities and set SP1/PICO configuration
 if grep -q "avx512" /proc/cpuinfo; then
     SP1_RUSTFLAGS="-C target-cpu=native -C target-feature=+avx512f"
     SP1_NAME="SP1-AVX512"
+    PICO_RUSTFLAGS="-C target-cpu=native -C target-feature=+avx512f"
+    PICO_NAME="Pico-AVX512"
 elif grep -q "avx2" /proc/cpuinfo; then
     SP1_RUSTFLAGS="-C target-cpu=native"
     SP1_NAME="SP1-AVX2"
+    PICO_RUSTFLAGS="-C target-cpu=native"
+    PICO_NAME="Pico-AVX2"
 else
     SP1_RUSTFLAGS=""
     SP1_NAME="SP1-Base"
+    PICO_RUSTFLAGS=""
+    PICO_NAME="Pico-Base"
 fi
 
 # Build all projects
@@ -49,14 +57,15 @@ make build_keccak_risc0
 # Initialize results file
 echo "Prover,N,Time" > $OUTPUT_FILE
 
-for n in "${N_VALUES[@]}"; do
+# Benchmark Pico and SP1 with N_VALUES_OTHERS
+for n in "${N_VALUES_OTHERS[@]}"; do
     # Pico benchmark
     echo "Running Pico with N=$n"
     start=$(date +%s.%N)
-    make keccak_pico N=$n > /dev/null 2>&1
+    make keccak_pico N=$n RUSTFLAGS="$PICO_RUSTFLAGS" > /dev/null 2>&1
     end=$(date +%s.%N)
     time=$(echo "$end - $start" | bc)
-    echo "Pico Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
+    echo "$PICO_NAME Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
 
     # SP1 Compressed benchmark
     echo "Running SP1 (Compressed) with N=$n"
@@ -75,7 +84,10 @@ for n in "${N_VALUES[@]}"; do
         time=$(echo "$end - $start" | bc)
         echo "$SP1_NAME-Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
     fi
+done
 
+# Benchmark RISC0 with N_VALUES_RISC0
+for n in "${N_VALUES_RISC0[@]}"; do
     # RISC0 benchmark
     echo "Running RISC0 with N=$n"
     start=$(date +%s.%N)
