@@ -21,9 +21,9 @@ format_time() {
 
 if [ -n "$TEST_MODE" ]; then
     echo "Running in test mode"
-    N_VALUES=(32)
+    N_VALUES=(100)
 else
-    N_VALUES=(32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 131072 262144 524288 1048576 2097152 4194304 8388608) # ~ 10KB 100KB 1MB
+    N_VALUES_OTHERS=(100 1000 10000 100000 1000000 10000000)
 fi
 
 OUTPUT_FILE="benchmark_keccak_cuda_results.csv"
@@ -42,39 +42,31 @@ fi
 
 # Build all projects
 echo "Building all projects..."
-#make build_keccak_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
-#make build_keccak_pico
+make build_keccak_sp1 RUSTFLAGS="$SP1_RUSTFLAGS"
 make build_keccak_risc0_cuda
 
 # Initialize results file
 echo "Prover,N,Time" > $OUTPUT_FILE
 
 for n in "${N_VALUES[@]}"; do
-    # Pico benchmark
-#    echo "Running Pico with N=$n"
-#    start=$(date +%s.%N)
-#    make keccak_pico N=$n > /dev/null 2>&1
-#    end=$(date +%s.%N)
-#    time=$(echo "$end - $start" | bc)
-#    echo "Pico Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
 
-    # SP1 Compressed benchmark
-#    echo "Running SP1 (Compressed) with N=$n"
-#    start=$(date +%s.%N)
-#    make keccak_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
-#    end=$(date +%s.%N)
-#    time=$(echo "$end - $start" | bc)
-#    echo "$SP1_NAME,$n,$(format_time $time)" >> $OUTPUT_FILE
+    SP1 Compressed benchmark
+    echo "Running SP1 (Compressed) with N=$n"
+    start=$(date +%s.%N)
+    SP1_PROVER="cuda" make keccak_sp1 N=$n PROOF_MODE=compressed RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
+    end=$(date +%s.%N)
+    time=$(echo "$end - $start" | bc)
+    echo "$SP1_NAME,$n,$(format_time $time)" >> $OUTPUT_FILE
 
-    # SP1 Groth16 benchmark (Linux + Docker only)
-#    if [[ "$(uname)" == "Linux" ]] && command -v docker >/dev/null 2>&1; then
-#        echo "Running SP1 (Groth16) with N=$n"
-#        start=$(date +%s.%N)
-#        make keccak_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
-#        end=$(date +%s.%N)
-#        time=$(echo "$end - $start" | bc)
-#        echo "$SP1_NAME-Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
-#    fi
+     SP1 Groth16 benchmark (Linux + Docker only)
+    if [[ "$(uname)" == "Linux" ]] && command -v docker >/dev/null 2>&1; then
+        echo "Running SP1 (Groth16) with N=$n"
+        start=$(date +%s.%N)
+        SP1_PROVER="cuda" make keccak_sp1 N=$n PROOF_MODE=groth16 RUSTFLAGS="$SP1_RUSTFLAGS" > /dev/null 2>&1
+        end=$(date +%s.%N)
+        time=$(echo "$end - $start" | bc)
+        echo "$SP1_NAME-Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
+    fi
 
     # RISC0 benchmark
     echo "Running RISC0 with N=$n"
