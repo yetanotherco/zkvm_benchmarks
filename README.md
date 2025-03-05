@@ -174,6 +174,12 @@ The output will be `<path_to_file>.png`.
 
 Install required python libraries on ```requirements.txt``` and run with ```jupyter lab benchmark.ipynb```or ```jupyter notebook benchmark.ipynb```
 
+To export the notebook to html
+
+```shell
+jupyter nbconvert --to html benchmark.ipynb --HTMLExporter.theme=dark
+```
+
 ## Acknowledgments
 
 To build this benches, we used provers made by Risc0, Succinct, and Pico. We also used examples of each as starting points for the programs
