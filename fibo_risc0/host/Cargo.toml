@@ -8,3 +8,6 @@ methods = { path = "../methods" }
 risc0-zkvm = { version = "1.2.3" }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 serde = "1.0"
+
+[features]
+cuda = ["risc0-zkvm/cuda"]
