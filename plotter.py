@@ -50,13 +50,15 @@ pd.set_option('display.float_format', '{:.2f}'.format)
 validation_df = df.sort_values(['Prover', 'N'])[['Prover', 'N', 'Time', 'Minutes']]
 print(validation_df.to_string())
 
-# Set style and color cycle
-plt.style.use('tableau-colorblind10')
-colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+# Set dark mode style
+plt.style.use('dark_background')
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
+          '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
-# Create single figure
-plt.figure(figsize=(10, 6))
+# Create single figure with dark background
+plt.figure(figsize=(10, 6), facecolor='#1a1a1a')
 ax = plt.gca()
+ax.set_facecolor('#1a1a1a')
 
 # Function to plot data
 def plot_data(ax, data):
@@ -71,11 +73,17 @@ def plot_data(ax, data):
 
 # Plot log-log scale
 plot_data(ax, df)
-ax.set_xlabel(x_label)
-ax.set_ylabel('Time (minutes)')
-ax.set_title(f'{function_type} Performance Comparison (Log-Log Scale)')
-ax.grid(True, alpha=0.3)
-ax.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+ax.set_xlabel(x_label, color='white')
+ax.set_ylabel('Time (minutes)', color='white')
+ax.set_title(f'{function_type} Performance Comparison (Log-Log Scale)', color='white')
+ax.grid(True, alpha=0.2, color='gray')
+ax.legend(bbox_to_anchor=(1.02, 1), loc='upper left',
+          frameon=True, facecolor='#2d2d2d', edgecolor='white',
+          labelcolor='white')
+
+# Set tick colors
+ax.tick_params(axis='x', colors='white')
+ax.tick_params(axis='y', colors='white')
 
 # Format x-axis to show numbers in millions/thousands
 def format_func(x, p):
@@ -94,7 +102,7 @@ plt.tight_layout()
 
 # Save the plot to the same folder as the input CSV, with the same name but in PNG format
 output_image_path = os.path.splitext(input_csv_path)[0] + '.png'
-plt.savefig(output_image_path, dpi=300, bbox_inches='tight')
+plt.savefig(output_image_path, dpi=300, bbox_inches='tight', facecolor='#1a1a1a')
 print(f"Plot saved to {output_image_path}")
 
 plt.show()
