@@ -148,6 +148,25 @@ Change the docker installation to the debian one, then use the same script as Ub
 
 ### Plotting results
 
+To plot the results, you can use the `plotter.py` script. It will plot the results of the benchmarks and save the plot as a `.png` file.
+
+#### Install dependencies
+
+You can use your own python environment or create a virtual environment and then activate it:
+
+```shell
+make create_python_venv
+. venv/bin/activate
+```
+
+#### Install dependencies
+
+```shell
+make install_requirements
+```
+
+#### Plotting results
+
 ```shell
 make run_plotter INPUT_FILE=<path_to_file>.csv X_LABEL=<x_label> FUNCTION=<function>
 ```

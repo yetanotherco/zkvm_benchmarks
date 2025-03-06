@@ -66,15 +66,15 @@ run_plotter_keccak: X_LABEL="Vec of Length N bytes"
 run_plotter_keccak: FUNCTION="Keccak"
 run_plotter_keccak: run_plotter
 
-run_plotter: create_python_venv install_requirements
+run_plotter:
 	@echo "Running plotter..."
-	@. venv/bin/activate && python3 plotter.py $(INPUT_FILE) $(X_LABEL) $(FUNCTION)
+	@python3 plotter.py $(INPUT_FILE) $(X_LABEL) $(FUNCTION)
 
 create_python_venv:
 	@echo "Creating virtual environment..."
 	@python3 -m venv venv
-	@echo "Virtual environment created successfully!"
+	@echo "Virtual environment created successfully on 'venv' directory!"
 
 install_requirements:
 	@echo "Installing dependencies..."
-	@. venv/bin/activate && pip install -r requirements.txt
+	@pip install -r requirements.txt
