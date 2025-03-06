@@ -21,9 +21,11 @@ format_time() {
 
 if [ -n "$TEST_MODE" ]; then
     echo "Running in test mode"
-    N_VALUES=(100)
+    N_VALUES_OTHERS=(100)
+    N_VALUES_RISC0=(100)
 else
-    N_VALUES=(100 1000 10000 100000 1000000 10000000)
+    N_VALUES_OTHERS=(100 1000 10000 100000 1000000 10000000 10000000)
+    N_VALUES_RISC0=(100 1000 10000 100000 1000000 10000000)
 fi
 
 OUTPUT_FILE="benchmark_keccak_cuda_results.csv"
@@ -48,8 +50,7 @@ make build_keccak_risc0_cuda
 # Initialize results file
 echo "Prover,N,Time" > $OUTPUT_FILE
 
-for n in "${N_VALUES[@]}"; do
-
+for n in "${N_VALUES_OTHERS[@]}"; do
     # SP1 Compressed benchmark
     echo "Running SP1 (Compressed) with N=$n"
     start=$(date +%s.%N)
@@ -67,7 +68,9 @@ for n in "${N_VALUES[@]}"; do
         time=$(echo "$end - $start" | bc)
         echo "$SP1_NAME-Groth16,$n,$(format_time $time)" >> $OUTPUT_FILE
     fi
+done
 
+for n in "${N_VALUES_RISC0[@]}"; do
     # RISC0 benchmark
     echo "Running RISC0 with N=$n"
     start=$(date +%s.%N)

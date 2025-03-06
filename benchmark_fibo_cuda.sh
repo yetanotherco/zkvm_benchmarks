@@ -23,7 +23,7 @@ if [ -n "$TEST_MODE" ]; then
     echo "Running in test mode"
     N_VALUES=(10)
 else
-    N_VALUES=(10000 100000 1000000 4000000)
+    N_VALUES=(10000 100000 1000000 10000000)
 fi
 
 OUTPUT_FILE="benchmark_fibo_cuda_results.csv"
