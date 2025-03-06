@@ -24,7 +24,7 @@ base_proofs -> recursive_stark_proof -> snark_proof
 
 Each step of this pipeline adds more proving time and reduces proof size. The final step is only needed to verify directly in Ethereum.
 
-SP1 is benched with recursive_stark and snark proof. Pico is always using the snark proof. 
+SP1 is benched with recursive_stark and snark proof. Pico is always using the snark proof.
 
 Aligned supports verification of proofs of any stage, so you can use the faster one you see
 
@@ -59,7 +59,6 @@ After making sure it works, you can run:
 ```shell
 bash benchmark.sh
 ```
-
 
 ### Running the fibonacci benchmark
 
@@ -154,7 +153,6 @@ bash benchmark_keccak_cuda.sh
 
 ### Ubuntu
 
-
 ```sh
 # Install system dependencies and Docker
 sudo apt-get update
@@ -218,6 +216,16 @@ make run_plotter_keccak INPUT_FILE=<path_to_file>.csv
 If no INPUT_FILE is provided, it will use the default file `benchmark_keccak_results.csv`.
 
 The output will be `<path_to_file>.png`.
+
+## Using the jupyter notebook
+
+Install required python libraries on ```requirements.txt``` and run with ```jupyter lab benchmark.ipynb```or ```jupyter notebook benchmark.ipynb```
+
+To export the notebook to html
+
+```shell
+jupyter nbconvert --to html benchmark.ipynb --HTMLExporter.theme=dark
+```
 
 ## Acknowledgments
 
