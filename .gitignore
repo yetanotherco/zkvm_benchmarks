@@ -1,4 +1,5 @@
 .DS_Store
+.idea
 *.csv
 !bench_results/*.csv
 fibo_sp1/script/proof-with-pis.bin
@@ -8,6 +9,4 @@ fibo_sp1/script/proof-with-pis.bin
 **proof.json
 **/.vscode
 venv
-.idea
-.DS_Store
 **/target
