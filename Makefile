@@ -2,7 +2,7 @@
 .PHONY: build_elf_keccak_pico build_keccak_pico build_keccak_sp1 build_keccak_risc0
 .PHONY: fibo_pico_wrapped fibo_sp1 fibo_risc0
 .PHONY: keccak_pico keccak_sp1 keccak_risc0
-.PHONY: run_plotter create_python_venv install_requirements
+.PHONY: run_plotter create_python_venv install_requirements export_notebook
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
@@ -90,3 +90,9 @@ create_python_venv:
 install_requirements:
 	@echo "Installing dependencies..."
 	@pip install -r requirements.txt
+
+export_notebook:
+	@echo "Exporting notebook to HTML..."
+	@jupyter nbconvert --to html benchmark.ipynb --output index --HTMLExporter.theme=dark --no-input
+	@sed -i '' 's/<title>.*<\/title>/<title>zkvms benchmarking<\/title>/' index.html
+	@echo "Notebook exported successfully to 'index.html'!"
