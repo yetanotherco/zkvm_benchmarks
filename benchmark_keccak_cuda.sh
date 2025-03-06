@@ -23,7 +23,7 @@ if [ -n "$TEST_MODE" ]; then
     echo "Running in test mode"
     N_VALUES=(100)
 else
-    N_VALUES_OTHERS=(100 1000 10000 100000 1000000 10000000)
+    N_VALUES=(100 1000 10000 100000 1000000 10000000)
 fi
 
 OUTPUT_FILE="benchmark_keccak_cuda_results.csv"
