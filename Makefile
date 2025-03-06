@@ -10,11 +10,6 @@ PROOF_MODE ?= compressed
 # Iterations of fibonacci
 N ?= 100000
 
-setup_cuda:
-	@echo "Setting up CUDA..."
-	@./cuda.sh
-	@echo "CUDA setup successfully!"
-
 # action_function_proving-system
 
 # Pico is the only prover which doesn't
