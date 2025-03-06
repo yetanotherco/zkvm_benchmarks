@@ -4,15 +4,34 @@ Benchmarks of VM proving times made by Aligned and Lambdaclass
 
 Raw results can be found [here](/bench_results)
 
-## Fibonacci Benchmarks
+## GPU Benchmarks on NVIDIA RTX A6000
 
-### Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
+The data was collected on a server with the following specs:
+
+- GPU: NVIDIA RTX A6000
+- RAM: 44GB
+- OS: Ubuntu 22 LTS
+
+### Fibonacci Benchmark
+
+![Benchmark Results on RTX A6000](bench_results/fibo_6_mar_25_A6000.png)
+
+### Keccak Benchmark
+
+![Benchmark Results on RTX A6000](bench_results/keccak_6_mar_25_A6000.png)
+
+## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
+
+The data was collected on a server with the following specs:
+- CPU: AMD EPYC 8534P 64-Core Processor
+- RAM: 576GB
+- OS: Ubuntu 24 LTS
+
+### Fibonacci Benchmark
 
 ![Benchmark Results on EPYC 8534P](bench_results/fibo_5_mar_25_epyc8534p_64c_576gb.png)
 
-## Keccak Benchmarks
-
-### Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
+### Keccak Benchmark
 
 ![Benchmark Results on EPYC 8534P](bench_results/keccak_5_mar_25_epyc8534p_64c_576gb.png)
 
