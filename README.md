@@ -8,7 +8,7 @@ Raw results can be found [here](/bench_results)
 
 The data was collected on a server with the following specs:
 
-- GPU: NVIDIA RTX A6000
+- GPU: NVIDIA RTX A6000 (48GB)
 - RAM: 44GB
 - OS: Ubuntu 22 LTS
 
