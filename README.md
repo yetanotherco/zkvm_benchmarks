@@ -177,7 +177,13 @@ Install required python libraries on ```requirements.txt``` and run with ```jupy
 To export the notebook to html
 
 ```shell
-jupyter nbconvert --to html benchmark.ipynb --HTMLExporter.theme=dark
+jupyter nbconvert --to html benchmark.ipynb --output index --HTMLExporter.theme=dark
+```
+
+To change the title of the index.html 
+
+```shell
+sed -i '' 's/<title>.*<\/title>/<title>zkvms benchmarking<\/title>/' index.html
 ```
 
 ## Acknowledgments
