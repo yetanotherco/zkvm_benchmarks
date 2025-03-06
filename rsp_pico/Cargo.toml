@@ -1,0 +1,27 @@
+[workspace]
+members = [ 
+    "app", 
+    "prover"
+]
+resolver = "2"
+
+[workspace.dependencies]
+pico-sdk = { git = "https://github.com/brevis-network/pico", branch = "main"}
+serde = { version = "1.0.205", features = ["derive"] }
+
+[patch.crates-io]
+sha2 = { git = "https://github.com/brevis-network/hashes", package = "sha2", rev = "ddeaa09" }
+tiny-keccak = { git = "https://github.com/brevis-network/tiny-keccak", features = ["keccak"], branch = "patch-v1.0.0" }
+sha3 = { git = "https://github.com/brevis-network/hashes", branch = "sha3-v1.0.0" }
+curve25519-dalek = { git = "https://github.com/brevis-network/curve25519-dalek", branch = "patch-v1.0.1" }
+bls12_381 = { git = "https://github.com/brevis-network/bls12_381", branch = "patch-v1.0.1" }
+kzg-rs = { git = "https://github.com/MauroToscano/pico-kzg-rs" }
+
+
+curve25519-dalek-ng = { git = "https://github.com/brevis-network/curve25519-dalek-ng", branch = "patch-v1.0.1" }
+ed25519-consensus = { git = "https://github.com/brevis-network/ed25519-consensus", branch = "patch-v1.0.1" }
+ecdsa = { git = "https://github.com/brevis-network/signatures", package = "ecdsa", branch = "patch-v1.0.1" }
+secp256k1 = { git = "https://github.com/brevis-network/rust-secp256k1", branch = "patch-v1.0.1" }
+#bn = { git = "https://github.com/brevis-network/bn", branch = "patch-v1.0.1" }
+crypto-bigint = { git = "https://github.com/brevis-network/crypto-bigint", branch = "patch-v1.0.0" }
+

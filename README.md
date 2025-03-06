@@ -174,20 +174,24 @@ make run_plotter INPUT_FILE=<path_to_file>.csv X_LABEL=<x_label> FUNCTION=<funct
 #### Plotting Fibonacci results
 
 ```shell
-make run_plotter_fibo INPUT_FILE=<path_to_file>.csv
+make run_plotter_fibo INPUT_FILE=<path_to_file>.csv [LINEAR=1]
 ```
 
 If no INPUT_FILE is provided, it will use the default file `benchmark_fibo_results.csv`.
 
+Default plot is log log, ```USE_LINEAR=1``` will make it linear
+
 #### Plotting Keccak results
 
 ```shell
-make run_plotter_keccak INPUT_FILE=<path_to_file>.csv
+make run_plotter_keccak INPUT_FILE=<path_to_file>.csv [LINEAR=1]
 ```
 
 If no INPUT_FILE is provided, it will use the default file `benchmark_keccak_results.csv`.
 
 The output will be `<path_to_file>.png`.
+
+Default plot is log log, ```USE_LINEAR=1``` will make it linear
 
 ## Using the jupyter notebook
 
