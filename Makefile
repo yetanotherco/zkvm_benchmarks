@@ -2,6 +2,7 @@
 .PHONY: build_elf_keccak_pico build_keccak_pico build_keccak_sp1 build_keccak_risc0
 .PHONY: fibo_pico_wrapped fibo_sp1 fibo_risc0
 .PHONY: keccak_pico keccak_sp1 keccak_risc0
+.PHONY: build_rsp_risc0 build_rsp_risc0_cuda rsp_risc0
 .PHONY: run_plotter create_python_venv install_requirements
 
 # PROOF_MODE ONLY USED FOR SP1
@@ -38,6 +39,12 @@ build_fibo_risc0:
 build_keccak_risc0:
 	cd keccak_risc0/host && cargo build --release
 
+build_rsp_risc0:
+	cd rsp_risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release
+
+build_rsp_risc0_cuda:
+	cd rsp_risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release -F cuda
+
 fibo_pico_wrapped:
 	./fibo_pico/target/release/prover $(N)
 
@@ -55,6 +62,9 @@ fibo_risc0:
 
 keccak_risc0:
 	RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
+
+rsp_risc0:
+	RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
 
 run_plotter_fibo: INPUT_FILE=benchmark_fibo_results.csv
 run_plotter_fibo: X_LABEL="Fibonacci N"
