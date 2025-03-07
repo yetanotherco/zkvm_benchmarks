@@ -2,7 +2,7 @@
 .PHONY: build_elf_keccak_pico build_keccak_pico build_keccak_sp1 build_keccak_risc0
 .PHONY: fibo_pico_wrapped fibo_sp1 fibo_risc0
 .PHONY: keccak_pico keccak_sp1 keccak_risc0
-.PHONY: build_rsp_risc0 build_rsp_risc0_cuda rsp_risc0
+.PHONY: build_rsp_risc0 build_rsp_risc0_cuda rsp_risc0 rsp_risc0_cuda
 .PHONY: run_plotter create_python_venv install_requirements
 
 # PROOF_MODE ONLY USED FOR SP1
@@ -65,6 +65,9 @@ keccak_risc0:
 
 rsp_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
+
+rsp_risc0_cuda:
+	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
 
 run_plotter_fibo: INPUT_FILE=benchmark_fibo_results.csv
 run_plotter_fibo: X_LABEL="Fibonacci N"
