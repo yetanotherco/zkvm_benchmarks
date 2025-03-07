@@ -94,5 +94,5 @@ install_requirements:
 export_notebook:
 	@echo "Exporting notebook to HTML..."
 	@jupyter nbconvert --to html benchmark.ipynb --output index --HTMLExporter.theme=dark --no-input
-	@sed -i '' 's/<title>.*<\/title>/<title>zkvms benchmarking<\/title>/' index.html
+	@sed -i '' 's/<title>.*<\/title>/<title>zkvm benchmarks<\/title>/' index.html
 	@echo "Notebook exported successfully to 'index.html'!"

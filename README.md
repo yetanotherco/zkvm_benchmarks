@@ -1,6 +1,20 @@
 # zkVMs benchmarks
 
-Benchmarks of VM proving times made by Aligned and Lambdaclass
+## About the project
+
+Benchmarks of VM proving times made by Aligned.
+
+The benchmarks test the following programs:
+
+- Fibonacci
+- Keccak
+- [RSP (Reth Succinct Processor)](https://github.com/succinctlabs/rsp)
+
+The benchmarks are run on the following provers:
+
+- [SP1](https://docs.succinct.xyz/docs/sp1/introduction)
+- [Risc0](https://risczero.com/)
+- [Pico](https://docs.brevis.network/)
 
 Raw results can be found [here](/bench_results)
 
