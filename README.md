@@ -6,9 +6,9 @@ Benchmarks of VM proving times made by Aligned.
 
 The benchmarks test the following programs:
 
-- Fibonacci
-- Keccak
-- [RSP (Reth Succinct Processor)](https://github.com/succinctlabs/rsp)
+- ✅ Fibonacci
+- ✅ Keccak
+- 🏗️ [RSP (Reth Succinct Processor)](https://github.com/succinctlabs/rsp)
 
 The benchmarks are run on the following provers:
 
