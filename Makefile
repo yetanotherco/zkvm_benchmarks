@@ -79,8 +79,8 @@ run_plotter_keccak: FUNCTION="Keccak"
 run_plotter_keccak: run_plotter
 
 run_plotter:
-	@echo "Running plotter..."
-	@python3 plotter.py $(INPUT_FILE) $(X_LABEL) $(FUNCTION)
+	@echo "Running plotter$(if $(LINEAR), with linear option)..."
+	@python3 plotter.py $(INPUT_FILE) $(X_LABEL) $(FUNCTION) $(if $(LINEAR),--linear)
 
 create_python_venv:
 	@echo "Creating virtual environment..."

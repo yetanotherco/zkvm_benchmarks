@@ -5,3 +5,4 @@
 
 ./benchmark_fibo.sh
 ./benchmark_keccak.sh
+./benchmark_reth.sh
