@@ -33,6 +33,9 @@ build_fibo_sp1:
 build_keccak_sp1:
 	cd keccak_sp1/script && cargo build --release
 
+build_rsp_sp1:
+	cd rsp_sp1/script && cargo build --release
+
 build_fibo_risc0:
 	cd fibo_risc0/host && cargo build --release
 
@@ -56,6 +59,9 @@ fibo_sp1:
 
 keccak_sp1:
 	./keccak_sp1/target/release/prover $(N) $(PROOF_MODE)
+
+rsp_sp1:
+	./rsp_sp1/target/release/prover block_data/$(BLOCK_MEGAGAS)M.bin $(PROOF_MODE)
 
 fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
