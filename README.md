@@ -4,15 +4,34 @@ Benchmarks of VM proving times made by Aligned and Lambdaclass
 
 Raw results can be found [here](/bench_results)
 
-## Fibonacci Benchmarks
+## GPU Benchmarks on NVIDIA RTX A6000
 
-### Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
+The data was collected on a server with the following specs:
+
+- GPU: NVIDIA RTX A6000 (48GB)
+- RAM: 44GB
+- OS: Ubuntu 22 LTS
+
+### Fibonacci Benchmark
+
+![Benchmark Results on RTX A6000](bench_results/fibo_6_mar_25_A6000.png)
+
+### Keccak Benchmark
+
+![Benchmark Results on RTX A6000](bench_results/keccak_6_mar_25_A6000.png)
+
+## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
+
+The data was collected on a server with the following specs:
+- CPU: AMD EPYC 8534P 64-Core Processor
+- RAM: 576GB
+- OS: Ubuntu 24 LTS
+
+### Fibonacci Benchmark
 
 ![Benchmark Results on EPYC 8534P](bench_results/fibo_5_mar_25_epyc8534p_64c_576gb.png)
 
-## Keccak Benchmarks
-
-### Results on AMD EPYC 8534P (64 cores, 576 GiB ram)
+### Keccak Benchmark
 
 ![Benchmark Results on EPYC 8534P](bench_results/keccak_5_mar_25_epyc8534p_64c_576gb.png)
 
@@ -62,6 +81,8 @@ bash benchmark.sh
 
 ### Running the fibonacci benchmark
 
+#### Using CPU
+
 To run the benchmark, first do a run with small programs to see if everything is working:
 
 ```shell
@@ -81,7 +102,30 @@ After making sure it works, you can run:
 bash benchmark_fibo.sh
 ```
 
+#### Using GPU (CUDA)
+
+To run the benchmark using CUDA, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_fibo_cuda.sh
+```
+
+If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
+
+```shell
+make build_fibo_sp1
+SP1_PROVER="cuda" PROOF_MODE=groth16 N=5 make fibo_sp1
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_fibo_cuda.sh
+```
+
 ### Running the keccak benchmark
+
+#### Using CPU
 
 To run the benchmark, first do a run with small programs to see if everything is working:
 
@@ -102,9 +146,31 @@ After making sure it works, you can run:
 bash benchmark_keccak.sh
 ```
 
+#### Using GPU (CUDA)
+
+
+To run the benchmark using CUDA, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_keccak_cuda.sh
+```
+
+If you are benching Groth16 in SP1, try proving a small program manually to double check it's fine. First run will also download SP1 docker image for groth16 compression, so the values for that bench may be off on this first run.
+
+```shell
+make build_keccak_sp1
+SP1_PROVER="cuda" PROOF_MODE=groth16 N=5 make keccak_sp1
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_keccak_cuda.sh
+```
+
 ## Setting up the server
 
-### Ubuntu
+### Ubuntu CPU
 
 ```sh
 # Install system dependencies and Docker
@@ -145,6 +211,99 @@ echo "Installation complete! Please run 'newgrp docker' or log out and back in t
 ### Debian
 
 Change the docker installation to the debian one, then use the same script as Ubuntu
+
+### Ubuntu GPU
+
+```sh
+#!/bin/bash
+
+## GCC needs to match coda version, 9.0 or 10.0 may be needed, 11 may not work
+
+sudo apt-get update
+sudo apt install gcc pkg-config libssl-dev build-essential apt-transport-https ca-certificates curl software-properties-common
+
+# DOCKER
+
+# Add Docker's official GPG key:
+
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+
+echo \
+ "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+ $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+ sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# USER DOCKER
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+#CUDA
+# Install x
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb
+sudo dpkg -i cuda-keyring_1.0-1_all.deb
+sudo apt-get update
+sudo apt-get install cuda
+export PATH=/usr/local/cuda/bin${PATH:+:${PATH}} export LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+source ~/.bashrc
+
+sudo apt-get install nvidia-cuda-toolkit
+
+# This may be needed for risc0:
+export CUDA_HOME=/usr/local/cuda
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+
+sudo apt install gcc-9 g++-9
+
+export CC=/usr/bin/gcc-9 
+export CXX=/usr/bin/g++-9
+export CPATH=/usr/local/cuda/include:$CPATH export LIBRARY_PATH=/usr/local/cuda/lib64:$LIBRARY_PATH
+
+# Docker cuda
+
+# #Add NVIDIA Container Toolkit repository
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+  sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+  sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+sudo apt-get update
+
+sudo apt-get install -y nvidia-container-toolkit
+
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+
+##Test
+docker run --gpus all --rm debian:stretch nvidia-smi
+
+#RUST
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+. "$HOME/.cargo/env"
+
+#PROVERS
+curl -L https://sp1.succinct.xyz | bash
+source /home/paperspace/.bashrc
+sp1up
+
+curl -L https://risczero.com/install | bash
+. "/home/paperspace/.bashrc"
+rzup install
+rzup install r0vm 1.2.4
+```
 
 ### Plotting results
 
@@ -196,13 +355,7 @@ Install required python libraries on ```requirements.txt``` and run with ```jupy
 To export the notebook to html
 
 ```shell
-jupyter nbconvert --to html benchmark.ipynb --output index --HTMLExporter.theme=dark
-```
-
-To change the title of the index.html 
-
-```shell
-sed -i '' 's/<title>.*<\/title>/<title>zkvms benchmarking<\/title>/' index.html
+make export_notebook
 ```
 
 ## Acknowledgments
