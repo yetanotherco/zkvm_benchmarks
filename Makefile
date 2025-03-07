@@ -2,6 +2,7 @@
 .PHONY: build_elf_keccak_pico build_keccak_pico build_keccak_sp1 build_keccak_risc0
 .PHONY: fibo_pico_wrapped fibo_sp1 fibo_risc0
 .PHONY: keccak_pico keccak_sp1 keccak_risc0
+.PHONY: build_rsp_sp1 rsp_sp1
 .PHONY: build_rsp_risc0 build_rsp_risc0_cuda rsp_risc0 rsp_risc0_cuda
 .PHONY: run_plotter create_python_venv install_requirements
 
