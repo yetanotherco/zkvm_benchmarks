@@ -3,7 +3,7 @@ use std::{fs, path::PathBuf, env};
 extern crate pico_sdk;
 extern crate rand;
 extern crate rsp_client_executor;
-use rsp_client_executor::io::ClientExecutorInput;
+use rsp_client_executor::io::EthClientExecutorInput;
 
 
 use pico_sdk::{client::DefaultProverClient, init_logger};
@@ -15,12 +15,12 @@ pub fn load_elf(path: &str) -> Vec<u8> {
     })
 }
 
-fn load_input_from_cache(path: &str) -> ClientExecutorInput {
+fn load_input_from_cache(path: &str) -> EthClientExecutorInput {
     //let cache_path = PathBuf::from(format!("./input/{}/{}.bin", chain_id, block_number));
     let cache_path = PathBuf::from(path);
     //println!("Cache path: {:?}", cache_path);
     let mut cache_file = std::fs::File::open(cache_path).unwrap();
-    let client_input: ClientExecutorInput = bincode::deserialize_from(&mut cache_file).unwrap();
+    let client_input: EthClientExecutorInput = bincode::deserialize_from(&mut cache_file).unwrap();
 
     client_input
 }
