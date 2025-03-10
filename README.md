@@ -204,6 +204,23 @@ After making sure it works, you can run:
 bash benchmark_keccak_cuda.sh
 ```
 
+### Running the RSP benchmark
+
+#### Using GPU (CUDA)
+
+
+To run the benchmark using CUDA, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_reth_cuda.sh
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_keccak_cuda.sh
+```
+
 ## Setting up the server
 
 ### Ubuntu CPU

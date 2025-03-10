@@ -34,7 +34,7 @@ make build_rsp_sp1 SP1_PROVER="cuda"
 make build_rsp_risc0_cuda
 
 # Initialize results file
-echo "Prover,Megagas,Time" > $OUTPUT_FILE
+echo "Prover,N,Time" > $OUTPUT_FILE
 
 for n in "${N_VALUES[@]}"; do
     # Run rsp_sp1 benchmark
