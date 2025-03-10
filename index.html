@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>zkvms benchmarking</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>zkVM Benchmarks</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7531,8 +7531,21 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Aligned/Lambdaclass-zkVMs-benchmarks">Aligned/Lambdaclass zkVMs benchmarks<a class="anchor-link" href="#Aligned/Lambdaclass-zkVMs-benchmarks">¶</a></h1><h2 id="Benchmarks-of-VM-proving-times-made-by-Aligned-and-Lambdaclass">Benchmarks of VM proving times made by Aligned and Lambdaclass<a class="anchor-link" href="#Benchmarks-of-VM-proving-times-made-by-Aligned-and-Lambdaclass">¶</a></h2><p>These benchmarks aim to provide a neutral suite for measuring the efficiency of zkVMs.</p>
+<h1 id="Benchmarks-of-VM-proving-times-made-by-Aligned">Benchmarks of VM proving times made by Aligned<a class="anchor-link" href="#Benchmarks-of-VM-proving-times-made-by-Aligned">¶</a></h1><h2 id="About">About<a class="anchor-link" href="#About">¶</a></h2><p>These benchmarks aim to provide a neutral suite for measuring the efficiency of zkVMs.</p>
+<p>The benchmarks test the following programs:</p>
+<ul>
+<li>✅ Fibonacci</li>
+<li>✅ Keccak</li>
+<li>🏗️ <a href="https://github.com/succinctlabs/rsp">RSP (Reth Succinct Processor)</a></li>
+</ul>
+<p>The benchmarks are run on the following zkVMs:</p>
+<ul>
+<li><a href="https://docs.succinct.xyz/docs/sp1/introduction">SP1</a></li>
+<li><a href="https://risczero.com/">Risc0</a></li>
+<li><a href="https://docs.brevis.network/">Pico</a></li>
+</ul>
 <p>You can run this Python notebook yourself to create new plots or analyze the data.</p>
+<p>The Githbut repository is available <a href="https://github.com/yetanotherco/zkvm_benchmarks">here</a>.</p>
 <p>Raw results can be found <a href="https://github.com/yetanotherco/zkvm_benchmarks/tree/main/bench_results">here</a>.</p>
 <p>The full Jupyter notebook can be found <a href="https://github.com/yetanotherco/zkvm_benchmarks/blob/main/benchmark.ipynb">here</a>.</p>
 </div>
