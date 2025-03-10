@@ -34,22 +34,7 @@ The data was collected on a server with the following specs:
 
 ![Benchmark Results on RTX A6000](bench_results/keccak_6_mar_25_A6000.png)
 
-## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
-
-The data was collected on a server with the following specs:
-- CPU: AMD EPYC 8534P 64-Core Processor
-- RAM: 576GB
-- OS: Ubuntu 24 LTS
-
-### Fibonacci Benchmark
-
-![Benchmark Results on EPYC 8534P](bench_results/fibo_5_mar_25_epyc8534p_64c_576gb.png)
-
-### Keccak Benchmark
-
-![Benchmark Results on EPYC 8534P](bench_results/keccak_5_mar_25_epyc8534p_64c_576gb.png)
-
-## [RSP](https://github.com/succinctlabs/rsp) Benchmarks
+### [RSP](https://github.com/succinctlabs/rsp) Benchmarks
 
 The blocks used for the benchmark are available in [block data](/block_data).
 
@@ -67,6 +52,20 @@ The blocks used for the benchmark are available in [block data](/block_data).
 | 21077746     | 2024-10-30 10:04 | 27.00              | [View on Etherscan](https://etherscan.io/block/21077746) |
 | 21926929     | 2024-10-30 23:58 | 36.00              | [View on Etherscan](https://etherscan.io/block/21926929) |
 
+## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
+
+The data was collected on a server with the following specs:
+- CPU: AMD EPYC 8534P 64-Core Processor
+- RAM: 576GB
+- OS: Ubuntu 24 LTS
+
+### Fibonacci Benchmark
+
+![Benchmark Results on EPYC 8534P](bench_results/fibo_5_mar_25_epyc8534p_64c_576gb.png)
+
+### Keccak Benchmark
+
+![Benchmark Results on EPYC 8534P](bench_results/keccak_5_mar_25_epyc8534p_64c_576gb.png)
 
 ## Notes
 
