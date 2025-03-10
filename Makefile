@@ -4,7 +4,7 @@
 .PHONY: keccak_pico keccak_sp1 keccak_risc0
 .PHONY: build_rsp_sp1 rsp_sp1
 .PHONY: build_rsp_risc0 build_rsp_risc0_cuda rsp_risc0 rsp_risc0_cuda
-.PHONY: run_plotter create_python_venv install_requirements
+.PHONY: run_plotter create_python_venv install_requirements export_notebook
 
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
@@ -40,8 +40,14 @@ build_rsp_sp1:
 build_fibo_risc0:
 	cd fibo_risc0/host && cargo build --release
 
+build_fibo_risc0_cuda:
+	cd fibo_risc0/host && cargo build --release -F cuda
+
 build_keccak_risc0:
 	cd keccak_risc0/host && cargo build --release
+
+build_keccak_risc0_cuda:
+	cd keccak_risc0/host && cargo build --release -F cuda
 
 build_rsp_risc0:
 	cd rsp_risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release
@@ -67,8 +73,14 @@ rsp_sp1:
 fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
 
+fibo_risc0_cuda:
+	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 ./fibo_risc0/target/release/host $(N)
+
 keccak_risc0:
 	RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
+
+keccak_risc0_cuda:
+	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
 
 rsp_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
@@ -98,3 +110,9 @@ create_python_venv:
 install_requirements:
 	@echo "Installing dependencies..."
 	@pip install -r requirements.txt
+
+export_notebook:
+	@echo "Exporting notebook to HTML..."
+	@jupyter nbconvert --to html benchmark.ipynb --output index --HTMLExporter.theme=dark --no-input
+	@sed -i '' 's/<title>.*<\/title>/<title>zkVM Benchmarks<\/title>/' index.html
+	@echo "Notebook exported successfully to 'index.html'!"
