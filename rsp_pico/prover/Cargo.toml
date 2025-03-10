@@ -1,0 +1,11 @@
+[package]
+name = "prover"
+version = "1.0.0"
+
+[dependencies]
+pico-sdk = { workspace = true }
+bincode = "1.3.3"
+serde = { version = "1.0", features = ["derive"] }
+#alloy-sol-types = "0.8.0"
+rand = "0.8"
+rsp-client-executor = { git = "https://github.com/succinctlabs/rsp/", rev = "249b34ee0c5307b59dc48f1f45a474b04669c6c4" }

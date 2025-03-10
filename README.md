@@ -34,6 +34,30 @@ The data was collected on a server with the following specs:
 
 ![Benchmark Results on RTX A6000](bench_results/keccak_6_mar_25_A6000.png)
 
+### [RSP](https://github.com/succinctlabs/rsp) Benchmark
+
+![Benchmark Results on RTX A6000](bench_results/rsp_8_mar_25_A6000.png)
+
+Notice the cost is not purely lineal, since there can be blocks that require more keccaks and are more expensive to prove than others. For example, the block of 27Mgas is cheaper to prove than the one of 18M Gas
+
+The blocks used for the benchmark are available in [block data](/block_data).
+
+| block_number | block_time       | gas_used (MegaGas) | etherscan_link                                           |
+|--------------|------------------|--------------------|----------------------------------------------------------|
+| 21688509     | 2025-01-23 16:52 | 1.00               | [View on Etherscan](https://etherscan.io/block/21688509) |
+| 20852412     | 2024-09-28 23:27 | 3.00               | [View on Etherscan](https://etherscan.io/block/20852412) |
+| 19874787     | 2024-05-15 10:28 | 6.00               | [View on Etherscan](https://etherscan.io/block/19874787) |
+| 21066632     | 2024-10-28 20:51 | 9.00               | [View on Etherscan](https://etherscan.io/block/21066632) |
+| 21363516     | 2024-12-09 07:41 | 12.00              | [View on Etherscan](https://etherscan.io/block/21363516) |
+| 21136535     | 2024-11-07 15:01 | 15.00              | [View on Etherscan](https://etherscan.io/block/21136535) |
+| 20967372     | 2024-10-15 00:25 | 18.00              | [View on Etherscan](https://etherscan.io/block/20967372) |
+| 20607931     | 2024-08-25 20:16 | 21.00              | [View on Etherscan](https://etherscan.io/block/20607931) |
+| 21574864     | 2025-01-07 20:04 | 24.00              | [View on Etherscan](https://etherscan.io/block/21574864) |
+| 21077746     | 2024-10-30 10:04 | 27.00              | [View on Etherscan](https://etherscan.io/block/21077746) |
+| 21926929     | 2024-10-30 23:58 | 36.00              | [View on Etherscan](https://etherscan.io/block/21926929) |
+
+Note: The 27Mgas block has fewer transactions than the other blocks, but one of them is a high cpu usage transaction.
+
 ## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
 
 The data was collected on a server with the following specs:
@@ -174,6 +198,23 @@ If you are benching Groth16 in SP1, try proving a small program manually to doub
 ```shell
 make build_keccak_sp1
 SP1_PROVER="cuda" PROOF_MODE=groth16 N=5 make keccak_sp1
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_keccak_cuda.sh
+```
+
+### Running the RSP benchmark
+
+#### Using GPU (CUDA)
+
+
+To run the benchmark using CUDA, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_reth_cuda.sh
 ```
 
 After making sure it works, you can run:
@@ -347,20 +388,24 @@ make run_plotter INPUT_FILE=<path_to_file>.csv X_LABEL=<x_label> FUNCTION=<funct
 #### Plotting Fibonacci results
 
 ```shell
-make run_plotter_fibo INPUT_FILE=<path_to_file>.csv
+make run_plotter_fibo INPUT_FILE=<path_to_file>.csv [LINEAR=1]
 ```
 
 If no INPUT_FILE is provided, it will use the default file `benchmark_fibo_results.csv`.
 
+Default plot is log log, ```USE_LINEAR=1``` will make it linear
+
 #### Plotting Keccak results
 
 ```shell
-make run_plotter_keccak INPUT_FILE=<path_to_file>.csv
+make run_plotter_keccak INPUT_FILE=<path_to_file>.csv [LINEAR=1]
 ```
 
 If no INPUT_FILE is provided, it will use the default file `benchmark_keccak_results.csv`.
 
 The output will be `<path_to_file>.png`.
+
+Default plot is log log, ```USE_LINEAR=1``` will make it linear
 
 ## Using the jupyter notebook
 
