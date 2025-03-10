@@ -2,16 +2,16 @@
 // The ELF is used for proving and the ID is used for verification.
 use std::{path::PathBuf, env};
 // use alloy_primitives::B256;
-use rsp_client_executor::{io::ClientExecutorInput};
+use rsp_client_executor::{io::EthClientExecutorInput};
 use methods::{RSP_ELF, RSP_ID};
 use risc0_zkvm::{default_prover, ExecutorEnv, ProverOpts};
 
-fn load_input_from_cache(path: &str) -> ClientExecutorInput {
+fn load_input_from_cache(path: &str) -> EthClientExecutorInput {
     //let cache_path = PathBuf::from(format!("./input/{}/{}.bin", chain_id, block_number));
     let cache_path = PathBuf::from(path);
     //println!("Cache path: {:?}", cache_path);
     let mut cache_file = std::fs::File::open(cache_path).unwrap();
-    let client_input: ClientExecutorInput = bincode::deserialize_from(&mut cache_file).unwrap();
+    let client_input: EthClientExecutorInput = bincode::deserialize_from(&mut cache_file).unwrap();
 
     client_input
 }
