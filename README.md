@@ -38,6 +38,8 @@ The data was collected on a server with the following specs:
 
 ![Benchmark Results on RTX A6000](bench_results/rsp_8_mar_25_A6000.png)
 
+Notice the cost is not purely lineal, since there can be blocks that require more keccaks and are more expensive to prove than others. For example, the block of 27Mgas is cheaper to prove than the one of 18M Gas
+
 The blocks used for the benchmark are available in [block data](/block_data).
 
 | block_number | block_time       | gas_used (MegaGas) | etherscan_link                                           |
