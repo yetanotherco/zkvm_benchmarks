@@ -10,3 +10,4 @@ fibo_sp1/script/proof-with-pis.bin
 **/.vscode
 venv
 **/target
+proof-with-pis.bin
