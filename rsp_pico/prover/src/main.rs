@@ -57,11 +57,4 @@ fn main() {
 
     // Generate proof
     let _proof = client.prove(pv_path).expect("Failed to generate proof");
-
-    // Decodes public values from the proof's public value stream.
-    // let public_buffer = proof.pv_stream.unwrap();
-
-    // Deserialize public_buffer into FibonacciData
-    // let _public_values: FibonacciData =
-    //    bincode::deserialize(&public_buffer).expect("Failed to deserialize");
 }

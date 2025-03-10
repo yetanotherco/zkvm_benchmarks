@@ -2,6 +2,7 @@
 
 #![no_main]
 
+use risc0_zkvm::guest::env;
 use rsp_client_executor::{io::ClientExecutorInput, ClientExecutor, EthereumVariant};
 
 risc0_zkvm::guest::entry!(main);
@@ -15,5 +16,6 @@ pub fn main() {
     let executor = ClientExecutor;
     let header = executor.execute::<EthereumVariant>(input).expect("failed to execute client");
     let block_hash = header.hash_slow();
-    println!("block_hash: {:?}", block_hash);
+
+    env::commit(&block_hash);
 }
