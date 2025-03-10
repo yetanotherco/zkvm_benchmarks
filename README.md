@@ -34,7 +34,9 @@ The data was collected on a server with the following specs:
 
 ![Benchmark Results on RTX A6000](bench_results/keccak_6_mar_25_A6000.png)
 
-### [RSP](https://github.com/succinctlabs/rsp) Benchmarks
+### [RSP](https://github.com/succinctlabs/rsp) Benchmark
+
+![Benchmark Results on RTX A6000](bench_results/rsp_8_mar_25_A6000.png)
 
 The blocks used for the benchmark are available in [block data](/block_data).
 
@@ -51,6 +53,8 @@ The blocks used for the benchmark are available in [block data](/block_data).
 | 21574864     | 2025-01-07 20:04 | 24.00              | [View on Etherscan](https://etherscan.io/block/21574864) |
 | 21077746     | 2024-10-30 10:04 | 27.00              | [View on Etherscan](https://etherscan.io/block/21077746) |
 | 21926929     | 2024-10-30 23:58 | 36.00              | [View on Etherscan](https://etherscan.io/block/21926929) |
+
+Note: The 27Mgas block has fewer transactions than the other blocks, but one of them is a high cpu usage transaction.
 
 ## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
 
