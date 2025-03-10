@@ -98,9 +98,16 @@ run_plotter_keccak: X_LABEL="Vec of Length N bytes"
 run_plotter_keccak: FUNCTION="Keccak"
 run_plotter_keccak: run_plotter
 
+run_plotter_cuda: INPUT_FILE=benchmark_cuda_results.csv
+run_plotter_cuda: X_LABEL="Block Size (Megagas)"
+run_plotter_cuda: FUNCTION="RSP"
+run_plotter_cuda: LINEAR=1
+run_plotter_cuda: REGRESSION=1
+run_plotter_cuda: run_plotter
+
 run_plotter:
 	@echo "Running plotter$(if $(LINEAR), with linear option)..."
-	@python3 plotter.py $(INPUT_FILE) $(X_LABEL) $(FUNCTION) $(if $(LINEAR),--linear)
+	@python3 plotter.py $(INPUT_FILE) $(X_LABEL) $(FUNCTION) $(if $(LINEAR),--linear) $(if $(REGRESSION),--regression)
 
 create_python_venv:
 	@echo "Creating virtual environment..."
