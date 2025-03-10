@@ -49,6 +49,25 @@ The data was collected on a server with the following specs:
 
 ![Benchmark Results on EPYC 8534P](bench_results/keccak_5_mar_25_epyc8534p_64c_576gb.png)
 
+## [RSP](https://github.com/succinctlabs/rsp) Benchmarks
+
+The blocks used for the benchmark are available in [block data](/block_data).
+
+| block_number | block_time       | gas_used (MegaGas) | etherscan_link                                           |
+|--------------|------------------|--------------------|----------------------------------------------------------|
+| 21688509     | 2025-01-23 16:52 | 1.00               | [View on Etherscan](https://etherscan.io/block/21688509) |
+| 20852412     | 2024-09-28 23:27 | 3.00               | [View on Etherscan](https://etherscan.io/block/20852412) |
+| 19874787     | 2024-05-15 10:28 | 6.00               | [View on Etherscan](https://etherscan.io/block/19874787) |
+| 21066632     | 2024-10-28 20:51 | 9.00               | [View on Etherscan](https://etherscan.io/block/21066632) |
+| 21363516     | 2024-12-09 07:41 | 12.00              | [View on Etherscan](https://etherscan.io/block/21363516) |
+| 21136535     | 2024-11-07 15:01 | 15.00              | [View on Etherscan](https://etherscan.io/block/21136535) |
+| 20967372     | 2024-10-15 00:25 | 18.00              | [View on Etherscan](https://etherscan.io/block/20967372) |
+| 20607931     | 2024-08-25 20:16 | 21.00              | [View on Etherscan](https://etherscan.io/block/20607931) |
+| 21574864     | 2025-01-07 20:04 | 24.00              | [View on Etherscan](https://etherscan.io/block/21574864) |
+| 21077746     | 2024-10-30 10:04 | 27.00              | [View on Etherscan](https://etherscan.io/block/21077746) |
+| 21926929     | 2024-10-30 23:58 | 36.00              | [View on Etherscan](https://etherscan.io/block/21926929) |
+
+
 ## Notes
 
 It's important to note most provers have a pipeline for proof generation that looks like this:
