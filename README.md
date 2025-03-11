@@ -36,7 +36,7 @@ The data was collected on a server with the following specs:
 
 ### [RSP](https://github.com/succinctlabs/rsp) Benchmark
 
-![Benchmark Results on RTX A6000](bench_results/rsp_8_mar_25_A6000.png)
+![Benchmark Results on RTX A6000](bench_results/rsp_11_mar_25_A6000.png)
 
 Notice the cost is not purely lineal, since there can be blocks that require more keccaks and are more expensive to prove than others. For example, the block of 27Mgas is cheaper to prove than the one of 18M Gas
 
