@@ -83,7 +83,7 @@ keccak_risc0_cuda:
 	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 RISC0_KECCAK_PO2=18 ./keccak_risc0/target/release/host $(N)
 
 rsp_risc0:
-	RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
+	RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/host/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
 
 rsp_risc0_cuda:
 	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
