@@ -57,7 +57,7 @@ fn main() {
     // It is strongly recommended you use the network prover given the size of these programs.
     println!("Starting proof generation.");
     // let proof = client.prove(&pk, &stdin).run().expect("Proving should work.");
-    let mut proof;
+    let proof;
     if mode == "groth16" {
         proof = client.prove(&pk, &stdin).groth16().run().unwrap();
     } else if mode == "compressed"{
@@ -70,7 +70,7 @@ fn main() {
     client.verify(&proof, &vk).expect("proof verification should succeed");
 
     // Test a round trip of proof serialization and deserialization.
-    proof.save("proof-with-pis.bin").expect("saving proof failed");
+    proof.save(&format!("proof-with-pis-{}.bin", mode)).expect("saving proof failed");
     let deserialized_proof =
         SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
 
