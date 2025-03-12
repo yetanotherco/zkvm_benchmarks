@@ -86,7 +86,7 @@ rsp_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/host/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
 
 rsp_risc0_cuda:
-	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
+	RUSTFLAGS="-C target-cpu=native" RUST_LOG=info RISC0_INFO=1 ./rsp_risc0/host/target/release/host block_data/$(BLOCK_MEGAGAS)M.bin
 
 run_plotter_fibo: INPUT_FILE=benchmark_fibo_results.csv
 run_plotter_fibo: X_LABEL="Fibonacci N"
