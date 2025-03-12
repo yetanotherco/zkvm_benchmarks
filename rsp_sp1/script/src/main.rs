@@ -2,7 +2,7 @@ use std::{path::PathBuf, env};
 use alloy_primitives::B256;
 use rsp_client_executor::{io::ClientExecutorInput};
 
-use sp1_sdk::{include_elf, utils, ProverClient, SP1Stdin};
+use sp1_sdk::{include_elf, utils, ProverClient, SP1Stdin, SP1ProofWithPublicValues};
 // const ELF: &[u8] = include_elf!("fibonacci-program");
 
 fn load_input_from_cache(path: &str) -> ClientExecutorInput {
@@ -57,4 +57,14 @@ fn main() {
     println!("Proof generation finished.");
 
     client.verify(&proof, &vk).expect("proof verification should succeed");
+
+    // Test a round trip of proof serialization and deserialization.
+    proof.save("proof-with-pis.bin").expect("saving proof failed");
+    let deserialized_proof =
+        SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
+
+    // Verify the deserialized proof.
+    client.verify(&deserialized_proof, &vk).expect("verification failed");
+
+    println!("successfully generated and verified proof for the program!")
 }
