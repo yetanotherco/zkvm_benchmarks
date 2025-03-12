@@ -8,7 +8,7 @@ The benchmarks test the following programs:
 
 - ✅ Fibonacci
 - ✅ Keccak
-- 🏗️ [RSP (Reth Succinct Processor)](https://github.com/succinctlabs/rsp)
+- ✅️ [RSP (Reth Succinct Processor)](https://github.com/succinctlabs/rsp)
 
 The benchmarks are run on the following provers:
 
