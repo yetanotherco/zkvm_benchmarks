@@ -56,13 +56,13 @@ build_rsp_risc0_cuda:
 	cd rsp/risc0/host && RISC0_FEATURE_bigint2=1 cargo build --release -F cuda
 
 fibo_pico_wrapped:
-	./fibo/pico/target/release/prover $(N)
+	./fibonacci/pico/target/release/prover $(N)
 
 keccak_pico:
 	./keccak/pico/target/release/prover $(N)
 
 fibo_sp1:
-	./fibo/sp1/target/release/fibonacci $(N) $(PROOF_MODE)
+	./fibonacci/sp1/target/release/fibonacci $(N) $(PROOF_MODE)
 
 keccak_sp1:
 	./keccak/sp1/target/release/prover $(N) $(PROOF_MODE)
