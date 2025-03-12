@@ -63,7 +63,7 @@ fn main() {
     } else if mode == "compressed"{
         proof = client.prove(&pk, &stdin).compressed().run().unwrap();
     } else {
-        proof = client.prove(&pk, &stdin).core().unwrap();
+        proof = client.prove(&pk, &stdin).core().run().unwrap();
     }
     println!("Proof generation finished.");
 
