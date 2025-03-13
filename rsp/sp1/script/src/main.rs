@@ -34,7 +34,6 @@ fn main() {
 
     // Load the input from the cache.
     let client_input = load_input_from_cache(input_path);
-    let gas_used = round_to_nearest_power_of_10_string(client_input.current_block.header.gas_used);
 
     // Generate the proof.
     let client = ProverClient::from_env();
@@ -75,6 +74,7 @@ fn main() {
     client.verify(&proof, &vk).expect("proof verification should succeed");
 
     if save_proof {
+        let gas_used = round_to_nearest_power_of_10_string(client_input.current_block.header.gas_used);
         // Test a round trip of proof serialization and deserialization.
         proof.save(&format!("proof-with-pis-{}-{}.bin", mode, gas_used)).expect("saving proof failed");
         let deserialized_proof =
