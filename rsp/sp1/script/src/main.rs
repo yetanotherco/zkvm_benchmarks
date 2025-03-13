@@ -28,6 +28,9 @@ fn main() {
     let mode = args.get(2)
         .map(|s| s.to_lowercase())
         .unwrap_or_else(|| "compressed".to_string());
+    let save_proof: bool = args.get(3)
+        .map(|s| s.to_lowercase().parse::<bool>().unwrap_or(false))
+        .unwrap_or(false);
 
     // Load the input from the cache.
     let client_input = load_input_from_cache(input_path);
@@ -69,13 +72,15 @@ fn main() {
 
     client.verify(&proof, &vk).expect("proof verification should succeed");
 
-    // Test a round trip of proof serialization and deserialization.
-    proof.save(&format!("proof-with-pis-{}.bin", mode)).expect("saving proof failed");
-    let deserialized_proof =
-        SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
+    if save_proof {
+        // Test a round trip of proof serialization and deserialization.
+        proof.save(&format!("proof-with-pis-{}.bin", mode)).expect("saving proof failed");
+        let deserialized_proof =
+            SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
 
-    // Verify the deserialized proof.
-    client.verify(&deserialized_proof, &vk).expect("verification failed");
+        // Verify the deserialized proof.
+        client.verify(&deserialized_proof, &vk).expect("verification failed");
+    }
 
     println!("successfully generated and verified proof for the program!")
 }
