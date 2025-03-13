@@ -76,7 +76,7 @@ fn main() {
     if save_proof {
         let gas_used = round_to_nearest_power_of_10_string(client_input.current_block.header.gas_used);
         // Test a round trip of proof serialization and deserialization.
-        proof.save(&format!("proof-with-pis-{}-{}.bin", mode, gas_used)).expect("saving proof failed");
+        proof.save(&format!("proofs/rsp_proof-with-pis-{}-{}.bin", mode, gas_used)).expect("saving proof failed");
         let deserialized_proof =
             SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
 

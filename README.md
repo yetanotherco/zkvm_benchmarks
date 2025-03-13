@@ -58,6 +58,10 @@ The blocks used for the benchmark are available in [block data](/block_data).
 
 Note: The 27Mgas block has fewer transactions than the other blocks, but one of them is a high cpu usage transaction.
 
+#### RSP Benchmark for SP1 different modes
+
+
+
 ## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
 
 The data was collected on a server with the following specs:
@@ -222,6 +226,24 @@ After making sure it works, you can run:
 ```shell
 bash benchmark_keccak_cuda.sh
 ```
+
+#### RSP Benchmark for SP1 different modes
+
+To run the benchmark comparing the different modes of SP1, Core, Compressed and Groth16, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_reth_cuda_sp1_modes.sh
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_reth_cuda_sp1_modes.sh
+```
+
+This benchmark also saves the proofs files in the root directory, so you can check the sizes of the proofs generated.
+
+```shell
 
 ## Setting up the server
 
