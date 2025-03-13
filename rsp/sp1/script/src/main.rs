@@ -34,6 +34,8 @@ fn main() {
 
     // Load the input from the cache.
     let client_input = load_input_from_cache(input_path);
+    let gas_used = round_to_nearest_power_of_10_string(client_input.current_block.header.gas_used);
+
     // Generate the proof.
     let client = ProverClient::from_env();
 
@@ -74,7 +76,7 @@ fn main() {
 
     if save_proof {
         // Test a round trip of proof serialization and deserialization.
-        proof.save(&format!("proof-with-pis-{}.bin", mode)).expect("saving proof failed");
+        proof.save(&format!("proof-with-pis-{}-{}.bin", mode, gas_used)).expect("saving proof failed");
         let deserialized_proof =
             SP1ProofWithPublicValues::load("proof-with-pis.bin").expect("loading proof failed");
 
@@ -83,4 +85,39 @@ fn main() {
     }
 
     println!("successfully generated and verified proof for the program!")
+}
+
+fn round_to_nearest_power_of_10_string(num: u64) -> String {
+    if num == 0 {
+        return "0".to_string();
+    }
+
+    // Calculate the logarithm base 10
+    let log = (num as f64).log10();
+    let floor_power = log.floor();
+    let ceil_power = log.ceil();
+
+    let lower = 10f64.powf(floor_power) as u64;
+    let upper = 10f64.powf(ceil_power) as u64;
+
+    // Round to nearest power of 10
+    let rounded = if num - lower < upper - num {
+        lower
+    } else {
+        upper
+    };
+
+    // Convert to human-readable string with division
+    match rounded {
+        n if n >= 1_000_000_000 => format!("{}B", n / 1_000_000_000),
+        n if n >= 1_000_000 => {
+            let millions = (num + 500_000) / 1_000_000; // Round to nearest million
+            format!("{}M", millions)
+        },
+        n if n >= 1_000 => {
+            let thousands = (num + 500) / 1_000; // Round to nearest thousand
+            format!("{}K", thousands)
+        },
+        n => n.to_string(),
+    }
 }
