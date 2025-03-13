@@ -60,7 +60,7 @@ Note: The 27Mgas block has fewer transactions than the other blocks, but one of 
 
 #### RSP Benchmark for SP1 different modes
 
-
+![Benchmark Results on RTX A6000](bench_results/rsp_sp1_modes_13_mar_25_A6000.png)
 
 ## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
 
