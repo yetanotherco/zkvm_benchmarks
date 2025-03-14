@@ -9,6 +9,9 @@
 # PROOF_MODE ONLY USED FOR SP1
 PROOF_MODE ?= compressed
 
+# SAVE_PROOF ONLY USED FOR SP1
+SAVE_PROOF ?= false
+
 # Iterations of fibonacci
 N ?= 100000
 
@@ -68,7 +71,7 @@ keccak_sp1:
 	./keccak/sp1/target/release/prover $(N) $(PROOF_MODE)
 
 rsp_sp1:
-	./rsp/sp1/target/release/prover block_data/$(BLOCK_MEGAGAS)M.bin $(PROOF_MODE)
+	./rsp/sp1/target/release/prover block_data/$(BLOCK_MEGAGAS)M.bin $(PROOF_MODE) $(SAVE_PROOF)
 
 fibo_risc0:
 	RUST_LOG=info RISC0_INFO=1 ./fibonacci/risc0/target/release/host $(N)
