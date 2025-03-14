@@ -239,7 +239,6 @@ bash benchmark_reth_cuda_sp1_modes.sh
 
 This benchmark also saves the proofs files in the root directory, so you can check the sizes of the proofs generated.
 
-```shell
 
 ## Setting up the server
 
