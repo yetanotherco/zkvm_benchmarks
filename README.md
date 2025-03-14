@@ -58,10 +58,6 @@ The blocks used for the benchmark are available in [block data](/block_data).
 
 Note: The 27Mgas block has fewer transactions than the other blocks, but one of them is a high cpu usage transaction.
 
-#### RSP Benchmark for SP1 different modes
-
-![Benchmark Results on RTX A6000](bench_results/rsp_sp1_modes_13_mar_25_A6000.png)
-
 ## CPU Benchmarks on AMD EPYC 8534P (64 cores, 576 GiB ram)
 
 The data was collected on a server with the following specs:
