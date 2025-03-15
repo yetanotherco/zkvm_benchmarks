@@ -32,7 +32,7 @@ The data was collected on a server with the following specs:
 
 ### Keccak Benchmark
 
-![Benchmark Results on RTX A6000](bench_results/keccak_6_mar_25_A6000.png)
+![Benchmark Results on RTX A6000](bench_results/keccak_14_mar_25_A6000.png)
 
 ### [RSP](https://github.com/succinctlabs/rsp) Benchmark
 
@@ -72,6 +72,8 @@ The data was collected on a server with the following specs:
 ### Keccak Benchmark
 
 ![Benchmark Results on EPYC 8534P](bench_results/keccak_5_mar_25_epyc8534p_64c_576gb.png)
+
+Note: These results for RISC0 are not using `write_frame(&data)` and `read_frame()` optimizations
 
 ## Notes
 

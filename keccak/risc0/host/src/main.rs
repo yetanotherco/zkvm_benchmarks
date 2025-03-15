@@ -27,8 +27,7 @@ fn main() {
 
     // Send the actual data, not just the length
     let env = ExecutorEnv::builder()
-        .write(&data)
-        .unwrap()
+        .write_frame(&data)
         .build()
         .unwrap();
 

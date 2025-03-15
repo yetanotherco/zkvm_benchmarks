@@ -2,8 +2,8 @@ use risc0_zkvm::{guest::env, sha::Digest};
 use tiny_keccak::{Hasher, Keccak};
 
 fn main() {
-    let bytes: Vec<u8> = env::read();
-
+    let bytes: Vec<u8> = env::read_frame();
+    
     // Compute the keccak of length N, using normal Rust code.
     let mut hash = [0u8; 32];
     let mut keccak256 = Keccak::v256();
