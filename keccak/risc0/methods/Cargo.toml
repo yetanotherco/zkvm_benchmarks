@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [build-dependencies]
-risc0-build = { git = "https://github.com/risc0/risc0.git", version = "2.0.0-rc.2" }
+risc0-build = { git = "https://github.com/risc0/risc0.git", rev = "62ebec290c7cb19dc8b2ff991e27248c95f80952" }
 
 [package.metadata.risc0]
 methods = ["guest"]
