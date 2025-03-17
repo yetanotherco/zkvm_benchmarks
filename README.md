@@ -225,6 +225,23 @@ After making sure it works, you can run:
 bash benchmark_keccak_cuda.sh
 ```
 
+#### RSP Benchmark for SP1 different modes
+
+To run the benchmark comparing the different modes of SP1, Core, Compressed and Groth16, first do a run with small programs to see if everything is working:
+
+```shell
+TEST_MODE=1 bash benchmark_reth_cuda_sp1_modes.sh
+```
+
+After making sure it works, you can run:
+
+```shell
+bash benchmark_reth_cuda_sp1_modes.sh
+```
+
+This benchmark also saves the proofs files in the root directory, so you can check the sizes of the proofs generated.
+
+
 ## Setting up the server
 
 ### Ubuntu CPU
