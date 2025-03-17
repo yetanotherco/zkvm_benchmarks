@@ -25,6 +25,7 @@ fn main() {
 
     let client_input = load_input_from_cache(input_path);
     let buffer = bincode::serialize(&client_input).unwrap();
+    println!("{:?}", buffer);
 
     // Initialize tracing
     tracing_subscriber::fmt()
