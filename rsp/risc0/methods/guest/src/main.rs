@@ -10,8 +10,8 @@ risc0_zkvm::guest::entry!(main);
 pub fn main() {
     // Read the input.
     let input: Vec<u8> = env::read_frame();
-    let input = bincode::deserialize::<ClientExecutorInput>(&input).unwrap();
     println!("{:?}", input);
+    let input = bincode::deserialize::<ClientExecutorInput>(&input).unwrap();
 
     // Execute the block.
     let executor = ClientExecutor;
