@@ -4,8 +4,7 @@ use std::{path::PathBuf, env};
 // use alloy_primitives::B256;
 use rsp_client_executor::{io::ClientExecutorInput};
 use methods::{RSP_ELF, RSP_ID};
-use risc0_zkvm::{default_prover, ExecutorEnv, ProverOpts, sha::Digest};
-use tiny_keccak::{Hasher, Keccak};
+use risc0_zkvm::{default_prover, ExecutorEnv, ProverOpts};
 
 fn load_input_from_cache(path: &str) -> ClientExecutorInput {
     //let cache_path = PathBuf::from(format!("./input/{}/{}.bin", chain_id, block_number));
@@ -27,14 +26,6 @@ fn main() {
     let client_input = load_input_from_cache(input_path);
     let buffer = bincode::serialize(&client_input).unwrap();
     println!("{:?}", &buffer[..16]);
-
-    let mut hash = [0u8; 32];
-    let mut keccak256 = Keccak::v256();
-    keccak256.update(&buffer);
-    keccak256.finalize(&mut hash);
-    let digest = Digest::from_bytes(hash);
-    println!("{:?}", digest);
-
 
     // Initialize tracing
     tracing_subscriber::fmt()
