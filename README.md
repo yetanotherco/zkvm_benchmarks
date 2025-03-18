@@ -71,9 +71,7 @@ The data was collected on a server with the following specs:
 
 ### Keccak Benchmark
 
-![Benchmark Results on EPYC 8534P](bench_results/keccak_5_mar_25_epyc8534p_64c_576gb.png)
-
-Note: These results for RISC0 are not using `write_frame(&data)` and `read_frame()` optimizations
+![Benchmark Results on EPYC 8534P](bench_results/keccak_18_mar_25_epyc8534p_64c_576gb.png)
 
 ## Notes
 
