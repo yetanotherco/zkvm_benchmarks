@@ -2,14 +2,14 @@
 
 #![no_main]
 
-use risc0_zkvm::guest::env;
+use risc0_zkvm::{guest::env};
 use rsp_client_executor::{io::ClientExecutorInput, ClientExecutor, EthereumVariant};
-
 risc0_zkvm::guest::entry!(main);
 
 pub fn main() {
     // Read the input.
-    let input: Vec<u8> = risc0_zkvm::guest::env::read();
+    let input: Vec<u8> = env::read_frame();
+
     let input = bincode::deserialize::<ClientExecutorInput>(&input).unwrap();
 
     // Execute the block.
