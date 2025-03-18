@@ -32,7 +32,7 @@ fn main() {
         .expect("Missing the number of times to do fibonacci as an argument");
 
     // Load the ELF file
-    let elf = load_elf("keccak_pico/elf/riscv32im-pico-zkvm-elf");
+    let elf = load_elf("keccak/pico/elf/riscv32im-pico-zkvm-elf");
 
     // Initialize the prover client
     let client = DefaultProverClient::new(&elf);
