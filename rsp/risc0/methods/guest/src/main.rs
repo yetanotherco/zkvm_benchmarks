@@ -9,7 +9,6 @@ risc0_zkvm::guest::entry!(main);
 pub fn main() {
     // Read the input.
     let input: Vec<u8> = env::read_frame();
-    println!("{:?}", &input[..16]);
 
     let input = bincode::deserialize::<ClientExecutorInput>(&input).unwrap();
 
