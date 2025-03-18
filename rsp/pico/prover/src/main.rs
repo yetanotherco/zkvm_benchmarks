@@ -43,7 +43,7 @@ fn main() {
     let client_input = load_input_from_cache(input_path);
 
     // Load the ELF file
-    let elf = load_elf("rsp_pico/elf/riscv32im-pico-zkvm-elf");
+    let elf = load_elf("rsp/pico/elf/riscv32im-pico-zkvm-elf");
 
     // Initialize the prover client
     let client = DefaultProverClient::new(&elf);
